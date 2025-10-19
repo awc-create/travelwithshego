@@ -1,36 +1,39 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+## 🗃️ Database / Prisma
 
-First, run the development server:
+Start Postgres and apply schema:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+docker compose up -d
+npx prisma migrate dev --name init
+npx prisma generate
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Default connection (auto-generated):
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+DATABASE_URL="postgresql://admin:admin@localhost:6432/travelwithshego?pgbouncer=true&connection_limit=1&connect_timeout=5"
+DIRECT_DATABASE_URL="postgresql://admin:admin@localhost:5432/travelwithshego?connect_timeout=5"
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Learn More
+## ⚙️ GitHub CI/CD Setup
 
-To learn more about Next.js, take a look at the following resources:
+⚠️ Set `PERSONAL_ACCESS_TOKEN` in your GitHub repo secrets.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+It triggers:
+https://api.github.com/repos/awc-create/multi-site-hetz-cicd/dispatches
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
+## ⚙️ Vercel CI/CD Setup
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Step 1: Create a Vercel Access Token
+- https://vercel.com/account/tokens → create a token
+- Add it to your repo secrets as `VERCEL_TOKEN`.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Step 2: (Optional) Link a project locally
+```bash
+sudo npm i -g vercel
+vercel login
+vercel link
+```

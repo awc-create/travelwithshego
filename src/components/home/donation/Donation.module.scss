@@ -1,0 +1,140 @@
+.block {
+  padding: clamp(1.25rem, 4vw, 2.25rem) 0;
+  background: #fff;
+  color: var(--color-text);
+  scroll-margin-top: var(--navbar-height);
+}
+
+.card {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: clamp(1rem, 3.5vw, 1.6rem);
+  border: 1px solid rgba(0,0,0,.06);
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.06);
+}
+
+.head {
+  text-align: center;
+
+  h2 {
+    margin: 0 0 .35rem;
+    font-size: clamp(1.35rem, 4.5vw, 2rem);
+    letter-spacing: -0.01em;
+  }
+
+  .note {
+    opacity: .9;
+    max-width: 52ch;
+    margin: 0 auto .9rem;
+    font-size: clamp(.95rem, 2.8vw, 1.05rem);
+    line-height: 1.5;
+  }
+}
+
+/* progress */
+.progress {
+  position: relative;
+  height: 12px;
+  border-radius: 999px;
+  background: rgba(0,0,0,.08);
+  overflow: hidden;
+  width: 100%;
+  margin: .5rem auto 0;
+}
+
+.fill {
+  height: 100%;
+  background: linear-gradient(90deg, #b38a45, #e6cf92);
+  transition: width .6s ease;
+}
+
+/* meta */
+.meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: .75rem;
+  margin: .55rem 0 0;
+  font-size: clamp(.95rem, 3.2vw, 1rem);
+  opacity: .96;
+}
+
+.goalLabel {
+  opacity: .7;
+  margin-right: .35rem;
+}
+
+/* actions */
+.actions {
+  margin-top: 1rem;
+  display: grid;
+  gap: .7rem;
+  justify-items: center;
+}
+
+.cta {
+  display: inline-block;
+  width: min(520px, 100%);
+  text-align: center;
+  padding: 0.95rem 1.4rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #e6cf92, #b38a45);
+  color: #131313;
+  font-weight: 800;
+  text-decoration: none;
+  transition: transform .12s ease, opacity .2s ease, box-shadow .2s ease;
+  box-shadow: 0 6px 18px rgba(0,0,0,.08);
+
+  &:hover { transform: translateY(-2px); opacity: .96; box-shadow: 0 8px 22px rgba(0,0,0,.12); }
+  &:focus-visible { outline: 3px solid var(--color-primary); outline-offset: 2px; }
+}
+
+/* mini contact pill */
+.secondary {
+  display: inline-block;
+  width: min(520px, 100%);
+  text-align: center;
+  padding: .7rem 1rem;
+  border-radius: 999px;
+  background: #f2efe8;
+  color: #2b2b2b;
+  text-decoration: none;
+  font-weight: 800;
+  transition: filter .15s ease;
+  &:hover { filter: brightness(0.97); }
+}
+
+/* --- Mobile polish --- */
+@media (max-width: 640px) {
+  .card {
+    border-radius: 18px;
+    padding: 1rem;
+  }
+
+  .meta {
+    flex-direction: column;
+    align-items: center;
+    gap: .25rem;
+    text-align: center;
+  }
+
+  /* Make the donate button sticky for thumbs, with safe-area */
+  .cta {
+    position: sticky;
+    bottom: calc(env(safe-area-inset-bottom) + 12px);
+    z-index: 3;
+    backdrop-filter: saturate(1.1);
+  }
+}
+
+/* Slightly larger viewports: constrain progress to text width if desired */
+@media (min-width: 768px) {
+  .progress,
+  .meta {
+    width: min(520px, 100%);
+    margin-left: auto;
+    margin-right: auto;
+  }
+}

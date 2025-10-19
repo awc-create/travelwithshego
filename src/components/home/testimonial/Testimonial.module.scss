@@ -1,0 +1,65 @@
+.block {
+  padding: clamp(2rem, 5vw, 4rem) 0;
+  background: linear-gradient(180deg, #fff 0%, #f7f1e6 100%);  
+  color: var(--color-text);
+  scroll-margin-top: var(--navbar-height);
+}
+
+.card {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: clamp(1.4rem, 3.4vw, 2.2rem);
+  border: 1px solid rgba(0,0,0,.06);
+  background: #fff;
+  border-radius: 22px;
+  box-shadow: 0 12px 34px rgba(0,0,0,.06);
+  text-align: center;
+  position: relative;
+}
+
+/* decorative quote mark */
+.card::before {
+  content: "“";
+  position: absolute;
+  top: -14px; left: 20px;
+  font-size: 5rem; line-height: 1;
+  color: rgba(179,138,69,.18);
+  pointer-events: none;
+}
+
+.avatar {
+  margin: 0 auto .9rem;
+  width: 72px; height: 72px;
+  border-radius: 999px; overflow: hidden;
+  box-shadow: 0 6px 14px rgba(0,0,0,.08);
+  outline: 3px solid rgba(179,138,69,.25);
+  outline-offset: 3px;
+}
+
+.quote {
+  font-size: clamp(1.15rem, 2.2vw, 1.45rem);
+  line-height: 1.6;
+  letter-spacing: -.005em;
+  margin: 0 0 .6rem;
+}
+
+.meta {
+  color: #555;
+  font-size: .98rem;
+
+  strong { color: #222; font-weight: 800; }
+}
+
+.section {
+  padding: clamp(2.25rem, 6vw, 5rem) 0;
+}
+
+.reveal-up {
+  opacity: 0;
+  transform: translateY(12px);
+  animation: revealUp .6s ease forwards;
+}
+
+@keyframes revealUp {
+  to { opacity: 1; transform: none; }
+}
