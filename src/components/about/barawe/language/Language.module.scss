@@ -1,0 +1,96 @@
+/* src/components/about/barawe/language/Language.module.scss */
+
+:root {
+  --txt: var(--color-text, #1a1a1a);
+}
+
+.wrap {
+  padding: clamp(1.25rem, 4vw, 2.25rem) 0;
+  background: #fff;
+  color: var(--txt);
+  scroll-margin-top: var(--navbar-height);
+}
+
+.card {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: clamp(1rem, 3.5vw, 1.6rem);
+  border: 1px solid rgba(0,0,0,.06);
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.06);
+}
+
+.head {
+  text-align: center;
+
+  h2 {
+    margin: 0 0 .35rem;
+    font-size: clamp(1.35rem, 4.5vw, 2rem);
+    letter-spacing: -0.01em;
+  }
+
+  .note {
+    opacity: .9;
+    max-width: 52ch;
+    margin: 0 auto .9rem;
+    font-size: clamp(.95rem, 2.8vw, 1.05rem);
+    line-height: 1.55;
+  }
+}
+
+.facts {
+  list-style: none; padding: 0; margin: .25rem 0 0;
+  display: grid; gap: .55rem;
+  grid-template-columns: 1fr;
+
+  li {
+    background: var(--color-bg-light, #f7f1e6);
+    border-radius: 12px;
+    padding: .65rem .8rem;
+    font-size: .98rem;
+    display: flex; gap: .4rem; align-items: baseline;
+
+    strong { color: #2b2b2b; font-weight: 800; }
+    span { opacity: .95; }
+  }
+
+  @media (min-width: 720px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.actions {
+  margin-top: 1rem;
+  display: grid;
+  gap: .7rem;
+  justify-items: center;
+}
+
+.cta {
+  display: inline-block;
+  width: min(520px, 100%);
+  text-align: center;
+  padding: 0.95rem 1.4rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #e6cf92, #b38a45);
+  color: #131313;
+  font-weight: 800;
+  text-decoration: none;
+  transition: transform .12s ease, opacity .2s ease, box-shadow .2s ease;
+  box-shadow: 0 6px 18px rgba(0,0,0,.08);
+
+  &:hover { transform: translateY(-2px); opacity: .96; box-shadow: 0 8px 22px rgba(0,0,0,.12); }
+  &:focus-visible { outline: 3px solid var(--color-primary); outline-offset: 2px; }
+}
+
+.secondary {
+  display: inline-block;
+  width: min(520px, 100%);
+  text-align: center;
+  padding: .7rem 1rem;
+  border-radius: 999px;
+  background: #f2efe8;
+  color: #2b2b2b;
+  font-weight: 800;
+}

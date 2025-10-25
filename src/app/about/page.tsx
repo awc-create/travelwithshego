@@ -1,3 +1,4 @@
+// src/app/about/page.tsx
 import AboutClient from './AboutClient';
 
 export const metadata = {

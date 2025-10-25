@@ -1,0 +1,147 @@
+/* src/components/about/hero/Hero.module.scss */
+
+:root {
+  --beige-light: #faf6ea; /* from your mission gradient top */
+  --beige-bg: #faf8f1;    /* wave fill reference */
+  --text: var(--color-text, #1a1a1a);
+}
+
+.wrap {
+  /* match home “mission” vibe without the full hero */
+  position: relative;
+  padding: clamp(2.5rem, 6vw, 5rem) 0;
+  background: linear-gradient(to bottom, var(--beige-light) 0%, #ffffff 100%);
+  color: var(--text);
+  scroll-margin-top: var(--navbar-height);
+  overflow: hidden;
+}
+
+.lead {
+  max-width: 46rem;
+  margin: 0 auto clamp(1.25rem, 3.6vw, 1.9rem);
+  text-align: center;
+}
+
+.kicker {
+  display: inline-block;
+  font-size: .85rem;
+  letter-spacing: .08em;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #b38a45;
+  background: rgba(179,138,69,.12);
+  padding: .35rem .65rem;
+  border-radius: 999px;
+  margin-bottom: .75rem;
+}
+
+.title {
+  font-size: clamp(1.95rem, 4.6vw, 2.75rem);
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+  margin: 0 0 .6rem;
+}
+
+.sub {
+  font-size: clamp(1rem, 1.7vw, 1.15rem);
+  line-height: 1.65;
+  opacity: .92;
+  margin: 0;
+}
+
+/* two-column layout echoing your card/grid rhythm */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(1rem, 3vw, 1.8rem);
+  width: min(1100px, 92vw);
+  margin: 0 auto;
+  
+  @media (min-width: 980px) {
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: clamp(1.2rem, 3vw, 2.2rem);
+  }
+}
+
+.media {
+  order: -1;
+  @media (min-width: 980px) { order: 0; }
+}
+
+.frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: 22px;
+  overflow: hidden;
+  border: 1px solid rgba(0,0,0,.06);
+  box-shadow: 0 12px 34px rgba(0,0,0,.06);
+  background: #f3efe6;
+}
+
+.img {
+  object-fit: cover;
+  filter: saturate(1.02) contrast(1.02);
+  transform: translateZ(0);
+}
+
+.copy {
+  display: grid;
+  gap: .75rem;
+}
+
+.p {
+  font-size: clamp(1rem, 1.6vw, 1.08rem);
+  line-height: 1.75;
+  opacity: .95;
+  margin: 0;
+}
+
+/* actions – reuse your CTA look */
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .75rem 1rem;
+  align-items: center;
+  margin-top: .6rem;
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: .55rem;
+  padding: .95rem 1.4rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #e6cf92, #b38a45);
+  color: #131313;
+  font-weight: 800;
+  text-decoration: none;
+  letter-spacing: .02em;
+  transition: transform .12s ease, opacity .2s ease, box-shadow .2s ease;
+  box-shadow: 0 6px 18px rgba(0,0,0,.08);
+
+  &:hover { transform: translateY(-2px); opacity: .96; box-shadow: 0 8px 22px rgba(0,0,0,.12); }
+  &:focus-visible { outline: 3px solid var(--color-primary); outline-offset: 2px; }
+}
+
+.secondary {
+  color: #2b2b2b;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  font-weight: 800;
+  opacity: .95;
+
+  &:hover { opacity: 1; }
+}
+
+/* smooth reveal if you want to add an intersection observer later */
+.revealUp {
+  opacity: 0;
+  transform: translateY(12px);
+  animation: revealUp .6s ease forwards;
+}
+
+@keyframes revealUp {
+  to { opacity: 1; transform: none; }
+}
