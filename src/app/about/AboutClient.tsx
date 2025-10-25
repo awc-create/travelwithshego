@@ -1,3 +1,4 @@
+// src/app/about/AboutClient.tsx
 'use client';
 
 import styles from './About.module.scss';
