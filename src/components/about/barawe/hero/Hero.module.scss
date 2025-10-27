@@ -1,24 +1,25 @@
-/* src/components/about/hero/Hero.module.scss */
-
+/* Hero — not a card; soft gradient intro */
 :root {
-  --beige-light: #faf6ea; /* from your mission gradient top */
-  --beige-bg: #faf8f1;    /* wave fill reference */
-  --text: var(--color-text, #1a1a1a);
+  --gold: #b38a45;
+  --tone-hero-top: #faf6ea;
+  --tone-hero-bottom: #ffffff;
+  --max: min(1100px, 92vw);
+  --padY: clamp(2rem, 6vw, 4rem);
+  --ring: rgba(0,0,0,.06);
 }
 
 .wrap {
-  /* match home “mission” vibe without the full hero */
   position: relative;
-  padding: clamp(2.5rem, 6vw, 5rem) 0;
-  background: linear-gradient(to bottom, var(--beige-light) 0%, #ffffff 100%);
-  color: var(--text);
+  padding: var(--padY) 0 var(--padY);
+  background: linear-gradient(to bottom, var(--tone-hero-top) 0%, var(--tone-hero-bottom) 100%);
+  color: var(--color-text, #1a1a1a);
   scroll-margin-top: var(--navbar-height);
   overflow: hidden;
 }
 
 .lead {
   max-width: 46rem;
-  margin: 0 auto clamp(1.25rem, 3.6vw, 1.9rem);
+  margin: 0 auto clamp(1.2rem, 3.5vw, 1.9rem);
   text-align: center;
 }
 
@@ -28,8 +29,8 @@
   letter-spacing: .08em;
   font-weight: 800;
   text-transform: uppercase;
-  color: #b38a45;
-  background: rgba(179,138,69,.12);
+  color: var(--gold);
+  background: color-mix(in srgb, var(--gold) 14%, transparent);
   padding: .35rem .65rem;
   border-radius: 999px;
   margin-bottom: .75rem;
@@ -49,14 +50,13 @@
   margin: 0;
 }
 
-/* two-column layout echoing your card/grid rhythm */
 .grid {
   display: grid;
   grid-template-columns: 1fr;
   gap: clamp(1rem, 3vw, 1.8rem);
-  width: min(1100px, 92vw);
+  width: var(--max);
   margin: 0 auto;
-  
+
   @media (min-width: 980px) {
     grid-template-columns: 1fr 1fr;
     align-items: center;
@@ -64,32 +64,22 @@
   }
 }
 
-.media {
-  order: -1;
-  @media (min-width: 980px) { order: 0; }
-}
+.media { order: -1; @media (min-width: 980px) { order: 0; } }
 
 .frame {
   position: relative;
   width: 100%;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 4/3;
   border-radius: 22px;
   overflow: hidden;
-  border: 1px solid rgba(0,0,0,.06);
+  border: 1px solid var(--ring);
   box-shadow: 0 12px 34px rgba(0,0,0,.06);
   background: #f3efe6;
 }
 
-.img {
-  object-fit: cover;
-  filter: saturate(1.02) contrast(1.02);
-  transform: translateZ(0);
-}
+.img { object-fit: cover; filter: saturate(1.02) contrast(1.02); }
 
-.copy {
-  display: grid;
-  gap: .75rem;
-}
+.copy { display: grid; gap: .75rem; }
 
 .p {
   font-size: clamp(1rem, 1.6vw, 1.08rem);
@@ -98,7 +88,6 @@
   margin: 0;
 }
 
-/* actions – reuse your CTA look */
 .actions {
   display: flex;
   flex-wrap: wrap;
@@ -113,7 +102,7 @@
   gap: .55rem;
   padding: .95rem 1.4rem;
   border-radius: 999px;
-  background: linear-gradient(135deg, #e6cf92, #b38a45);
+  background: linear-gradient(135deg, #e6cf92, var(--gold));
   color: #131313;
   font-weight: 800;
   text-decoration: none;
@@ -133,15 +122,4 @@
   opacity: .95;
 
   &:hover { opacity: 1; }
-}
-
-/* smooth reveal if you want to add an intersection observer later */
-.revealUp {
-  opacity: 0;
-  transform: translateY(12px);
-  animation: revealUp .6s ease forwards;
-}
-
-@keyframes revealUp {
-  to { opacity: 1; transform: none; }
 }
