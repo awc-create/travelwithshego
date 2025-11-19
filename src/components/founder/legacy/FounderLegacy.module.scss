@@ -1,0 +1,231 @@
+/* Legacy – slightly deeper, to sit after band */
+
+.legacySection {
+  width: 100vw;
+  margin-left: 50%;
+  margin-right: 50%;
+  transform: translateX(-50%);
+  padding: clamp(4rem, 7vw, 6rem) 0;
+
+  background: linear-gradient(
+    to bottom,
+    #f3e5d1 0%,   /* deeper toast-cream */
+    #ead6be 100%
+  );
+}
+
+.inner {
+  width: min(1120px, 92vw);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.9fr);
+  gap: clamp(2rem, 4vw, 3.5rem);
+  align-items: flex-start;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* copy */
+
+.copy {
+  max-width: 560px;
+}
+
+.kicker {
+  display: inline-block;
+  font-size: 0.82rem;
+  letter-spacing: 0.12em;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #b38a45;
+  background: color-mix(in srgb, #b38a45 16%, transparent);
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  margin-bottom: 0.9rem;
+}
+
+.heading {
+  font-size: clamp(1.9rem, 3.4vw, 2.4rem);
+  line-height: 1.15;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  color: #111827;
+  margin: 0 0 1rem;
+}
+
+.highlight {
+  color: #b38a45;
+}
+
+.lead {
+  font-size: 1.03rem;
+  line-height: 1.7;
+  color: #6b7280;
+  margin-bottom: 1.3rem;
+}
+
+.body {
+  font-size: 0.99rem;
+  line-height: 1.7;
+  color: #111827;
+
+  p + p {
+    margin-top: 0.9rem;
+  }
+}
+
+.note {
+  margin-top: 1.4rem;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: #6b7280;
+}
+
+/* reel column */
+
+.reelColumn {
+  display: flex;
+  justify-content: center;
+
+  @media (max-width: 900px) {
+    margin-top: 1.25rem;
+  }
+}
+
+.reelWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+/* outer shell that looks like a piece of film */
+.reelShell {
+  position: relative;
+  width: 240px;
+  max-width: 62vw;
+  height: 520px;
+  border-radius: 26px;
+  background: #151515;
+  box-shadow:
+    0 22px 45px rgba(0, 0, 0, 0.32),
+    0 0 0 1px rgba(255, 255, 255, 0.1);
+  padding: 16px 14px;
+  overflow: hidden;
+}
+
+/* sprocket holes left + right */
+.reelShell::before,
+.reelShell::after {
+  content: "";
+  position: absolute;
+  top: 10px;
+  bottom: 10px;
+  width: 16px;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      #f4f4f4 0,
+      #f4f4f4 14px,
+      transparent 14px,
+      transparent 28px
+    );
+  border-radius: 999px;
+  opacity: 0.95;
+}
+
+.reelShell::before {
+  left: 6px;
+}
+
+.reelShell::after {
+  right: 6px;
+}
+
+.reelMask {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 2px 10px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* vertical track that scrolls up */
+.reelTrack {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  animation: reelScroll 32s linear infinite;
+}
+
+.reelWrapper:hover .reelTrack {
+  animation-play-state: paused;
+}
+
+@keyframes reelScroll {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-50%);
+  }
+}
+
+/* individual frame */
+
+.frame {
+  margin: 0;
+}
+
+.frameWindow {
+  background: #000;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 2px solid #202020;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.6);
+  height: 120px;
+}
+
+.frameMedia {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.img {
+  object-fit: cover;
+  display: block;
+}
+
+/* caption under each frame */
+
+.caption {
+  padding: 0.35rem 0.1rem 0.3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.05rem;
+}
+
+.label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #f9fafb;
+}
+
+.meta {
+  font-size: 0.72rem;
+  color: #9ca3af;
+}
+
+/* subtle helper text under the strip */
+
+.reelHint {
+  font-size: 0.8rem;
+  color: #6b7280;
+  opacity: 0.85;
+  text-align: center;
+}
