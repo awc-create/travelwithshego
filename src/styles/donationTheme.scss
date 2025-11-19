@@ -1,0 +1,190 @@
+/* src/styles/donationTheme.scss */
+
+/* =========================================
+   GLOBAL DONATION THEME TOKENS
+   Consistent with: Founder / Baraawe pages
+   Warm, trustworthy, soft, gold-accented
+========================================= */
+
+:root {
+  /* === Brand Gold Accents === */
+  --donation-gold: #c7a86c;
+  --donation-gold-soft: #e8d9b6;
+  --donation-gold-dark: #a68952;
+
+  /* === Trust / Neutral Tones === */
+  --donation-text-main: #1f2937;
+  --donation-text-muted: #6b7280;
+  --donation-border: #e5e7eb;
+  --donation-panel: #faf8f1;
+  --donation-panel-soft: #fdfcf7;
+
+  /* === Background Gradients === */
+  /* Hero: soft beige → warm cream (same style as Barawe hero) */
+  --donation-bg-hero-top: #fffdf7;
+  --donation-bg-hero-bottom: #faf8f1;
+
+  /* Section dividers */
+  --donation-bg-section-top: #faf8f1;
+  --donation-bg-section-bottom: #f7f4ec;
+
+  /* For cards needing extra warmth */
+  --donation-bg-card-top: #faf7ef;
+  --donation-bg-card-bottom: #f4f1e7;
+
+  /* === Shadows & Radius === */
+  --donation-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+  --donation-shadow-lg: 0 4px 20px rgba(0, 0, 0, 0.06);
+
+  --donation-radius: 18px;
+  --donation-radius-lg: 24px;
+
+  /* === Progress Bars === */
+  --donation-progress-bg: #e7e2d4;
+  --donation-progress-fill: var(--donation-gold);
+
+  /* === Text Utilities === */
+  --donation-eyebrow-bg: #f4ebd4;
+}
+
+/* =========================================
+   UTILITIES
+========================================= */
+
+.donation-eyebrow {
+  display: inline-block;
+  padding: 4px 10px;
+  font-size: 11px;
+  letter-spacing: 0.6px;
+  font-weight: 600;
+  color: var(--donation-gold-dark);
+  background: var(--donation-eyebrow-bg);
+  border-radius: 6px;
+  text-transform: uppercase;
+}
+
+.donation-highlight {
+  color: var(--donation-gold-dark);
+  font-weight: 600;
+}
+
+/* =========================================
+   PROGRESS BARS
+========================================= */
+
+.donation-progress {
+  width: 100%;
+  background: var(--donation-progress-bg);
+  height: 8px;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+}
+
+.donation-progress-fill {
+  background: var(--donation-progress-fill);
+  height: 100%;
+  width: 0%; /* controlled dynamically */
+  transition: width 0.4s ease;
+}
+
+/* =========================================
+   CARDS
+========================================= */
+
+.donation-card {
+  background: var(--donation-panel);
+  border: 1px solid var(--donation-border);
+  border-radius: var(--donation-radius);
+  padding: 20px;
+  box-shadow: var(--donation-shadow);
+}
+
+.donation-card-soft {
+  background: linear-gradient(
+    to bottom,
+    var(--donation-bg-card-top),
+    var(--donation-bg-card-bottom)
+  );
+  border-radius: var(--donation-radius-lg);
+  padding: 28px;
+  box-shadow: var(--donation-shadow-lg);
+}
+
+/* =========================================
+   BUTTONS
+========================================= */
+
+.donation-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--donation-gold);
+  color: #fff;
+  padding: 12px 22px;
+  border-radius: 999px;
+  font-weight: 600;
+  transition: background 0.2s ease;
+}
+
+.donation-btn:hover {
+  background: var(--donation-gold-dark);
+}
+
+.donation-btn-outline {
+  background: transparent;
+  border: 1px solid var(--donation-gold);
+  color: var(--donation-gold-dark);
+}
+
+.donation-btn-outline:hover {
+  background: var(--donation-gold-soft);
+}
+
+/* =========================================
+   AUCTION CARD STYLING
+========================================= */
+
+.auction-item-card {
+  background: #ffffff;
+  border: 1px solid var(--donation-border);
+  border-radius: var(--donation-radius);
+  padding: 16px;
+  box-shadow: var(--donation-shadow);
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.auction-item-card:hover {
+  border-color: var(--donation-gold);
+  box-shadow: var(--donation-shadow-lg);
+}
+
+.auction-ending-soon {
+  border-color: var(--donation-gold-dark) !important;
+}
+
+/* =========================================
+   GRADIENT SECTIONS
+========================================= */
+
+.donation-section-gradient {
+  background: linear-gradient(
+    to bottom,
+    var(--donation-bg-section-top),
+    var(--donation-bg-section-bottom)
+  );
+}
+
+/* =========================================
+   HERO
+========================================= */
+
+.donation-hero {
+  background: linear-gradient(
+    to bottom,
+    var(--donation-bg-hero-top),
+    var(--donation-bg-hero-bottom)
+  );
+  padding: 80px 0;
+  border-bottom: 1px solid var(--donation-border);
+}

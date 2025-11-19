@@ -1,0 +1,241 @@
+/* src/app/donation/Donation.module.scss */
+
+.page {
+  background: #fffdf7;
+}
+
+/* =========================
+   HERO
+========================= */
+
+.hero {
+  background: linear-gradient(
+    to bottom,
+    var(--donation-bg-hero-top),
+    var(--donation-bg-hero-bottom)
+  );
+  padding: 88px 0 72px;
+  border-bottom: 1px solid var(--donation-border);
+}
+
+.heroInner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  gap: 48px;
+  align-items: center;
+}
+
+/* Left column */
+
+.heroContent {
+  max-width: 560px;
+}
+
+.eyebrow {
+  display: inline-block;
+  padding: 4px 10px;
+  margin-bottom: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--donation-gold-dark);
+  background: var(--donation-eyebrow-bg);
+  border-radius: 999px;
+}
+
+.heroTitle {
+  font-size: 36px;
+  line-height: 1.15;
+  font-weight: 800;
+  color: var(--donation-text-main);
+  margin: 0 0 14px;
+}
+
+.heroSubtitle {
+  margin: 0 0 24px;
+  color: var(--donation-text-muted);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.inlineHighlight {
+  color: var(--donation-gold-dark);
+  font-weight: 600;
+}
+
+.heroActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.heroButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 11px 22px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.heroButtonPrimary {
+  background: var(--donation-gold);
+  color: #ffffff;
+  box-shadow: var(--donation-shadow-lg);
+}
+
+.heroButtonPrimary:hover {
+  background: var(--donation-gold-dark);
+}
+
+.heroButtonSecondary {
+  background: #ffffff;
+  color: var(--donation-text-main);
+  border-color: var(--donation-border);
+}
+
+.heroButtonSecondary:hover {
+  border-color: var(--donation-gold);
+  box-shadow: var(--donation-shadow);
+}
+
+/* Progress block */
+
+.heroProgressBlock {
+  padding: 16px 18px 14px;
+  background: #ffffff;
+  border-radius: var(--donation-radius);
+  border: 1px solid var(--donation-border);
+  box-shadow: var(--donation-shadow);
+}
+
+.heroProgressHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.progressLabel {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--donation-text-muted);
+}
+
+.progressValues {
+  display: flex;
+  gap: 12px;
+  font-size: 12px;
+  color: var(--donation-text-muted);
+}
+
+.progressValue {
+  font-weight: 600;
+  color: var(--donation-text-main);
+}
+
+.progressGoal {
+  opacity: 0.85;
+}
+
+.progressNote {
+  margin: 8px 0 0;
+  font-size: 12px;
+  color: var(--donation-text-muted);
+}
+
+/* Right column media */
+
+.heroMedia {
+  position: relative;
+  border-radius: var(--donation-radius-lg);
+  box-shadow: var(--donation-shadow-lg);
+  overflow: hidden;
+  min-height: 260px;
+  background-image: url('/images/donation/donation-hero-children.jpg'); /* swap to your real hero image */
+  background-size: cover;
+  background-position: center;
+}
+
+.heroMediaOverlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+      circle at 20% 20%,
+      rgba(0, 0, 0, 0.18),
+      transparent 55%
+    ),
+    linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0.26),
+      rgba(0, 0, 0, 0.05) 55%,
+      transparent
+    );
+}
+
+/* =========================
+   PLACEHOLDER SECTIONS
+========================= */
+
+.placeholderSection {
+  max-width: 1200px;
+  margin: 40px auto 0;
+  padding: 0 16px 40px;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 900px) {
+  .heroInner {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 32px;
+  }
+
+  .heroMedia {
+    order: -1;
+    min-height: 220px;
+  }
+
+  .heroTitle {
+    font-size: 28px;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero {
+    padding: 72px 0 40px;
+  }
+
+  .heroProgressBlock {
+    padding: 14px 14px 12px;
+  }
+
+  .heroActions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .heroButton {
+    width: 100%;
+  }
+
+  .progressValues {
+    flex-direction: column;
+    align-items: flex-end;
+  }
+}

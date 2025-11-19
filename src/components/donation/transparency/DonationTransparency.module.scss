@@ -1,0 +1,170 @@
+/* Transparency – fewer cards, more “document” feel */
+
+.wrap {
+  padding: clamp(2.8rem, 6vw, 4.2rem) 0 clamp(3rem, 6vw, 4.5rem);
+  background: linear-gradient(
+    to bottom,
+    var(--donation-bg-section-top),
+    var(--donation-bg-section-bottom)
+  );
+}
+
+.inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+/* Lead */
+
+.lead {
+  text-align: center;
+  max-width: 48rem;
+  margin: 0 auto clamp(1.6rem, 3vw, 2.4rem);
+}
+
+.kicker {
+  display: inline-block;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--donation-gold-dark);
+  background: color-mix(in srgb, var(--donation-gold) 16%, transparent);
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  margin-bottom: 0.6rem;
+}
+
+.heading {
+  font-size: clamp(1.75rem, 3.8vw, 2.4rem);
+  font-weight: 800;
+  margin: 0 0 0.5rem;
+  color: var(--donation-text-main);
+}
+
+.gold {
+  color: var(--donation-gold);
+}
+
+.sub {
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--donation-text-muted);
+  margin: 0;
+}
+
+/* Flow line (money trail) */
+
+.flow {
+  margin: 2.1rem 0 2.4rem;
+  border-radius: 20px;
+  border: 1px solid var(--donation-border);
+  background: #ffffff;
+  box-shadow: var(--donation-shadow);
+  padding: 1.2rem 1.1rem;
+  display: grid;
+  gap: 1.1rem;
+
+  @media (min-width: 840px) {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    padding: 1.2rem 1.4rem;
+  }
+}
+
+.flowItem {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.75rem;
+  align-items: flex-start;
+}
+
+.dot {
+  width: 1.1rem;
+  height: 1.1rem;
+  border-radius: 999px;
+  border: 2px solid var(--donation-gold);
+  background: #fffdf7;
+  margin-top: 0.2rem;
+  flex-shrink: 0;
+}
+
+.flowText {
+  display: grid;
+  gap: 0.15rem;
+}
+
+.flowTitle {
+  font-size: 0.96rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--donation-text-main);
+}
+
+.flowBody {
+  font-size: 0.88rem;
+  line-height: 1.6;
+  margin: 0;
+  color: var(--donation-text-muted);
+}
+
+/* Bands (definition-list style) */
+
+.bands {
+  display: grid;
+  gap: 1.6rem;
+}
+
+.band {
+  border-radius: 20px;
+  background: #ffffff;
+  border: 1px solid var(--donation-border);
+  box-shadow: var(--donation-shadow);
+  padding: 1.4rem 1.3rem 1.2rem;
+}
+
+.bandTitle {
+  font-size: 1.05rem;
+  font-weight: 800;
+  margin: 0 0 0.7rem;
+  color: var(--donation-text-main);
+}
+
+.list {
+  margin: 0;
+  padding: 0;
+}
+
+.row {
+  display: grid;
+  gap: 0.25rem;
+  padding: 0.55rem 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.row:first-of-type {
+  border-top: none;
+}
+
+.row dt {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--donation-text-main);
+}
+
+.row dd {
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: var(--donation-text-muted);
+}
+
+/* Responsive */
+
+@media (max-width: 640px) {
+  .band {
+    padding: 1.2rem 1rem 1.1rem;
+  }
+}

@@ -2,7 +2,8 @@ export type NavLink = { slug: string; label: string };
 
 export const NAV_LINKS: NavLink[] = [
   { slug: '', label: 'Home' },
-  { slug: 'about/barawe', label: 'Barawe' },
-  { slug: 'about', label: 'Founder' },
+  { slug: 'barawe', label: 'Barawe' },
+  { slug: 'founder', label: 'Founder' },
+  { slug: 'donation', label: 'Donation' },
   { slug: 'contact', label: 'Contact' },
 ];

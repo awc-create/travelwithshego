@@ -1,0 +1,32 @@
+/* src/styles/founderTheme.scss */
+
+/* === GLOBAL FOUNDER TOKENS === */
+
+:root {
+  /* Brand golds */
+  --founder-gold: #b38a45;
+  --founder-gold-soft: #e6cf92;
+
+  /* Text */
+  --founder-text-main: #111827;
+  --founder-text-muted: #6b7280;
+
+  /* Light backgrounds (warm beige → cream) */
+  --founder-bg-hero-top: #fffdf7;
+  --founder-bg-hero-bottom: #faf8f1;
+
+  --founder-bg-story-top: #faf8f1;
+  --founder-bg-story-bottom: #ffffff;
+
+  --founder-bg-band-top: #faf7ef;
+  --founder-bg-band-bottom: #f4f1e7;
+
+  --founder-bg-legacy-top: #faf6ea;
+  --founder-bg-legacy-bottom: #f7f1e4;
+
+  --founder-bg-impact-top: #faf6ea;
+  --founder-bg-impact-bottom: #f7f1e4;
+
+  --founder-bg-support-top: #faf8f1;
+  --founder-bg-support-bottom: #ffffff;
+}
