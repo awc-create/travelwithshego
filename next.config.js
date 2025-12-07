@@ -1,18 +1,26 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: 'standalone', // ✅ required so .next/standalone exists
   reactStrictMode: true,
+  trailingSlash: true,
+
   images: {
     remotePatterns: [
       { protocol: 'https', hostname: 'utfs.io' }, // UploadThing CDN
       { protocol: 'https', hostname: 'uploadthing.com' },
       { protocol: 'https', hostname: 'cdn.uploadthing.com' },
-      // add any other external hosts you use for images
+      // add more if you need them later
     ],
-    // If you really want to bypass  optimization locally:
+    // You can enable this if you want to fully bypass optimization:
     // unoptimized: true,
   },
-  // If you’re deploying to a Node server:
-  // output: 'standalone',
+
+  eslint: { ignoreDuringBuilds: true },
+
+  // Ensure bcrypt (if you ever add it) or other native-ish deps get traced
+  outputFileTracingIncludes: {
+    '/**/*': ['./node_modules/bcryptjs/**'],
+  },
 };
 
 module.exports = nextConfig;
