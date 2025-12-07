@@ -93,6 +93,7 @@ COPY --from=builder /app/public ./public
 
 # Include prisma folder so `prisma migrate deploy` can run in Hetzner
 COPY --from=builder /app/prisma ./prisma
+COPY --from=builder /app/prisma.config.ts ./prisma.config.ts
 
 # Prisma CLI (match your Prisma major version)
 RUN npm i -g prisma@7.0.0
