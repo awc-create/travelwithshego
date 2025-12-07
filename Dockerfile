@@ -26,10 +26,12 @@ RUN \
 FROM node:22-alpine AS builder
 WORKDIR /app
 
-# Disable telemetry + provide *dummy* Stripe keys so imports don’t crash at build time
+# Disable telemetry + provide *dummy* keys so imports don't crash at build time
 ENV NEXT_TELEMETRY_DISABLED=1 \
     STRIPE_SECRET_KEY="sk_test_dummy" \
-    STRIPE_WEBHOOK_SECRET="whsec_dummy"
+    STRIPE_WEBHOOK_SECRET="whsec_dummy" \
+    DATABASE_URL="postgresql://dummy:dummy@localhost:5432/dummy" \
+    DIRECT_DATABASE_URL="postgresql://dummy:dummy@localhost:5432/dummy"
 
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
