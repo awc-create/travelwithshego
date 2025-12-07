@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
+import { useAnimatedNumber } from '@/hooks/useAnimatedNumber';
 import styles from './Hero.module.scss';
 
 export const heroMetadata = {
@@ -14,12 +15,30 @@ export const heroMetadata = {
 type Props = {
   imageSrc?: string;
   imageAlt?: string;
+  raisedPence?: number;
+  goalPence?: number;
 };
 
+const fmtMoney = (pence: number) =>
+  new Intl.NumberFormat('en-GB', {
+    style: 'currency',
+    currency: 'GBP',
+    maximumFractionDigits: 0,
+  })
+    .format(pence / 100)
+    .replace('.00', '');
+
 export default function Hero({
-  imageSrc = '/images/donation/donation-hero-children.jpg',
-  imageAlt = 'Children in Baraawe receiving education support',
+  // ⭐ NEW DEFAULT IMAGE HERE
+  imageSrc = '/assets/hero-donation.png',
+  imageAlt = 'Illustration of children in Baraawe receiving support',
+  raisedPence = 3_400 * 100,
+  goalPence = 10_000 * 100,
 }: Props) {
+  const animRaised = useAnimatedNumber(raisedPence);
+  const animGoal = useAnimatedNumber(goalPence);
+  const pct = animGoal > 0 ? Math.min(100, Math.round((animRaised / animGoal) * 100)) : 0;
+
   return (
     <section
       className={styles.wrap}
@@ -43,6 +62,7 @@ export default function Hero({
 
       {/* Two-column content */}
       <div className={styles.grid}>
+        {/* LEFT SIDE IMAGE */}
         <div className={styles.media}>
           <div className={styles.frame}>
             <Image
@@ -56,12 +76,14 @@ export default function Hero({
           </div>
         </div>
 
+        {/* RIGHT SIDE TEXT */}
         <div className={styles.copy}>
           <p className={styles.p}>
             We keep the process simple and transparent: choose a direct gift, or place a bid on an
             item you love. When a bid wins, the Donation is sent through our secure account and the
             item is shipped safely to you.
           </p>
+
           <p className={styles.p}>
             Every contribution supports practical needs in Baraawe — from safe places to sleep, to
             school supplies, meals and ongoing care.
@@ -76,17 +98,18 @@ export default function Hero({
             </Link>
           </div>
 
+          {/* Progress card */}
           <div className={styles.progressCard} aria-label="Current appeal">
             <div className={styles.progressTop}>
               <span className={styles.progressLabel}>Current appeal</span>
               <span className={styles.progressNumbers}>
-                <span className={styles.progressStrong}>£3,400 raised</span>
-                <span>Goal: £10,000</span>
+                <span className={styles.progressStrong}>{fmtMoney(animRaised)} raised</span>
+                <span>Goal: {fmtMoney(animGoal)}</span>
               </span>
             </div>
 
             <div className={styles.progressBar} aria-hidden="true">
-              <div className={styles.progressFill} style={{ width: '34%' }} />
+              <div className={styles.progressFill} style={{ width: `${pct}%` }} />
             </div>
 
             <p className={styles.progressNote}>

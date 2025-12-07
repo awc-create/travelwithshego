@@ -235,8 +235,114 @@
   line-height: 1.5;
 }
 
+/* existing styles above … */
+
+/* Donor details */
+
+.detailsBlock {
+  margin-top: 0.3rem;
+  display: grid;
+  gap: 0.6rem;
+}
+
+.fieldGroup {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.fieldLabel {
+  font-size: 0.85rem;
+  color: var(--donation-text-muted);
+}
+
+.textInput {
+  border-radius: 999px;
+  border: 1px solid var(--donation-border);
+  padding: 0.45rem 0.75rem;
+  font-size: 0.9rem;
+  outline: none;
+  background: #ffffff;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.textInput:focus {
+  border-color: var(--donation-gold);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--donation-gold) 50%, transparent);
+  background: #fffbf3;
+}
+
+/* Error text */
+
+.error {
+  margin: 0.25rem 0 0;
+  font-size: 0.8rem;
+  color: #b91c1c;
+}
+
+
 @media (max-width: 900px) {
   .panel {
     margin-top: 0.4rem;
   }
+}
+
+.paypalBlock {
+  margin-top: 0.4rem;
+  display: grid;
+  gap: 0.45rem;
+}
+
+.paypalDivider {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--donation-text-muted);
+
+  &::before,
+  &::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(0, 0, 0, 0.08);
+  }
+
+  span {
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-weight: 600;
+  }
+}
+
+.paypalButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  border-radius: 999px;
+  padding: 0.65rem 1rem;
+  background: #ffc439; /* classic PayPal yellow */
+  color: #111827;
+  font-weight: 700;
+  font-size: 0.9rem;
+  text-decoration: none;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  transition: transform 0.08s ease, box-shadow 0.15s ease, filter 0.15s ease;
+
+  &:hover {
+    transform: translateY(-1px);
+    filter: brightness(0.97);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
+  }
+
+  &:focus-visible {
+    outline: 2px solid #111827;
+    outline-offset: 2px;
+  }
+}
+
+.paypalNote {
+  font-size: 0.78rem;
+  color: var(--donation-text-muted);
+  line-height: 1.5;
 }

@@ -33,7 +33,7 @@ export default function BaraweClient() {
   return (
     <main className={styles.page}>
       <Hero
-        imageSrc="/assets/barawe/hero.jpg"
+        imageSrc="/assets/hero-baraawe.jpeg"
         title="Baraawe: A City of History and Hope"
         subtitle="A coastal gem of Somalia — where language, culture, and scholarship meet."
       />

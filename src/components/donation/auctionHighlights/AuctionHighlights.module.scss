@@ -1,3 +1,5 @@
+/* src/components/donation/auctionHighlights/AuctionHighlights.module.scss */
+
 /* Auction Highlights Styles */
 /* Auction Highlights — clean, structured, warm donation theme */
 
@@ -71,7 +73,9 @@
   background: #ffffff;
   box-shadow: var(--donation-shadow);
   overflow: hidden;
-  transition: box-shadow 0.2s ease, transform 0.15s ease;
+  transition:
+    box-shadow 0.2s ease,
+    transform 0.15s ease;
   text-decoration: none;
   color: inherit;
 }
@@ -79,6 +83,26 @@
 .card:hover {
   transform: translateY(-2px);
   box-shadow: var(--donation-shadow-lg);
+}
+
+/* skeleton state */
+
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 37%, #f3f4f6 63%);
+  background-size: 400% 100%;
+  animation: shimmer 1.2s infinite;
+  min-height: 240px;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
 }
 
 /* Image wrap */
@@ -116,11 +140,18 @@
   justify-content: space-between;
   font-size: 0.88rem;
   color: var(--donation-text-muted);
+  gap: 0.75rem;
 }
 
 .bid strong {
   color: var(--donation-text-main);
 }
+
+.timer {
+  white-space: nowrap;
+}
+
+/* CTA */
 
 .btn {
   margin-top: 0.4rem;
@@ -146,10 +177,30 @@
   border: 1px solid var(--donation-border);
   font-weight: 700;
   color: var(--donation-text-main);
-  transition: 0.2s ease border, 0.2s ease box-shadow;
+  transition:
+    0.2s ease border,
+    0.2s ease box-shadow;
 }
 
 .moreBtn:hover {
   border-color: var(--donation-gold);
   box-shadow: var(--donation-shadow-lg);
+}
+
+/* empty state */
+
+.empty {
+  margin-top: 1.5rem;
+  font-size: 0.9rem;
+  text-align: center;
+  color: var(--donation-text-muted);
+}
+
+/* Responsive */
+
+@media (max-width: 640px) {
+  .meta {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }

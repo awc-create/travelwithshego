@@ -1,3 +1,4 @@
+// src/app/api/uploadthing/core.ts
 import { createUploadthing, type FileRouter } from 'uploadthing/server';
 import { prisma } from '@/lib/prisma';
 

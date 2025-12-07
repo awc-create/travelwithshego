@@ -1,0 +1,357 @@
+/* src/app/auction/Auction.module.scss */
+
+.page {
+  background: linear-gradient(
+    to bottom,
+    var(--donation-bg-section-top),
+    var(--donation-bg-section-bottom)
+  );
+}
+
+.section {
+  padding: clamp(2.25rem, 6vw, 5rem) 0;
+}
+
+.inner {
+  width: min(1120px, 92vw);
+  margin: 0 auto;
+}
+
+/* Header */
+
+.header {
+  text-align: center;
+  max-width: 46rem;
+  margin: 0 auto clamp(1.4rem, 4vw, 2.2rem);
+}
+
+.kicker {
+  display: inline-block;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--donation-gold-dark);
+  background: color-mix(in srgb, var(--donation-gold) 16%, transparent);
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  margin-bottom: 0.75rem;
+}
+
+.title {
+  font-size: clamp(1.95rem, 4.6vw, 2.75rem);
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+  margin: 0 0 0.6rem;
+  color: var(--donation-text-main);
+}
+
+.lead {
+  font-size: clamp(1rem, 1.7vw, 1.15rem);
+  line-height: 1.7;
+  opacity: 0.92;
+  margin: 0;
+  color: var(--donation-text-muted);
+}
+
+/* Empty state */
+
+.empty {
+  text-align: center;
+  color: var(--donation-text-muted);
+  margin-top: 32px;
+  font-size: 0.95rem;
+}
+
+/* Grid */
+
+.grid {
+  margin-top: clamp(1.75rem, 4vw, 2.4rem);
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: clamp(0.9rem, 2vw, 1.35rem);
+  align-items: stretch;
+}
+
+@media (min-width: 640px) {
+  .grid {
+    gap: clamp(1rem, 2.4vw, 1.6rem);
+  }
+}
+
+/* Card */
+
+.card {
+  position: relative;
+  grid-column: span 12;
+  border-radius: var(--donation-radius);
+  background: #ffffff;
+  border: 1px solid var(--donation-border);
+  box-shadow: var(--donation-shadow);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  transition:
+    transform 0.16s ease,
+    box-shadow 0.16s ease,
+    border-color 0.16s ease;
+
+  @media (min-width: 640px) {
+    grid-column: span 6;
+  }
+
+  @media (min-width: 1024px) {
+    grid-column: span 4;
+  }
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--donation-shadow-lg);
+    border-color: var(--donation-gold);
+  }
+}
+
+/* Image */
+
+.imageWrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: #f3efe6;
+  border-bottom: 1px solid var(--donation-border);
+}
+
+/* skeleton shimmer overlay – sits above image until loaded (or always if no image) */
+.skeleton {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    90deg,
+    #f3f4f6 0%,
+    #e5e7eb 50%,
+    #f3f4f6 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.4s linear infinite;
+  z-index: 2;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Image sits underneath skeleton until loaded */
+.image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(1.02) contrast(1.02);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  z-index: 1;
+}
+
+.imageVisible {
+  opacity: 1;
+}
+
+/* Card body */
+
+.body {
+  padding: 0.95rem 1.1rem 1.15rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  flex: 1;
+}
+
+/* Title + description block – fixed height */
+
+.head {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-height: 5.8rem; /* adjust if you need more/less */
+}
+
+.cardTitle {
+  margin: 0;
+  font-size: clamp(1.02rem, 2.2vw, 1.2rem);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--donation-text-main);
+}
+
+/* 3-line clamp so long descriptions don’t push layout down */
+.desc {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: var(--donation-text-muted);
+  display: -webkit-box;
+  /* standard + webkit for linter */
+  line-clamp: 3;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Suggested amount */
+
+.price {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--donation-text-main);
+
+  strong {
+    font-weight: 700;
+    color: var(--donation-gold-dark);
+  }
+}
+
+/* Meta row: chips left, timer right */
+
+.metaRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  font-size: 0.8rem;
+}
+
+.metaLeft {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  align-items: center;
+}
+
+/* Chips */
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  background: color-mix(
+    in srgb,
+    var(--donation-gold) 16%,
+    #ffffff 84%
+  );
+  color: var(--donation-gold-dark);
+  font-weight: 600;
+}
+
+.chipEmpty {
+  background: rgba(0, 0, 0, 0.03);
+  color: var(--donation-text-muted);
+}
+
+.chipSecondary {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.24rem 0.6rem;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.04);
+  color: var(--donation-text-muted);
+  font-weight: 500;
+}
+
+/* Timer */
+
+.timer {
+  font-size: 0.78rem;
+  display: inline-flex;
+  align-items: center;
+  color: var(--donation-text-muted);
+}
+
+.timerSoon {
+  color: #b45309;
+}
+
+.timerEnded {
+  color: #991b1b;
+}
+
+/* Button row – pinned to bottom */
+
+.buttonRow {
+  margin-top: auto;
+}
+
+.button {
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.9rem 1.3rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  background: linear-gradient(
+    135deg,
+    var(--donation-gold-soft),
+    var(--donation-gold)
+  );
+  color: #131313;
+  font-size: 0.9rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    transform 0.12s ease,
+    opacity 0.2s ease,
+    box-shadow 0.2s ease;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+.button:hover {
+  transform: translateY(-2px);
+  opacity: 0.96;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.12);
+}
+
+.button:focus-visible {
+  outline: 3px solid var(--donation-gold);
+  outline-offset: 2px;
+}
+
+/* Reveal animation */
+
+.revealUp {
+  opacity: 0;
+  transform: translateY(12px);
+  animation: revealUp 0.6s ease forwards;
+}
+
+@keyframes revealUp {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Mobile tweaks */
+
+@media (max-width: 640px) {
+  .inner {
+    width: 92vw;
+  }
+
+  .metaRow {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

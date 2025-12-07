@@ -10,7 +10,7 @@ type Props = {
   title?: string;
   subtitle?: string;
   paragraphs?: string[];
-  imageSrc: string;
+  imageSrc?: string;
   imageAlt?: string;
   ctaHref?: string;
   ctaLabel?: string;
@@ -25,7 +25,7 @@ export default function AboutBaraaweHero({
     'Set on Somalia’s southern coast, Baraawe (Brava) has long been a crossroads of trade and tradition. Its people carry a proud heritage of seamanship, poetry, and community leadership.',
     'Understanding Baraawe helps explain why education matters here: it preserves language and culture, creates opportunity for young people, and strengthens families for generations.',
   ],
-  imageSrc,
+  imageSrc = '/assets/hero-baraawe.jpeg',
   imageAlt = 'Life in Baraawe',
   ctaHref = '/donate',
   ctaLabel = 'Support Education in Baraawe',
@@ -44,17 +44,16 @@ export default function AboutBaraaweHero({
         </div>
 
         <div className={styles.grid}>
+          {/* IMAGE ONLY – NO FRAME WRAPPER */}
           <div className={styles.media}>
-            <div className={styles.frame}>
-              <Image
-                src={imageSrc}
-                alt={imageAlt}
-                fill
-                className={styles.img}
-                sizes="(max-width: 1024px) 100vw, 560px"
-                priority
-              />
-            </div>
+            <Image
+              src={imageSrc}
+              alt={imageAlt}
+              fill
+              className={styles.img}
+              sizes="(max-width: 1024px) 100vw, 560px"
+              priority
+            />
           </div>
 
           <div className={styles.copy}>

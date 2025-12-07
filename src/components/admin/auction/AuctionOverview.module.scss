@@ -1,0 +1,424 @@
+/* src/components/admin/auction/AuctionOverview.module.scss */
+
+:root {
+  --ink: #0b0b0b;
+  --muted: #6b7280;
+  --line: #e5e7eb;
+  --soft: #f3f4f6;
+  --card: #ffffff;
+  --shadow-1: 0 8px 24px rgba(15, 23, 42, 0.06);
+  --radius: 14px;
+}
+
+/* WRAPPER -------------------------------------------------------- */
+
+.wrapper {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-1);
+  padding: 18px;
+  animation: fadeIn 0.18s ease both;
+}
+
+/* HEADER --------------------------------------------------------- */
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 8px;
+
+  h2 {
+    margin: 0 0 2px;
+    font-size: 1.2rem;
+    letter-spacing: 0.2px;
+    color: var(--ink);
+  }
+
+  p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--muted);
+  }
+}
+
+.headerActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* BUTTONS -------------------------------------------------------- */
+
+.primaryButton {
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid #111827 !important;
+  background: #111827 !important;
+  color: #ffffff !important;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.04s ease,
+    box-shadow 0.12s ease;
+}
+
+.primaryButton:hover:not(:disabled) {
+  background: #020617 !important;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.25);
+}
+
+.secondaryButton {
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid #d1d5db;
+  background: #ffffff;
+  color: #111827;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s ease, box-shadow 0.12s ease,
+    transform 0.04s ease;
+}
+
+.secondaryButton:hover:not(:disabled) {
+  background: #f3f4f6;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.12);
+}
+
+.linkButton {
+  border: none;
+  background: none;
+  padding: 0;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #111827;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
+}
+
+.dangerButton {
+  border: none;
+  background: #b91c1c !important;
+  color: #ffffff !important;
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(239, 68, 68, 0.35);
+  transition: background 0.15s ease, box-shadow 0.12s ease,
+    transform 0.04s ease;
+}
+
+.dangerButton:hover:not(:disabled) {
+  background: #991b1b !important;
+  box-shadow: 0 3px 8px rgba(127, 29, 29, 0.45);
+}
+
+.dangerButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* LAYOUT --------------------------------------------------------- */
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(0, 1.1fr);
+  gap: 14px;
+  align-items: flex-start;
+}
+
+/* TABLE PANE ----------------------------------------------------- */
+
+.tablePane {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #ffffff;
+  padding: 10px 10px 12px;
+}
+
+.tableHeaderRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.tableTitle {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.tableMeta {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.tableScroller {
+  max-height: 420px;
+  overflow: auto;
+  border-radius: 10px;
+}
+
+/* TABLE ---------------------------------------------------------- */
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+
+  thead {
+    background: #f9fafb;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }
+
+  th,
+  td {
+    padding: 7px 10px;
+    border-bottom: 1px solid #f1f5f9;
+    text-align: left;
+  }
+
+  th {
+    font-weight: 600;
+    font-size: 0.78rem;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  tbody tr:last-child td {
+    border-bottom: none;
+  }
+}
+
+.rowSelected {
+  background: #eff6ff;
+}
+
+/* ITEM CELL ------------------------------------------------------ */
+
+.itemButton {
+  all: unset;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  cursor: pointer;
+}
+
+.itemTitle {
+  font-weight: 600;
+  color: #111827;
+}
+
+.itemSlug {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+/* STATUS BADGES -------------------------------------------------- */
+
+.badgeActive,
+.badgeHidden,
+.badgeClosed {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.badgeActive {
+  background: #ecfdf3;
+  border: 1px solid #bbf7d0;
+  color: #15803d;
+}
+
+.badgeHidden {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #b91c1c;
+}
+
+.badgeClosed {
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  color: #1d4ed8;
+}
+
+/* ROW ACTIONS ---------------------------------------------------- */
+
+.rowActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+/* BIDS PANE ------------------------------------------------------ */
+
+.bidsPane {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #ffffff;
+  padding: 10px 10px 12px;
+  min-height: 220px;
+}
+
+.bidsEmpty {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.bidsContent {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.bidsHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.bidsTitle {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--ink);
+  margin: 0 0 2px;
+}
+
+/* BIDS LIST ------------------------------------------------------ */
+
+.bidsList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+  max-height: 380px;
+  overflow: auto;
+}
+
+.bidCard {
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  padding: 8px 9px;
+  background: #f9fafb;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 0.8rem;
+}
+
+.bidTop {
+  border-color: #bfdbfe;
+  background: #eff6ff;
+}
+
+.bidWinner {
+  border-color: #fbbf24;
+  box-shadow: 0 0 0 1px rgba(245, 158, 11, 0.4);
+}
+
+.bidRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  justify-content: space-between;
+}
+
+.bidAmount {
+  font-weight: 700;
+  font-size: 0.86rem;
+  color: #111827;
+}
+
+.badgeChip {
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid #bfdbfe;
+  background: #eff6ff;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #1d4ed8;
+}
+
+.badgeWinner {
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid #facc15;
+  background: #fef9c3;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #92400e;
+}
+
+.bidName {
+  margin: 0;
+  font-weight: 500;
+}
+
+.bidEmail {
+  margin: 0;
+  color: var(--muted);
+}
+
+.bidTime {
+  margin: 0;
+  font-size: 0.75rem;
+  color: #9ca3af;
+}
+
+/* GENERIC -------------------------------------------------------- */
+
+.muted {
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+.error {
+  color: #b91c1c;
+  font-size: 0.85rem;
+  margin-top: 6px;
+}
+
+/* RESPONSIVE ----------------------------------------------------- */
+
+@media (max-width: 920px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .bidsPane {
+    min-height: auto;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(2px);
+  }
+  to {
+    opacity: 1;
+  }
+}

@@ -1,5 +1,8 @@
+// src/components/donation/quickstats/QuickStats.tsx
 'use client';
 
+import { useAnimatedNumber } from '@/hooks/useAnimatedNumber';
+import type { DonationStats } from '@/hooks/useDonationStats';
 import styles from './QuickStats.module.scss';
 
 export const quickStatsMetadata = {
@@ -8,28 +11,88 @@ export const quickStatsMetadata = {
     'See the real-time impact of your Donation: families supported, children in school, meals provided, and more.',
 };
 
-type StatProps = {
+type StatCard = {
   label: string;
-  value: string | number;
+  value: string;
+  highlight?: boolean;
 };
 
-function Stat({ label, value }: StatProps) {
+type QuickStatsProps = {
+  stats: DonationStats | null;
+  loading: boolean;
+};
+
+type StatProps = StatCard;
+
+function Stat({ label, value, highlight }: StatProps) {
   return (
-    <div className={styles.stat}>
+    <div className={`${styles.stat} ${highlight ? styles.statHighlight : ''}`}>
       <span className={styles.value}>{value}</span>
       <span className={styles.label}>{label}</span>
     </div>
   );
 }
 
-export default function QuickStats() {
-  // Eventually these will come from DB / API
-  const stats = [
-    { label: 'Families Supported', value: '12' },
-    { label: 'Children in School', value: '48' },
-    { label: 'Meals Served', value: '7,200+' },
-    { label: 'Monthly Donors', value: '34' },
-    { label: 'Total Raised', value: '£3,400' },
+const fmtMoney = (pence: number) =>
+  new Intl.NumberFormat('en-GB', {
+    style: 'currency',
+    currency: 'GBP',
+    maximumFractionDigits: 0,
+  })
+    .format(pence / 100)
+    .replace('.00', '');
+
+const fmtInt = (n: number) => Math.round(n).toLocaleString('en-GB').toString();
+
+export default function QuickStats({ stats, loading }: QuickStatsProps) {
+  const base = stats ?? {
+    raisedPence: 3_400 * 100,
+    goalPence: 10_000 * 100,
+    directCount: 0,
+    auctionDonationCount: 0,
+    totalDonationsCount: 0,
+    totalBidsCount: 0,
+    averageGiftPence: 0,
+  };
+
+  const animRaised = useAnimatedNumber(base.raisedPence);
+  const animGoal = useAnimatedNumber(base.goalPence);
+  const animDirect = useAnimatedNumber(base.directCount);
+  const animAuctionDonations = useAnimatedNumber(base.auctionDonationCount);
+  const animTotalDonations = useAnimatedNumber(base.totalDonationsCount);
+  const animTotalBids = useAnimatedNumber(base.totalBidsCount);
+  const animAvgGift = useAnimatedNumber(base.averageGiftPence);
+
+  const cards: StatCard[] = [
+    {
+      label: 'Total Raised',
+      value: fmtMoney(animRaised),
+      highlight: true,
+    },
+    {
+      label: 'Funding Goal',
+      value: fmtMoney(animGoal),
+    },
+    {
+      label: 'Direct Donations',
+      value: fmtInt(animDirect),
+    },
+    {
+      label: 'Auction Contributions',
+      value: fmtInt(animAuctionDonations),
+    },
+    {
+      label: 'Total Donations',
+      value: fmtInt(animTotalDonations),
+    },
+    {
+      label: 'Bids Placed',
+      value: fmtInt(animTotalBids),
+    },
+    {
+      label: 'Average Gift',
+      value: fmtMoney(animAvgGift || 0),
+    },
   ];
 
   return (
@@ -48,9 +111,23 @@ export default function QuickStats() {
         </p>
 
         <div className={styles.grid}>
-          {stats.map((s) => (
-            <Stat key={s.label} label={s.label} value={s.value} />
-          ))}
+          {loading && !stats ? (
+            // simple shimmer skeletons
+            <>
+              {Array.from({ length: 4 }).map((_, idx) => (
+                <div key={idx} className={`${styles.stat} ${styles.skeleton}`} />
+              ))}
+            </>
+          ) : (
+            cards.map((card) => (
+              <Stat
+                key={card.label}
+                label={card.label}
+                value={card.value}
+                highlight={card.highlight}
+              />
+            ))
+          )}
         </div>
       </div>
     </section>

@@ -44,6 +44,8 @@
   margin: 0 auto;
 }
 
+/* additions/edits in src/components/donation/quickstats/QuickStats.module.scss */
+
 .stat {
   background: #fff;
   padding: 1.4rem 1rem;
@@ -53,6 +55,35 @@
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.statHighlight {
+  border-color: var(--donation-gold);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
+}
+
+.stat:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.08);
+}
+
+/* skeleton state */
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 37%, #f3f4f6 63%);
+  background-size: 400% 100%;
+  animation: shimmer 1.2s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
 }
 
 .value {

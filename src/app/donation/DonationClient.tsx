@@ -1,8 +1,8 @@
+// src/app/donation/DonationClient.tsx
 'use client';
 
 import styles from './Donation.module.scss';
 
-// Components
 import Hero from '@/components/donation/hero/Hero';
 import DirectDonation from '@/components/donation/direct/DirectDonation';
 import QuickStats from '@/components/donation/quickstats/QuickStats';
@@ -15,40 +15,36 @@ import DonationTransparency from '@/components/donation/transparency/DonationTra
 import DonationFAQs from '@/components/donation/faqs/DonationFAQs';
 import DonationContact from '@/components/donation/contact/DonationContact';
 
+import { useDonationStats } from '@/hooks/useDonationStats';
+
 export default function DonationClient() {
+  // 🔥 Live fundraising stats
+  const { stats, loading } = useDonationStats();
+
+  const raisedPence = stats?.raisedPence ?? 0;
+  const goalPence = stats?.goalPence ?? 10_000 * 100;
+
+  // 🔥 PayPal URL from env
+  const paypalUrl = process.env.NEXT_PUBLIC_PAYPAL_DONATION_URL ?? null;
+
   return (
     <main className={styles.page}>
-      {/* Section 1 — Hero */}
-      <Hero />
+      {/* Hero with live numbers */}
+      <Hero raisedPence={raisedPence} goalPence={goalPence} />
 
-      {/* Section 2 — Quick Stats */}
-      <QuickStats />
+      {/* Quick Stats with live numbers */}
+      <QuickStats stats={stats} loading={loading} />
 
-      {/* Section 3 — Direct Donation */}
-      <DirectDonation />
+      {/* Direct Donation with PAYPAL + optional stats */}
+      <DirectDonation paypalUrl={paypalUrl} />
 
-      {/* Section 4 — Highlights (quick bids) */}
       <AuctionHighlights />
-
-      {/* Section 5 — Full Auction Grid */}
       <AuctionListing />
-
-      {/* Section 6 — How It Works */}
       <DonationHowItWorks />
-
-      {/* Section 7 — Trust / Transparency */}
       <DonationTrust />
-
-      {/* Section 8 — Stories */}
       <DonationStories />
-
-      {/* Section 9 — Transparency Details */}
       <DonationTransparency />
-
-      {/* Section 10 — FAQs */}
       <DonationFAQs />
-
-      {/* Section 11 — Contact */}
       <DonationContact />
     </main>
   );

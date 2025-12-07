@@ -1,0 +1,314 @@
+/* src/app/auction/[slug]/AuctionItem.module.scss */
+
+/* Page background ties into donation hero */
+.page {
+  background: linear-gradient(
+    to bottom,
+    var(--donation-bg-hero-top),
+    var(--donation-bg-hero-bottom)
+  );
+}
+
+.section {
+  padding: clamp(2.75rem, 6vw, 5rem) 0 clamp(2.5rem, 5vw, 4.25rem);
+}
+
+.inner {
+  width: min(1120px, 92vw);
+  margin: 0 auto;
+}
+
+/* Layout similar to donation hero grid */
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(1.2rem, 3vw, 2.2rem);
+  align-items: center;
+}
+
+@media (min-width: 980px) {
+  .layout {
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  }
+}
+
+/* Media column */
+
+.media {
+  order: -1;
+
+  @media (min-width: 980px) {
+    order: 0;
+  }
+}
+
+.imageFrame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: 22px;
+  overflow: hidden;
+  border: 1px solid var(--donation-border);
+  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.08);
+  background: #f3efe6;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(1.02) contrast(1.02);
+}
+
+/* Content column */
+
+.content {
+  display: grid;
+  gap: 0.8rem;
+  max-width: 480px;
+}
+
+/* Eyebrow / kicker */
+
+.kicker {
+  display: inline-block;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--donation-gold-dark);
+  background: color-mix(in srgb, var(--donation-gold) 16%, transparent);
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  margin-bottom: 0.4rem;
+}
+
+/* Title and lead copy */
+
+.title {
+  margin: 0 0 0.4rem;
+  font-size: clamp(1.95rem, 4.6vw, 2.65rem);
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+  color: var(--donation-text-main);
+}
+
+.lead {
+  margin: 0;
+  font-size: clamp(1rem, 1.6vw, 1.08rem);
+  line-height: 1.7;
+  opacity: 0.96;
+  color: var(--donation-text-muted);
+}
+
+/* Pricing + CTA panel – reuse donation card style */
+
+.panel {
+  margin-top: 0.6rem;
+  padding: 1.1rem 1.2rem 1.1rem;
+  border-radius: var(--donation-radius-lg);
+  border: 1px solid var(--donation-border);
+  background: linear-gradient(
+    to bottom,
+    var(--donation-bg-card-top),
+    var(--donation-bg-card-bottom)
+  );
+  box-shadow: var(--donation-shadow-lg);
+  display: grid;
+  gap: 0.7rem;
+}
+
+.label {
+  margin: 0;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--donation-text-muted);
+}
+
+.amount {
+  margin: 0;
+  font-size: clamp(1.45rem, 3vw, 1.85rem);
+  font-weight: 700;
+  color: var(--donation-gold-dark);
+}
+
+.note {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--donation-text-main);
+  opacity: 0.94;
+}
+
+/* Form & inputs */
+
+.form {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.fieldGroup {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.fieldLabel {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--donation-text-muted);
+}
+
+.input {
+  border-radius: 999px;
+  border: 1px solid var(--donation-border);
+  padding: 0.55rem 0.9rem;
+  font-size: 0.9rem;
+  outline: none;
+  background: #f9fafb;
+  color: var(--donation-text-main);
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    background 0.15s ease;
+}
+
+.input:focus-visible {
+  border-color: var(--donation-gold);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--donation-gold) 40%, transparent);
+  background: #ffffff;
+}
+
+.error {
+  margin: 0;
+  font-size: 0.82rem;
+  color: #b91c1c;
+}
+
+/* Primary button – same as donation CTA */
+
+.primaryButton {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 0.95rem 1.4rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  background: linear-gradient(
+    135deg,
+    var(--donation-gold-soft),
+    var(--donation-gold)
+  );
+  color: #131313;
+  font-size: 0.95rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  transition:
+    transform 0.12s ease,
+    opacity 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.primaryButton:hover:not(:disabled) {
+  transform: translateY(-2px);
+  opacity: 0.96;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.14);
+}
+
+.primaryButton:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.16);
+}
+
+.primaryButton:disabled {
+  opacity: 0.8;
+  cursor: default;
+  box-shadow: 0 4px 12px rgba(148, 163, 184, 0.5);
+}
+
+/* Secondary note with link back to donation page */
+
+.secondary {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--donation-text-muted);
+
+  a {
+    color: var(--donation-gold-dark);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    font-weight: 600;
+  }
+
+  a:hover {
+    color: var(--donation-gold);
+  }
+}
+
+/* Back link row */
+
+.backRow {
+  margin-top: clamp(1.8rem, 3.5vw, 2.5rem);
+}
+
+.backLink {
+  font-size: 0.88rem;
+  color: var(--donation-text-muted);
+  text-decoration: none;
+}
+
+.backLink:hover {
+  color: var(--donation-text-main);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* timer styles for slug page */
+
+.timer {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--donation-text-muted);
+}
+
+.timerSoon {
+  color: #b45309;
+}
+
+.timerEnded {
+  color: #991b1b;
+}
+
+/* inside your .panel, add a top row layout */
+
+.panelTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+
+/* Animation */
+
+@keyframes revealUp {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .content {
+    max-width: 100%;
+  }
+
+  .panel {
+    padding: 1rem;
+  }
+}
