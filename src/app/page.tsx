@@ -1,19 +1,15 @@
 // src/app/page.tsx
-import { getHomeData } from '@/lib/getHomeData';
+import type { Metadata } from 'next';
 import HomeClient from './HomeClient';
-import styles from './page.module.scss';
+import { getHomeData } from '@/lib/getHomeData';
 
-export const metadata = {
-  title: 'Travel With Shego — Supporting Children & Families',
-  description: 'Helping children and families in Baraawe with education, housing and support.',
+export const metadata: Metadata = {
+  title: 'Baraawe Hope Center | Travel with Shego',
+  // ...
 };
 
 export default async function HomePage() {
   const data = await getHomeData();
 
-  return (
-    <main className={styles.main}>
-      <HomeClient data={data} />
-    </main>
-  );
+  return <HomeClient data={data} />; // ✅ just data, no raised/goal props
 }

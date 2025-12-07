@@ -1,17 +1,23 @@
+// src/app/admin/AdminClient.tsx
 'use client';
 
 import { useState } from 'react';
 import styles from './AdminClient.module.scss';
+
 import HomeSettings from '@/components/admin/home/HomeSettings';
 import AboutUsSettings from '@/components/admin/about/AboutUsSettings';
 import ContactSettings from '@/components/admin/contact/ContactSettings';
+import AuctionSettings from '@/components/admin/auction/AuctionSettings';
+import AuctionOverview from '@/components/admin/auction/AuctionOverview';
 
-type SectionKey = 'home' | 'about' | 'contact';
+type SectionKey = 'home' | 'about' | 'contact' | 'auction' | 'auctionOverview';
 
 const sections: { key: SectionKey; label: string }[] = [
   { key: 'home', label: 'Home' },
   { key: 'about', label: 'About Us' },
   { key: 'contact', label: 'Contact' },
+  { key: 'auction', label: 'Auction Items' },
+  { key: 'auctionOverview', label: 'Auction Overview' },
 ];
 
 export default function AdminClient() {
@@ -21,11 +27,15 @@ export default function AdminClient() {
   const renderSection = () => {
     switch (activeSection) {
       case 'home':
-        return <HomeSettings />; // ⬅️ has Hero / Mission / Gallery tabs
+        return <HomeSettings />;
       case 'about':
         return <AboutUsSettings />;
       case 'contact':
         return <ContactSettings />;
+      case 'auction':
+        return <AuctionSettings />;
+      case 'auctionOverview':
+        return <AuctionOverview goToItemsTab={() => setActiveSection('auction')} />;
       default:
         return null;
     }
@@ -34,7 +44,11 @@ export default function AdminClient() {
   return (
     <div className={styles.admin}>
       <aside className={styles.sidebar}>
-        <button className={styles.toggle} onClick={() => setSidebarOpen(!sidebarOpen)}>
+        <button
+          type="button"
+          className={styles.toggle}
+          onClick={() => setSidebarOpen(!sidebarOpen)}
+        >
           ☰ Menu
         </button>
 
@@ -44,6 +58,7 @@ export default function AdminClient() {
               {sections.map(({ key, label }) => (
                 <li key={key}>
                   <button
+                    type="button"
                     className={activeSection === key ? styles.active : ''}
                     onClick={() => {
                       setActiveSection(key);
@@ -63,6 +78,7 @@ export default function AdminClient() {
             {sections.map(({ key, label }) => (
               <li key={key}>
                 <button
+                  type="button"
                   className={activeSection === key ? styles.active : ''}
                   onClick={() => setActiveSection(key)}
                 >

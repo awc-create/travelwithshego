@@ -1,5 +1,7 @@
+// src/components/donation/listing/AuctionListing.tsx
 'use client';
 
+import { useEffect, useMemo, useRef, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import styles from './AuctionListing.module.scss';
@@ -7,74 +9,186 @@ import styles from './AuctionListing.module.scss';
 export const auctionListingMetadata = {
   title: 'All Donation Auction Items – Travel with Shego',
   description:
-    'Browse all available auction items. Bid on checked and graded electronics while your Donation supports children and families in Baraawe.',
+    'Browse all available auction items. Bid on checked and graded electronics while your donation supports children and families in Baraawe.',
 };
 
-type AuctionItem = {
+// This should match what /api/auction/public returns
+export type PublicAuctionItem = {
   id: string;
+  slug: string;
   title: string;
-  img: string;
-  condition: 'A' | 'B' | 'C';
-  currentBid: string;
-  endsIn: string;
-  bids: number;
-  endingSoon?: boolean;
+  description: string;
+  imageUrl: string | null;
+  pricePence: number;
+  highestBidPence: number | null;
+  bidCount: number;
+  endsAt: string | null; // ISO string from API
 };
 
-const items: AuctionItem[] = [
+// Fallback/demo items if API fails or no items yet
+const FALLBACK_ITEMS: PublicAuctionItem[] = [
   {
     id: '1',
+    slug: 'iphone-13-pro-demo',
     title: 'iPhone 13 Pro – 128GB, unlocked',
-    img: '/images/donation/sample/iphone13.jpg',
-    condition: 'A',
-    currentBid: '£220',
-    endsIn: '2 days',
-    bids: 9,
+    description: 'Fully checked, battery health verified and securely wiped.',
+    imageUrl: '/images/donation/sample/iphone13.jpg',
+    pricePence: 20000,
+    highestBidPence: 22000,
+    bidCount: 9,
+    endsAt: null,
   },
   {
     id: '2',
+    slug: 'macbook-air-m1-demo',
     title: 'MacBook Air M1 – 8GB / 256GB',
-    img: '/images/donation/sample/macbook-air.jpg',
-    condition: 'A',
-    currentBid: '£390',
-    endsIn: '5 hours',
-    bids: 14,
-    endingSoon: true,
-  },
-  {
-    id: '3',
-    title: 'Samsung Galaxy Tab S7 – 64GB',
-    img: '/images/donation/sample/samsung-tab.jpg',
-    condition: 'B',
-    currentBid: '£110',
-    endsIn: '1 day',
-    bids: 6,
-  },
-  {
-    id: '4',
-    title: 'Apple Watch Series 7 – GPS',
-    img: '/images/donation/sample/apple-watch.jpg',
-    condition: 'B',
-    currentBid: '£80',
-    endsIn: '3 days',
-    bids: 4,
+    description: 'Grade A device with minor cosmetic marks. Perfect student or work laptop.',
+    imageUrl: '/images/donation/sample/macbook-air.jpg',
+    pricePence: 35000,
+    highestBidPence: 39000,
+    bidCount: 14,
+    endsAt: null,
   },
 ];
 
-function conditionLabel(cond: AuctionItem['condition']) {
-  switch (cond) {
-    case 'A':
-      return 'Grade A – Excellent';
-    case 'B':
-      return 'Grade B – Very Good';
-    case 'C':
-      return 'Grade C – Good';
-    default:
-      return 'Graded';
+const ITEMS_PER_PAGE = 4;
+const AUTOPLAY_MS = 7000;
+const SWIPE_THRESHOLD = 50; // px
+
+const formatMoney = (pence: number | null) => {
+  if (pence == null) return '£0';
+  return new Intl.NumberFormat('en-GB', {
+    style: 'currency',
+    currency: 'GBP',
+    maximumFractionDigits: 0,
+  })
+    .format(pence / 100)
+    .replace('.00', '');
+};
+
+const formatTimeLeft = (endsAt: string | null) => {
+  if (!endsAt) return '—';
+
+  const end = new Date(endsAt).getTime();
+  const now = Date.now();
+  const diffMs = end - now;
+  if (diffMs <= 0) return 'Ended';
+
+  const diffHours = diffMs / (1000 * 60 * 60);
+  if (diffHours < 1) {
+    const mins = Math.round(diffHours * 60);
+    return `${mins} min${mins === 1 ? '' : 's'}`;
   }
-}
+  if (diffHours < 24) {
+    const hrs = Math.round(diffHours);
+    return `${hrs} hour${hrs === 1 ? '' : 's'}`;
+  }
+  const days = Math.round(diffHours / 24);
+  return `${days} day${days === 1 ? '' : 's'}`;
+};
 
 export default function AuctionListing() {
+  const [items, setItems] = useState<PublicAuctionItem[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(0);
+
+  const touchStartX = useRef<number | null>(null);
+  const autoplayRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  // Fetch live auction items from API
+  useEffect(() => {
+    let cancelled = false;
+
+    async function fetchItems() {
+      try {
+        setLoading(true);
+        const res = await fetch('/api/auction/public', { cache: 'no-store' });
+
+        if (!res.ok) {
+          throw new Error('Failed to load items');
+        }
+
+        const data = (await res.json()) as PublicAuctionItem[];
+
+        if (!cancelled) {
+          setItems(data.length ? data : FALLBACK_ITEMS);
+          setCurrentPage(0);
+        }
+      } catch (err) {
+        console.error('[AUCTION_LISTING_ERROR]', err);
+        if (!cancelled) {
+          setItems(FALLBACK_ITEMS);
+        }
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    }
+
+    fetchItems();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const pages = useMemo(() => {
+    if (!items.length) return [];
+    const chunks: PublicAuctionItem[][] = [];
+    for (let i = 0; i < items.length; i += ITEMS_PER_PAGE) {
+      chunks.push(items.slice(i, i + ITEMS_PER_PAGE));
+    }
+    return chunks;
+  }, [items]);
+
+  const pageCount = pages.length || 1;
+
+  const goToPage = (index: number) => {
+    if (!pages.length) return;
+    const next = (index + pageCount) % pageCount;
+    setCurrentPage(next);
+  };
+
+  const handleNext = () => goToPage(currentPage + 1);
+  const handlePrev = () => goToPage(currentPage - 1);
+
+  // Autoplay
+  useEffect(() => {
+    if (!pages.length) return;
+
+    if (autoplayRef.current) {
+      clearInterval(autoplayRef.current);
+    }
+
+    autoplayRef.current = setInterval(() => {
+      setCurrentPage((prev) => (prev + 1) % pageCount);
+    }, AUTOPLAY_MS);
+
+    return () => {
+      if (autoplayRef.current) clearInterval(autoplayRef.current);
+    };
+  }, [pages.length, pageCount]);
+
+  // Touch/swipe handlers
+  const onTouchStart: React.TouchEventHandler<HTMLDivElement> = (event) => {
+    touchStartX.current = event.touches[0].clientX;
+  };
+
+  const onTouchEnd: React.TouchEventHandler<HTMLDivElement> = (event) => {
+    if (touchStartX.current == null) return;
+    const endX = event.changedTouches[0].clientX;
+    const deltaX = endX - touchStartX.current;
+
+    if (deltaX > SWIPE_THRESHOLD) {
+      handlePrev();
+    } else if (deltaX < -SWIPE_THRESHOLD) {
+      handleNext();
+    }
+
+    touchStartX.current = null;
+  };
+
+  const isSkeleton = loading && !items.length;
+
   return (
     <section id="auction" className={styles.wrap} aria-labelledby="auction-listing-heading">
       <div className={styles.inner}>
@@ -84,71 +198,113 @@ export default function AuctionListing() {
               Browse all <span className={styles.gold}>Auction</span> items
             </h2>
             <p className={styles.sub}>
-              Every winning bid becomes a <span className={styles.gold}>Donation</span> that
+              Every winning bid becomes a <span className={styles.gold}>donation</span> that
               supports housing, education and care in Baraawe.
             </p>
           </div>
-
-          <div className={styles.filters} aria-label="Sort and filter items">
-            <label className={styles.filterLabel}>
-              Sort by
-              <select className={styles.select} defaultValue="ending">
-                <option value="ending">Ending soon</option>
-                <option value="bid">Highest bid</option>
-                <option value="new">Newly added</option>
-              </select>
-            </label>
-          </div>
         </header>
 
-        <div className={styles.grid}>
-          {items.map((item) => (
-            <article
-              key={item.id}
-              className={`${styles.card} ${item.endingSoon ? styles.cardSoon : ''}`}
-            >
-              <Link href={`/auction/${item.id}`} className={styles.cardLink}>
-                <div className={styles.thumb}>
-                  <Image
-                    src={item.img}
-                    alt={item.title}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 280px"
-                    className={styles.img}
+        <div className={styles.carousel} onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
+          <div className={styles.track} style={{ transform: `translateX(-${currentPage * 100}%)` }}>
+            {isSkeleton
+              ? Array.from({ length: 1 }).map((_, idx) => (
+                  <div key={idx} className={`${styles.slide} ${styles.skeleton}`} />
+                ))
+              : pages.map((pageItems, pageIndex) => (
+                  <div key={pageIndex} className={styles.slide}>
+                    <div className={styles.pageGrid}>
+                      {pageItems.map((item) => {
+                        const currentBid =
+                          item.highestBidPence != null ? item.highestBidPence : item.pricePence;
+                        const isNew = item.bidCount === 0;
+
+                        return (
+                          <article key={item.id} className={styles.card}>
+                            <Link
+                              href={`/auction/${item.slug}`}
+                              className={styles.cardLink}
+                              aria-label={`View auction item ${item.title}`}
+                            >
+                              <div className={styles.thumb}>
+                                <Image
+                                  src={item.imageUrl || '/images/donation/sample/iphone13.jpg'}
+                                  alt={item.title}
+                                  fill
+                                  sizes="(max-width: 768px) 100vw, 280px"
+                                  className={styles.img}
+                                />
+                                {isNew && <span className={styles.badgeNew}>New</span>}
+                              </div>
+
+                              <div className={styles.body}>
+                                <h3 className={styles.title}>{item.title}</h3>
+                                <p className={styles.desc}>{item.description}</p>
+
+                                <dl className={styles.meta}>
+                                  <div className={styles.metaRow}>
+                                    <dt>Current bid</dt>
+                                    <dd>{formatMoney(currentBid)}</dd>
+                                  </div>
+                                  <div className={styles.metaRow}>
+                                    <dt>Bids</dt>
+                                    <dd>{item.bidCount}</dd>
+                                  </div>
+                                  <div className={styles.metaRow}>
+                                    <dt>Time left</dt>
+                                    <dd>{formatTimeLeft(item.endsAt)}</dd>
+                                  </div>
+                                </dl>
+
+                                <span className={styles.cta}>Place a bid →</span>
+                              </div>
+                            </Link>
+                          </article>
+                        );
+                      })}
+                    </div>
+                  </div>
+                ))}
+          </div>
+
+          {!isSkeleton && pageCount > 1 && (
+            <>
+              <div className={styles.nav}>
+                <button
+                  type="button"
+                  className={styles.navBtn}
+                  onClick={handlePrev}
+                  aria-label="Previous auction items"
+                >
+                  ‹
+                </button>
+                <button
+                  type="button"
+                  className={styles.navBtn}
+                  onClick={handleNext}
+                  aria-label="Next auction items"
+                >
+                  ›
+                </button>
+              </div>
+
+              <div className={styles.dots}>
+                {pages.map((_, idx) => (
+                  <button
+                    key={idx}
+                    type="button"
+                    className={`${styles.dot} ${idx === currentPage ? styles.dotActive : ''}`}
+                    onClick={() => goToPage(idx)}
+                    aria-label={`Go to slide ${idx + 1}`}
                   />
-                  {item.endingSoon && <span className={styles.badge}>Ending soon</span>}
-                </div>
-
-                <div className={styles.body}>
-                  <h3 className={styles.title}>{item.title}</h3>
-
-                  <p className={styles.condition}>{conditionLabel(item.condition)}</p>
-
-                  <dl className={styles.meta}>
-                    <div className={styles.metaRow}>
-                      <dt>Current bid</dt>
-                      <dd>{item.currentBid}</dd>
-                    </div>
-                    <div className={styles.metaRow}>
-                      <dt>Time left</dt>
-                      <dd>{item.endsIn}</dd>
-                    </div>
-                    <div className={styles.metaRow}>
-                      <dt>Bids</dt>
-                      <dd>{item.bids}</dd>
-                    </div>
-                  </dl>
-
-                  <span className={styles.cta}>Place a bid →</span>
-                </div>
-              </Link>
-            </article>
-          ))}
+                ))}
+              </div>
+            </>
+          )}
         </div>
 
         <p className={styles.footerNote}>
           All items are checked, graded and securely wiped before listing. No cash-in-person for
-          auction wins — payment is handled through our official Donation account only.
+          auction wins — payment is handled through our official donation account only.
         </p>
       </div>
     </section>

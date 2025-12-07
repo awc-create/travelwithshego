@@ -3,6 +3,7 @@ datasource db {
   provider = "postgresql"
 }
 
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -33,8 +34,8 @@ model HomeGallery {
   id        String   @id @default(cuid())
   key       String   @unique @default("gallery")
   imageUrls String[]
-  title     String?   // ← new (optional)
-  subtitle  String?   // ← new (optional)
+  title     String?
+  subtitle  String?
   caption   String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -46,7 +47,7 @@ model HomeTestimonial {
   quote     String
   author    String
   role      String?
-  avatarSrc String?  // optional headshot
+  avatarSrc String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -92,4 +93,90 @@ model Media {
   updatedAt DateTime @updatedAt
 
   @@index([name])
+}
+
+// ─────────────────────────────────────────────
+// NEW: Donations + Auction items
+// ─────────────────────────────────────────────
+
+model AuctionItem {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  title       String
+  description String
+  imageUrl    String?
+  pricePence  Int
+  active      Boolean  @default(true)
+  sortOrder   Int      @default(0)
+  endsAt      DateTime?
+
+  // NEW
+  closed      Boolean  @default(false)
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  donations   Donation[]
+  bids        AuctionBid[]   // 👈 NEW relation
+}
+
+model AuctionBid {
+  id            String      @id @default(cuid())
+  auctionItemId String
+  auctionItem   AuctionItem @relation(fields: [auctionItemId], references: [id])
+
+  amountPence   Int
+  email         String
+  name          String?
+  isWinner      Boolean     @default(false)  // 👈 for marking who won
+
+  createdAt     DateTime    @default(now())
+
+  @@index([auctionItemId])
+  @@index([createdAt])
+}
+
+model Donation {
+  id                      String   @id @default(cuid())
+  amountPence             Int
+  currency                String           @default("GBP")
+  status                  DonationStatus   @default(PENDING)
+  frequency               DonationFrequency @default(ONCE)
+  type                    DonationType     @default(DIRECT)
+
+  // Baraawe is your *single* project, so no Project table.
+  // You can still distinguish direct vs auction via type + relation below.
+  email                   String
+  name                    String?
+  message                 String?
+
+  auctionItemId           String?
+  auctionItem             AuctionItem?     @relation(fields: [auctionItemId], references: [id])
+
+  stripePaymentIntentId   String?
+  stripeCheckoutSessionId String?
+  stripeCustomerId        String?
+
+  createdAt               DateTime         @default(now())
+  updatedAt               DateTime         @updatedAt
+
+  @@index([createdAt])
+  @@index([email])
+}
+
+enum DonationStatus {
+  PENDING
+  SUCCEEDED
+  REFUNDED
+  FAILED
+}
+
+enum DonationFrequency {
+  ONCE
+  MONTHLY
+}
+
+enum DonationType {
+  DIRECT   // from the main donation page
+  AUCTION  // tied to a specific AuctionItem
 }

@@ -1,6 +1,7 @@
+// src/components/donation/direct/DirectDonation.tsx
 'use client';
 
-import { useState } from 'react';
+import { useState, type ChangeEvent } from 'react';
 import styles from './DirectDonation.module.scss';
 
 export const directDonationMetadata = {
@@ -9,21 +10,44 @@ export const directDonationMetadata = {
     'Make a one-off or monthly Donation to support safe housing, education and daily care for children and families in Baraawe.',
 };
 
+type DirectDonationProps = {
+  paypalUrl?: string | null;
+};
+
 type Frequency = 'once' | 'monthly';
 
 const PRESET_AMOUNTS = [25, 50, 75, 150];
 
-export default function DirectDonation() {
+export default function DirectDonation({ paypalUrl }: DirectDonationProps) {
   const [frequency, setFrequency] = useState<Frequency>('once');
   const [amount, setAmount] = useState<number | ''>(50);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
+  const [submitAttempted, setSubmitAttempted] = useState(false);
 
   const handlePresetClick = (value: number) => {
     setAmount(value);
   };
 
-  const handleCustomChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleCustomChange = (e: ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value.replace(/[^\d]/g, '');
     setAmount(val === '' ? '' : Number(val));
+  };
+
+  const isAmountValid = typeof amount === 'number' && amount > 0;
+  const isEmailValid = /\S+@\S+\.\S+/.test(email);
+  const canSubmit = isAmountValid && isEmailValid;
+
+  // TODO: replace this with a call to /api/checkout/direct
+  const handleCardCheckout = () => {
+    setSubmitAttempted(true);
+    if (!canSubmit) return;
+
+    // For now, just confirm we captured things
+    alert(
+      `Card checkout coming soon.\n\nAmount: £${amount}\nFrequency: ${frequency}\nName: ${name}\nEmail: ${email}\nMessage: ${message}`
+    );
   };
 
   return (
@@ -61,8 +85,9 @@ export default function DirectDonation() {
           </p>
         </div>
 
-        {/* RIGHT FORM UI (non-functional for now) */}
+        {/* RIGHT PANEL UI */}
         <div className={styles.panel} aria-label="Donation options">
+          {/* Frequency toggle */}
           <div className={styles.frequencyToggle} role="radiogroup" aria-label="Donation frequency">
             <button
               type="button"
@@ -84,6 +109,7 @@ export default function DirectDonation() {
             </button>
           </div>
 
+          {/* Amount selection */}
           <div className={styles.amountBlock}>
             <p className={styles.label}>Choose an amount</p>
             <div className={styles.pills}>
@@ -117,13 +143,87 @@ export default function DirectDonation() {
             </div>
           </div>
 
-          <button type="button" className={styles.submitBtn}>
-            Continue to secure checkout
+          {/* Donor details */}
+          <div className={styles.detailsBlock}>
+            <div className={styles.fieldGroup}>
+              <label className={styles.fieldLabel} htmlFor="donor-name">
+                Your name (optional)
+              </label>
+              <input
+                id="donor-name"
+                className={styles.textInput}
+                type="text"
+                placeholder="Your name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+            </div>
+
+            <div className={styles.fieldGroup}>
+              <label className={styles.fieldLabel} htmlFor="donor-email">
+                Email for your receipt
+              </label>
+              <input
+                id="donor-email"
+                className={styles.textInput}
+                type="email"
+                placeholder="you@example.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              {submitAttempted && !isEmailValid && (
+                <p className={styles.error}>
+                  Please enter a valid email so we can send your receipt.
+                </p>
+              )}
+            </div>
+
+            <div className={styles.fieldGroup}>
+              <label className={styles.fieldLabel} htmlFor="donor-message">
+                Leave a message (optional)
+              </label>
+              <textarea
+                id="donor-message"
+                className={styles.textInput}
+                rows={3}
+                placeholder="A note of encouragement or how you heard about us"
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+              />
+            </div>
+          </div>
+
+          {/* Primary CTA — future Stripe/card checkout */}
+          <button
+            type="button"
+            className={styles.submitBtn}
+            disabled={!canSubmit}
+            onClick={handleCardCheckout}
+          >
+            Continue to secure card checkout
           </button>
+
+          {/* PayPal express option */}
+          {paypalUrl ? (
+            <div className={styles.paypalBlock}>
+              <div className={styles.paypalDivider}>
+                <span>or</span>
+              </div>
+
+              <a href={paypalUrl} target="_blank" rel="noreferrer" className={styles.paypalButton}>
+                Donate quickly with PayPal
+              </a>
+
+              <p className={styles.paypalNote}>
+                Opens our secure PayPal Donation page in a new tab. You can give any amount and help
+                families smile again.
+              </p>
+            </div>
+          ) : null}
 
           <p className={styles.trustNote}>
             Payments are handled through our{' '}
-            <span className={styles.gold}>secure Donation partner</span>. We never ask for bank
+            <span className={styles.gold}>secure Donation partners</span>. We never ask for bank
             details over social media.
           </p>
         </div>

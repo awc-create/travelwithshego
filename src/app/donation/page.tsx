@@ -17,5 +17,6 @@ export const metadata: Metadata = {
 };
 
 export default function DonationPage() {
+  // ❌ no props needed, DonationClient reads stats via hook
   return <DonationClient />;
 }

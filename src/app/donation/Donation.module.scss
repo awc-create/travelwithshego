@@ -1,7 +1,11 @@
 /* src/app/donation/Donation.module.scss */
 
 .page {
-  background: #fffdf7;
+  /* Remove any global top padding on <main> for this page */
+  padding-top: 0;
+
+  /* Make the area under the navbar match the hero background */
+  background: #faf6ea; // same as --tone-hero-top
 }
 
 /* =========================
