@@ -1,7 +1,3 @@
-# ---- Base (placeholder) ----
-FROM node:22-alpine AS base
-WORKDIR /app
-
 # ---- deps: install with devDependencies ----
 FROM node:22-alpine AS deps
 WORKDIR /app
@@ -22,11 +18,11 @@ RUN \
     echo "No lockfile found; aborting for reproducibility." && exit 1; \
   fi
 
-# ---- builder: prisma generate + next build (standalone) ----
+# ---- builder: prisma generate + next build (Turbopack) ----
 FROM node:22-alpine AS builder
 WORKDIR /app
 
-# Disable telemetry + provide *dummy* keys so imports don't crash at build time
+# Disable telemetry + provide *dummy* env so imports don't crash at build time
 ENV NEXT_TELEMETRY_DISABLED=1 \
     STRIPE_SECRET_KEY="sk_test_dummy" \
     STRIPE_WEBHOOK_SECRET="whsec_dummy" \
@@ -42,15 +38,19 @@ RUN ls -la src || true \
 
 # Prisma client
 RUN \
-  if [ -f yarn.lock ]; then \
-    yarn prisma:generate; \
-  elif [ -f pnpm-lock.yaml ]; then \
-    corepack pnpm prisma:generate; \
+  if [ -f prisma/schema.prisma ]; then \
+    if [ -f yarn.lock ]; then \
+      yarn prisma:generate; \
+    elif [ -f pnpm-lock.yaml ]; then \
+      corepack pnpm prisma:generate; \
+    else \
+      npm run prisma:generate; \
+    fi; \
   else \
-    npm run prisma:generate; \
+    echo "No prisma/schema.prisma found — skipping prisma generate"; \
   fi
 
-# Build Next.js (standalone, Turbopack)
+# Build Next.js (Turbopack)
 RUN \
   if [ -f yarn.lock ]; then \
     yarn build --turbopack; \
@@ -63,7 +63,7 @@ RUN \
 # 🔎 Print middleware manifest to CI logs (debug)
 RUN node -e "const fs=require('fs');const p='.next/server/middleware-manifest.json'; console.log('\\n=== middleware-manifest ==='); console.log(fs.existsSync(p)?fs.readFileSync(p,'utf8'):'(missing)'); console.log('===========================\\n')"
 
-# ---- runner: minimal prod image ----
+# ---- runner: prod image (non-standalone, next start) ----
 FROM node:22-alpine AS runner
 WORKDIR /app
 
@@ -75,14 +75,17 @@ RUN apk add --no-cache libc6-compat \
  && addgroup -g 1001 -S nodejs \
  && adduser -S nextjs -u 1001
 
-# Standalone server and assets
-COPY --from=builder /app/.next/standalone ./
-COPY --from=builder /app/.next/static ./.next/static
+# Runtime needs:
+# - package.json (for "next start")
+# - node_modules (from deps, includes Prisma client)
+# - built .next
+# - public assets
+# - prisma migrations (for prisma migrate deploy in Hetzner script)
+COPY package.json ./
+COPY --from=deps /app/node_modules ./node_modules
+COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public
-
-# Include prisma migrations & scripts so `prisma migrate deploy` can run in container
 COPY --from=builder /app/prisma ./prisma
-COPY --from=builder /app/scripts ./scripts
 
 # Prisma CLI (match your Prisma major version)
 RUN npm i -g prisma@7.0.0
@@ -90,4 +93,5 @@ RUN npm i -g prisma@7.0.0
 USER 1001
 EXPOSE 3000
 
-CMD ["node", "server.js"]
+# Use Next's built-in server
+CMD ["yarn", "start"]
