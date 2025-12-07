@@ -6,8 +6,10 @@ WORKDIR /app
 FROM node:22-alpine AS deps
 WORKDIR /app
 RUN corepack enable && apk add --no-cache libc6-compat
+
 COPY package.json ./
 COPY yarn.lock* pnpm-lock.yaml* package-lock.json* ./
+
 RUN \
   if [ -f yarn.lock ]; then \
     yarn install --immutable --production=false; \
@@ -22,7 +24,15 @@ RUN \
 # ---- builder: prisma generate + next build (standalone) ----
 FROM node:22-alpine AS builder
 WORKDIR /app
+
+# Disable telemetry in CI
 ENV NEXT_TELEMETRY_DISABLED=1
+
+# 🔑 Dummy DB env so Prisma doesn't crash at build time.
+# The real URLs are injected at runtime by your Hetzner deploy script.
+ENV DATABASE_URL="postgresql://dummy:dummy@localhost:5432/dummy"
+ENV DIRECT_DATABASE_URL="postgresql://dummy:dummy@localhost:5432/dummy"
+
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
@@ -43,19 +53,20 @@ RUN \
 # Build Next.js (standalone)
 RUN \
   if [ -f yarn.lock ]; then \
-    yarn build; \
+    yarn build --turbopack; \
   elif [ -f pnpm-lock.yaml ]; then \
     corepack pnpm build; \
   else \
     npm run build; \
   fi
 
-# 🔎 Print middleware manifest to CI logs
+# 🔎 Print middleware manifest to CI logs (optional but handy)
 RUN node -e "const fs=require('fs');const p='.next/server/middleware-manifest.json'; console.log('\\n=== middleware-manifest ==='); console.log(fs.existsSync(p)?fs.readFileSync(p,'utf8'):'(missing)'); console.log('===========================\\n')"
 
 # ---- runner: minimal prod image ----
 FROM node:22-alpine AS runner
 WORKDIR /app
+
 ENV NODE_ENV=production
 ENV PORT=3000
 ENV HOSTNAME=0.0.0.0
@@ -72,7 +83,9 @@ COPY --from=builder /app/public ./public
 # Include prisma migrations so `prisma migrate deploy` can run in container
 COPY --from=builder /app/prisma ./prisma
 COPY --from=builder /app/scripts ./scripts
-RUN npm i -g prisma@6.13.0
+
+# Optional: global prisma CLI (version aligned with package.json)
+RUN npm i -g prisma@7.0.0
 
 USER 1001
 EXPOSE 3000
