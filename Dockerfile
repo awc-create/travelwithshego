@@ -39,7 +39,6 @@ ENV NEXT_TELEMETRY_DISABLED=1 \
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# (Optional safety: if you ever add src/middleware.ts, this will scream if it goes missing)
 RUN ls -la src || true
 
 # Prisma client (only if schema exists)
@@ -56,7 +55,7 @@ RUN \
     echo "No prisma/schema.prisma found — skipping prisma generate"; \
   fi
 
-# Build Next.js (Turbopack; your package.json already has `build: "next build --turbopack"`)
+# Build Next.js (Turbopack)
 RUN \
   if [ -f yarn.lock ]; then \
     yarn build; \
@@ -69,7 +68,6 @@ RUN \
 # 🔎 Fail early if standalone wasn’t produced
 RUN node -e "const fs=require('fs'); if(!fs.existsSync('.next/standalone/server.js')){console.error('\\n❌ Missing .next/standalone/server.js. Ensure output:\"standalone\" in next.config.*'); process.exit(1)}"
 
-# (Optional debug – keep or remove)
 RUN node -e "const fs=require('fs');const p='.next/server/middleware-manifest.json'; console.log('\\n=== middleware-manifest ==='); console.log(fs.existsSync(p)?fs.readFileSync(p,'utf8'):'(missing)'); console.log('===========================\\n')"
 
 # ============================
@@ -86,20 +84,23 @@ RUN apk add --no-cache libc6-compat \
  && addgroup -g 1001 -S nodejs \
  && adduser -S nextjs -u 1001
 
-# Copy the standalone server + static assets
+# 👇 bring in package.json + node_modules so prisma.config.ts can import prisma/dotenv
+COPY --from=builder /app/package.json ./package.json
+COPY --from=deps    /app/node_modules ./node_modules
+
+# Standalone server + static assets
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
 COPY --from=builder /app/public ./public
 
-# Include prisma folder so `prisma migrate deploy` can run in Hetzner
+# Prisma migrations + config (for migrate deploy)
 COPY --from=builder /app/prisma ./prisma
 COPY --from=builder /app/prisma.config.ts ./prisma.config.ts
 
-# Prisma CLI (match your Prisma major version)
+# Prisma CLI (matches your Prisma major)
 RUN npm i -g prisma@7.0.0
 
 USER 1001
 EXPOSE 3000
 
-# Same as Prince / Odera: use standalone server.js
 CMD ["node", "server.js"]
