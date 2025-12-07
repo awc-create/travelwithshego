@@ -1,0 +1,158 @@
+/* ---------------------------------------------
+   Auction Checkout – Clean, Donation-theme style
+------------------------------------------------ */
+
+.page {
+  padding: clamp(2.5rem, 5vw, 4rem) 0;
+  background: linear-gradient(
+    to bottom,
+    var(--donation-bg-hero-top, #fffaf1),
+    var(--donation-bg-hero-bottom, #ffffff)
+  );
+  color: var(--donation-text-main, #222);
+}
+
+.section {
+  width: 100%;
+}
+
+.inner {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.card {
+  background: #fff;
+  border-radius: 20px;
+  border: 1px solid var(--donation-border, rgba(0, 0, 0, 0.08));
+  box-shadow: var(--donation-shadow, 0 10px 30px rgba(0, 0, 0, 0.06));
+  padding: 1.8rem 1.9rem 2rem;
+  display: grid;
+  gap: 1rem;
+}
+
+/* --- Lead content --- */
+
+.kicker {
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--donation-gold-dark, #8c6a2d);
+  background: color-mix(in srgb, var(--donation-gold, #d7b15a) 18%, transparent);
+  padding: 0.32rem 0.65rem;
+  border-radius: 999px;
+  display: inline-block;
+}
+
+.title {
+  font-size: clamp(1.7rem, 3vw, 2.2rem);
+  font-weight: 800;
+  margin: 0;
+}
+
+.lead {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--donation-text-muted, #666);
+  margin: 0.3rem 0 0.8rem;
+}
+
+/* --- Summary --- */
+
+.summary {
+  background: #faf7ef;
+  border-radius: 14px;
+  border: 1px solid rgba(205, 183, 140, 0.3);
+  padding: 1rem 1.1rem;
+  display: grid;
+  gap: 0.3rem;
+}
+
+.itemTitle {
+  font-weight: 700;
+  font-size: 1.05rem;
+  margin: 0;
+}
+
+.amount {
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+.error {
+  background: #ffe8e8;
+  color: #b40000;
+  padding: 0.7rem 0.9rem;
+  border-radius: 10px;
+  font-size: 0.9rem;
+}
+
+/* --- Buttons --- */
+
+.primaryButton {
+  margin-top: 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 0.95rem 1.4rem;
+  font-weight: 700;
+  border-radius: 999px;
+  font-size: 1rem;
+  background: linear-gradient(
+    135deg,
+    var(--donation-gold-soft, #f0d89b),
+    var(--donation-gold, #d7b15a)
+  );
+  color: #131313;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.12s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+
+  &:hover:not(:disabled) {
+    transform: translateY(-2px);
+    opacity: 0.97;
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.12);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: default;
+  }
+}
+
+.secondary {
+  font-size: 0.9rem;
+  color: var(--donation-text-muted, #666);
+
+  a {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    color: var(--donation-text-main, #222);
+    font-weight: 600;
+  }
+}
+
+/* --- Back link row --- */
+
+.backRow {
+  margin-top: 1.4rem;
+  text-align: center;
+}
+
+.backLink {
+  font-size: 0.9rem;
+  color: var(--donation-text-main, #333);
+  text-decoration: none;
+  font-weight: 700;
+  opacity: 0.85;
+
+  &:hover {
+    opacity: 1;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+}
