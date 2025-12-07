@@ -95,7 +95,6 @@ COPY --from=builder /app/public ./public
 
 # Prisma migrations + config (for migrate deploy)
 COPY --from=builder /app/prisma ./prisma
-COPY --from=builder /app/prisma.config.ts ./prisma.config.ts
 
 # Prisma CLI (matches your Prisma major)
 RUN npm i -g prisma@7.0.0
