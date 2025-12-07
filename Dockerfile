@@ -84,7 +84,7 @@ RUN apk add --no-cache libc6-compat \
  && addgroup -g 1001 -S nodejs \
  && adduser -S nextjs -u 1001
 
-# 👇 bring in package.json + node_modules so prisma.config.ts can import prisma/dotenv
+# bring in package.json + node_modules so Prisma CLI & client are available
 COPY --from=builder /app/package.json ./package.json
 COPY --from=deps    /app/node_modules ./node_modules
 
@@ -93,11 +93,11 @@ COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
 COPY --from=builder /app/public ./public
 
-# Prisma migrations + config (for migrate deploy)
+# Prisma migrations (for prisma migrate deploy run by Hetzner script)
 COPY --from=builder /app/prisma ./prisma
 
-# Prisma CLI (matches your Prisma major)
-RUN npm i -g prisma@7.0.0
+# Prisma CLI (matches Prisma 6)
+RUN npm i -g prisma@6.13.0
 
 USER 1001
 EXPOSE 3000

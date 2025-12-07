@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "@iconify/react": "^6.0.2",
-    "@prisma/client": "^7.0.0",
+    "@prisma/client": "^6.13.0",
     "@uploadthing/react": "^7.3.3",
     "clsx": "^2.1.1",
     "framer-motion": "^12.23.24",
@@ -48,7 +48,7 @@
     "husky": "^9.1.7",
     "lint-staged": "^16.2.4",
     "prettier": "^3.6.2",
-    "prisma": "7.0.0",
+    "prisma": "6.13.0",
     "sass": "^1.93.2",
     "tailwindcss": "^4",
     "tsx": "^4.20.6",
