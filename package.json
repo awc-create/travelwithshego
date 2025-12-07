@@ -8,7 +8,6 @@
     "start": "next start",
     "lint": "next lint",
     "format": "prettier --write .",
-
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate deploy",
     "prisma:seed": "prisma db seed"
@@ -18,7 +17,7 @@
   },
   "dependencies": {
     "@iconify/react": "^6.0.2",
-    "@prisma/client": "6.15.0",
+    "@prisma/client": "^7.0.0",
     "@uploadthing/react": "^7.3.3",
     "clsx": "^2.1.1",
     "framer-motion": "^12.23.24",
@@ -49,10 +48,16 @@
     "husky": "^9.1.7",
     "lint-staged": "^16.2.4",
     "prettier": "^3.6.2",
-    "prisma": "6.15.0",
+    "prisma": "7.0.0",
     "sass": "^1.93.2",
     "tailwindcss": "^4",
     "tsx": "^4.20.6",
     "typescript": "^5"
+  },
+  "lint-staged": {
+    "*.{js,ts,tsx}": [
+      "prettier --write",
+      "eslint --fix"
+    ]
   }
 }
