@@ -19,6 +19,7 @@
     "@iconify/react": "^6.0.2",
     "@prisma/client": "^6.13.0",
     "@uploadthing/react": "^7.3.3",
+    "bcryptjs": "^2.4.3",
     "clsx": "^2.1.1",
     "framer-motion": "^12.23.24",
     "leaflet": "^1.9.4",
