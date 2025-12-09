@@ -2,8 +2,6 @@
 import { prisma } from '@/lib/prisma';
 import AuctionClient from './AuctionClient';
 
-export const dynamic = 'force-dynamic';
-
 export default async function AuctionPage() {
   const items = await prisma.auctionItem.findMany({
     where: { active: true },
@@ -17,7 +15,7 @@ export default async function AuctionPage() {
   // Highest bid + count for all auction items from AuctionBid
   const bids = await prisma.auctionBid.groupBy({
     where: {
-      auctionItemId: { in: items.map((i) => i.id) },
+      auctionItemId: { in: items.map((i: (typeof items)[number]) => i.id) },
     },
     by: ['auctionItemId'],
     _max: {
@@ -38,7 +36,7 @@ export default async function AuctionPage() {
     });
   }
 
-  const safeItems = items.map((item) => {
+  const safeItems = items.map((item: (typeof items)[number]) => {
     const stats = statsMap.get(item.id);
     return {
       id: item.id,

@@ -33,16 +33,17 @@ function Stat({ label, value, highlight }: StatProps) {
   );
 }
 
+// pence == cents now (1/100 of USD)
 const fmtMoney = (pence: number) =>
-  new Intl.NumberFormat('en-GB', {
+  new Intl.NumberFormat('en-US', {
     style: 'currency',
-    currency: 'GBP',
+    currency: 'USD',
     maximumFractionDigits: 0,
   })
     .format(pence / 100)
     .replace('.00', '');
 
-const fmtInt = (n: number) => Math.round(n).toLocaleString('en-GB').toString();
+const fmtInt = (n: number) => Math.round(n).toLocaleString('en-US').toString();
 
 export default function QuickStats({ stats, loading }: QuickStatsProps) {
   const base = stats ?? {
@@ -112,7 +113,6 @@ export default function QuickStats({ stats, loading }: QuickStatsProps) {
 
         <div className={styles.grid}>
           {loading && !stats ? (
-            // simple shimmer skeletons
             <>
               {Array.from({ length: 4 }).map((_, idx) => (
                 <div key={idx} className={`${styles.stat} ${styles.skeleton}`} />

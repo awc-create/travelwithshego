@@ -8,8 +8,8 @@ import { useAnimatedNumber } from '@/hooks/useAnimatedNumber';
 import styles from './Hero.module.scss';
 
 type HeroProps = {
-  raised?: number;
-  goal?: number;
+  raised?: number; // dollars
+  goal?: number; // dollars
   donateHref?: string;
 };
 
@@ -75,15 +75,15 @@ export default function Hero({ raised = 3400, goal = 10000, donateHref = '/donat
             aria-valuemin={0}
             aria-valuemax={100}
             aria-valuenow={pct}
-            aria-label={`Raised £${Math.round(animRaised).toLocaleString()} of £${Math.round(
+            aria-label={`Raised $${Math.round(animRaised).toLocaleString()} of $${Math.round(
               animGoal
             ).toLocaleString()}`}
           >
             <div className={styles.progressFill} style={{ width: `${pct}%` }} />
           </div>
           <div className={styles.progressMeta}>
-            <span>£{Math.round(animRaised).toLocaleString()} raised</span>
-            <span>Goal: £{Math.round(animGoal).toLocaleString()}</span>
+            <span>${Math.round(animRaised).toLocaleString()} raised</span>
+            <span>Goal: ${Math.round(animGoal).toLocaleString()}</span>
           </div>
         </div>
 

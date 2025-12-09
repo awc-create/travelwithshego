@@ -155,7 +155,7 @@ export default function FounderHero() {
         <motion.div className={styles.portraitWrap} variants={portraitVariants}>
           <div className={styles.frame}>
             <Image
-              src="/assets/founder-shego.jpg" // replace with real path
+              src="/assets/shego-prof.jpeg" // replace with real path
               alt="Shego Said, founder of Travel with Shego and band leader of ShegoBand"
               fill
               priority

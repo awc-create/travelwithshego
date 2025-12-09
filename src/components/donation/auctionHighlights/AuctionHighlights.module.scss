@@ -196,6 +196,29 @@
   color: var(--donation-text-muted);
 }
 
+.comingSoon {
+  margin-top: 1.5rem;
+  padding: 1.4rem 1.2rem;
+  border-radius: 16px;
+  border: 1px dashed var(--donation-border);
+  background: #fffdf7;
+  text-align: center;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--donation-text-muted);
+
+  h3 {
+    margin: 0 0 0.4rem;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--donation-text-main);
+  }
+
+  p {
+    margin: 0;
+  }
+}
+
 /* Responsive */
 
 @media (max-width: 640px) {
@@ -204,3 +227,5 @@
     align-items: flex-start;
   }
 }
+
+

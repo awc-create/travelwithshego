@@ -1,6 +1,7 @@
 /* src/components/admin/auction/AuctionOverview.module.scss */
+/* WRAPPER -------------------------------------------------------- */
 
-:root {
+.wrapper {
   --ink: #0b0b0b;
   --muted: #6b7280;
   --line: #e5e7eb;
@@ -8,11 +9,7 @@
   --card: #ffffff;
   --shadow-1: 0 8px 24px rgba(15, 23, 42, 0.06);
   --radius: 14px;
-}
 
-/* WRAPPER -------------------------------------------------------- */
-
-.wrapper {
   background: var(--card);
   border: 1px solid var(--line);
   border-radius: var(--radius);

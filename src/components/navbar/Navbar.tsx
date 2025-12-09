@@ -21,7 +21,14 @@ export default function Navbar() {
     <nav className={styles.navbar}>
       <div className={styles.inner}>
         <Link href="/" className={styles.logo} onClick={closeMenu}>
-          <Image src="/assets/footer-light.png" alt="Logo" width={50} height={50} priority />
+          <Image
+            src="/assets/logo-tws.png"
+            alt="Travel with Shego"
+            width={260}
+            height={80}
+            priority
+            className={styles.logoImage}
+          />
         </Link>
 
         <div className={styles.desktopLinks}>

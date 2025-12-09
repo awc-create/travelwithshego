@@ -12,6 +12,9 @@ export const auctionListingMetadata = {
     'Browse all available auction items. Bid on checked and graded electronics while your donation supports children and families in Baraawe.',
 };
 
+// 👇 set true for “coming soon” mode
+const AUCTIONS_COMING_SOON = true;
+
 // This should match what /api/auction/public returns
 export type PublicAuctionItem = {
   id: string;
@@ -88,6 +91,7 @@ const formatTimeLeft = (endsAt: string | null) => {
 };
 
 export default function AuctionListing() {
+  // 👇 hooks are always called
   const [items, setItems] = useState<PublicAuctionItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(0);
@@ -98,6 +102,15 @@ export default function AuctionListing() {
   // Fetch live auction items from API
   useEffect(() => {
     let cancelled = false;
+
+    // Don’t fetch anything in “coming soon” mode
+    if (AUCTIONS_COMING_SOON) {
+      setLoading(false);
+      setItems([]);
+      return () => {
+        cancelled = true;
+      };
+    }
 
     async function fetchItems() {
       try {
@@ -151,9 +164,9 @@ export default function AuctionListing() {
   const handleNext = () => goToPage(currentPage + 1);
   const handlePrev = () => goToPage(currentPage - 1);
 
-  // Autoplay
+  // Autoplay – disabled in coming-soon mode
   useEffect(() => {
-    if (!pages.length) return;
+    if (!pages.length || AUCTIONS_COMING_SOON) return;
 
     if (autoplayRef.current) {
       clearInterval(autoplayRef.current);
@@ -195,117 +208,158 @@ export default function AuctionListing() {
         <header className={styles.header}>
           <div>
             <h2 id="auction-listing-heading" className={styles.heading}>
-              Browse all <span className={styles.gold}>Auction</span> items
+              {AUCTIONS_COMING_SOON ? (
+                <>
+                  Auction <span className={styles.gold}>coming soon</span>
+                </>
+              ) : (
+                <>
+                  Browse all <span className={styles.gold}>Auction</span> items
+                </>
+              )}
             </h2>
             <p className={styles.sub}>
-              Every winning bid becomes a <span className={styles.gold}>donation</span> that
-              supports housing, education and care in Baraawe.
+              {AUCTIONS_COMING_SOON ? (
+                <>
+                  We&apos;re setting up our first round of electronics auctions. Once live, every
+                  winning bid will become a donation that supports housing, education and care in
+                  Baraawe.
+                </>
+              ) : (
+                <>
+                  Every winning bid becomes a <span className={styles.gold}>donation</span> that
+                  supports housing, education and care in Baraawe.
+                </>
+              )}
             </p>
           </div>
         </header>
 
-        <div className={styles.carousel} onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
-          <div className={styles.track} style={{ transform: `translateX(-${currentPage * 100}%)` }}>
-            {isSkeleton
-              ? Array.from({ length: 1 }).map((_, idx) => (
-                  <div key={idx} className={`${styles.slide} ${styles.skeleton}`} />
-                ))
-              : pages.map((pageItems, pageIndex) => (
-                  <div key={pageIndex} className={styles.slide}>
-                    <div className={styles.pageGrid}>
-                      {pageItems.map((item) => {
-                        const currentBid =
-                          item.highestBidPence != null ? item.highestBidPence : item.pricePence;
-                        const isNew = item.bidCount === 0;
+        {AUCTIONS_COMING_SOON ? (
+          <>
+            <div className={styles.comingSoonBox}>
+              <p>
+                Auction bidding is temporarily disabled while we finalise the system. No items are
+                available to bid on right now, but you can still support the project with a direct
+                donation.
+              </p>
+            </div>
 
-                        return (
-                          <article key={item.id} className={styles.card}>
-                            <Link
-                              href={`/auction/${item.slug}`}
-                              className={styles.cardLink}
-                              aria-label={`View auction item ${item.title}`}
-                            >
-                              <div className={styles.thumb}>
-                                <Image
-                                  src={item.imageUrl || '/images/donation/sample/iphone13.jpg'}
-                                  alt={item.title}
-                                  fill
-                                  sizes="(max-width: 768px) 100vw, 280px"
-                                  className={styles.img}
-                                />
-                                {isNew && <span className={styles.badgeNew}>New</span>}
-                              </div>
+            <p className={styles.footerNote}>
+              All future auction items will be checked, graded and securely wiped before listing. No
+              cash-in-person for auction wins — payment will be handled only through our official
+              donation account.
+            </p>
+          </>
+        ) : (
+          <>
+            <div className={styles.carousel} onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
+              <div
+                className={styles.track}
+                style={{ transform: `translateX(-${currentPage * 100}%)` }}
+              >
+                {isSkeleton
+                  ? Array.from({ length: 1 }).map((_, idx) => (
+                      <div key={idx} className={`${styles.slide} ${styles.skeleton}`} />
+                    ))
+                  : pages.map((pageItems, pageIndex) => (
+                      <div key={pageIndex} className={styles.slide}>
+                        <div className={styles.pageGrid}>
+                          {pageItems.map((item) => {
+                            const currentBid =
+                              item.highestBidPence != null ? item.highestBidPence : item.pricePence;
+                            const isNew = item.bidCount === 0;
 
-                              <div className={styles.body}>
-                                <h3 className={styles.title}>{item.title}</h3>
-                                <p className={styles.desc}>{item.description}</p>
-
-                                <dl className={styles.meta}>
-                                  <div className={styles.metaRow}>
-                                    <dt>Current bid</dt>
-                                    <dd>{formatMoney(currentBid)}</dd>
+                            return (
+                              <article key={item.id} className={styles.card}>
+                                <Link
+                                  href={`/auction/${item.slug}`}
+                                  className={styles.cardLink}
+                                  aria-label={`View auction item ${item.title}`}
+                                >
+                                  <div className={styles.thumb}>
+                                    <Image
+                                      src={item.imageUrl || '/images/donation/sample/iphone13.jpg'}
+                                      alt={item.title}
+                                      fill
+                                      sizes="(max-width: 768px) 100vw, 280px"
+                                      className={styles.img}
+                                    />
+                                    {isNew && <span className={styles.badgeNew}>New</span>}
                                   </div>
-                                  <div className={styles.metaRow}>
-                                    <dt>Bids</dt>
-                                    <dd>{item.bidCount}</dd>
-                                  </div>
-                                  <div className={styles.metaRow}>
-                                    <dt>Time left</dt>
-                                    <dd>{formatTimeLeft(item.endsAt)}</dd>
-                                  </div>
-                                </dl>
 
-                                <span className={styles.cta}>Place a bid →</span>
-                              </div>
-                            </Link>
-                          </article>
-                        );
-                      })}
-                    </div>
+                                  <div className={styles.body}>
+                                    <h3 className={styles.title}>{item.title}</h3>
+                                    <p className={styles.desc}>{item.description}</p>
+
+                                    <dl className={styles.meta}>
+                                      <div className={styles.metaRow}>
+                                        <dt>Current bid</dt>
+                                        <dd>{formatMoney(currentBid)}</dd>
+                                      </div>
+                                      <div className={styles.metaRow}>
+                                        <dt>Bids</dt>
+                                        <dd>{item.bidCount}</dd>
+                                      </div>
+                                      <div className={styles.metaRow}>
+                                        <dt>Time left</dt>
+                                        <dd>{formatTimeLeft(item.endsAt)}</dd>
+                                      </div>
+                                    </dl>
+
+                                    <span className={styles.cta}>Place a bid →</span>
+                                  </div>
+                                </Link>
+                              </article>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    ))}
+              </div>
+
+              {!isSkeleton && pageCount > 1 && (
+                <>
+                  <div className={styles.nav}>
+                    <button
+                      type="button"
+                      className={styles.navBtn}
+                      onClick={handlePrev}
+                      aria-label="Previous auction items"
+                    >
+                      ‹
+                    </button>
+                    <button
+                      type="button"
+                      className={styles.navBtn}
+                      onClick={handleNext}
+                      aria-label="Next auction items"
+                    >
+                      ›
+                    </button>
                   </div>
-                ))}
-          </div>
 
-          {!isSkeleton && pageCount > 1 && (
-            <>
-              <div className={styles.nav}>
-                <button
-                  type="button"
-                  className={styles.navBtn}
-                  onClick={handlePrev}
-                  aria-label="Previous auction items"
-                >
-                  ‹
-                </button>
-                <button
-                  type="button"
-                  className={styles.navBtn}
-                  onClick={handleNext}
-                  aria-label="Next auction items"
-                >
-                  ›
-                </button>
-              </div>
+                  <div className={styles.dots}>
+                    {pages.map((_, idx) => (
+                      <button
+                        key={idx}
+                        type="button"
+                        className={`${styles.dot} ${idx === currentPage ? styles.dotActive : ''}`}
+                        onClick={() => goToPage(idx)}
+                        aria-label={`Go to slide ${idx + 1}`}
+                      />
+                    ))}
+                  </div>
+                </>
+              )}
+            </div>
 
-              <div className={styles.dots}>
-                {pages.map((_, idx) => (
-                  <button
-                    key={idx}
-                    type="button"
-                    className={`${styles.dot} ${idx === currentPage ? styles.dotActive : ''}`}
-                    onClick={() => goToPage(idx)}
-                    aria-label={`Go to slide ${idx + 1}`}
-                  />
-                ))}
-              </div>
-            </>
-          )}
-        </div>
-
-        <p className={styles.footerNote}>
-          All items are checked, graded and securely wiped before listing. No cash-in-person for
-          auction wins — payment is handled through our official donation account only.
-        </p>
+            <p className={styles.footerNote}>
+              All items are checked, graded and securely wiped before listing. No cash-in-person for
+              auction wins — payment is handled through our official donation account only.
+            </p>
+          </>
+        )}
       </div>
     </section>
   );

@@ -3,8 +3,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { stripe } from '@/lib/stripe';
 
-export const dynamic = 'force-dynamic';
-
 // Simple shared secret so only you/cron can call this route
 const ADMIN_AUCTION_TOKEN = process.env.ADMIN_AUCTION_TOKEN;
 

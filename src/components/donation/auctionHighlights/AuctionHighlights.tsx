@@ -12,6 +12,9 @@ export const auctionHighlightsMetadata = {
     'Browse featured items available for bidding. Win items you love while supporting children and families in Baraawe.',
 };
 
+// 👇 feature flag – set to false when you actually launch
+const AUCTIONS_COMING_SOON = true;
+
 type PublicAuctionItem = {
   id: string;
   slug: string;
@@ -23,7 +26,7 @@ type PublicAuctionItem = {
   bidCount: number;
   endsAt: string | null;
   closed: boolean;
-  active: boolean; // 👈 added so TS is happy when we filter on it
+  active: boolean;
 };
 
 function fmtMoney(pence: number) {
@@ -62,11 +65,21 @@ function formatTimeLeft(iso: string | null): string {
 }
 
 export default function AuctionHighlights() {
+  // 👇 hooks are always called – eslint is happy
   const [items, setItems] = useState<PublicAuctionItem[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     let cancelled = false;
+
+    // When coming soon, don't hit API and clear loading/items
+    if (AUCTIONS_COMING_SOON) {
+      setLoading(false);
+      setItems([]);
+      return () => {
+        cancelled = true;
+      };
+    }
 
     async function load() {
       try {
@@ -79,7 +92,6 @@ export default function AuctionHighlights() {
 
         if (cancelled) return;
 
-        // Filter active + not closed, sort by soonest end, take top 3
         const active = data.filter((i) => i.active && !i.closed);
         const sorted = [...active].sort((a, b) => {
           if (!a.endsAt && !b.endsAt) return 0;
@@ -128,62 +140,77 @@ export default function AuctionHighlights() {
           </p>
         </div>
 
-        {/* skeleton while loading */}
-        {loading && (
-          <div className={styles.grid}>
-            {Array.from({ length: 3 }).map((_, idx) => (
-              <div key={idx} className={`${styles.card} ${styles.skeleton}`} />
-            ))}
+        {AUCTIONS_COMING_SOON ? (
+          // 👇 ONLY this block shows while flag is true
+          <div className={styles.comingSoon}>
+            <h3>Auctions coming soon</h3>
+            <p>
+              We&apos;re setting up our first round of auction items. Once live, you&apos;ll be able
+              to bid on electronics while supporting projects in Baraawe.
+            </p>
           </div>
+        ) : (
+          <>
+            {/* skeleton while loading */}
+            {loading && (
+              <div className={styles.grid}>
+                {Array.from({ length: 3 }).map((_, idx) => (
+                  <div key={idx} className={`${styles.card} ${styles.skeleton}`} />
+                ))}
+              </div>
+            )}
+
+            {!loading && effectiveItems.length > 0 && (
+              <div className={styles.grid}>
+                {effectiveItems.map((item) => {
+                  const currentPence =
+                    item.highestBidPence != null ? item.highestBidPence : item.pricePence;
+
+                  return (
+                    <Link key={item.id} href={`/auction/${item.slug}`} className={styles.card}>
+                      <div className={styles.imgWrap}>
+                        <Image
+                          src={item.imageUrl || '/images/donation/sample/placeholder.jpg'}
+                          alt={item.title}
+                          fill
+                          sizes="(max-width: 768px) 100vw, 350px"
+                          className={styles.img}
+                        />
+                      </div>
+
+                      <div className={styles.cardBody}>
+                        <h3 className={styles.itemTitle}>{item.title}</h3>
+
+                        <div className={styles.meta}>
+                          <span className={styles.bid}>
+                            Current Bid: <strong>{fmtMoney(currentPence)}</strong>
+                          </span>
+                          <span className={styles.timer}>
+                            Ends in {formatTimeLeft(item.endsAt)}
+                          </span>
+                        </div>
+
+                        <span className={styles.btn}>Bid Now →</span>
+                      </div>
+                    </Link>
+                  );
+                })}
+              </div>
+            )}
+
+            {!loading && effectiveItems.length === 0 && (
+              <p className={styles.empty}>
+                No featured auction items right now, but you can still browse all live items below.
+              </p>
+            )}
+
+            <div className={styles.moreWrap}>
+              <Link href="#auction" className={styles.moreBtn}>
+                View all auction items
+              </Link>
+            </div>
+          </>
         )}
-
-        {!loading && effectiveItems.length > 0 && (
-          <div className={styles.grid}>
-            {effectiveItems.map((item) => {
-              const currentPence =
-                item.highestBidPence != null ? item.highestBidPence : item.pricePence;
-
-              return (
-                <Link key={item.id} href={`/auction/${item.slug}`} className={styles.card}>
-                  <div className={styles.imgWrap}>
-                    <Image
-                      src={item.imageUrl || '/images/donation/sample/placeholder.jpg'}
-                      alt={item.title}
-                      fill
-                      sizes="(max-width: 768px) 100vw, 350px"
-                      className={styles.img}
-                    />
-                  </div>
-
-                  <div className={styles.cardBody}>
-                    <h3 className={styles.itemTitle}>{item.title}</h3>
-
-                    <div className={styles.meta}>
-                      <span className={styles.bid}>
-                        Current Bid: <strong>{fmtMoney(currentPence)}</strong>
-                      </span>
-                      <span className={styles.timer}>Ends in {formatTimeLeft(item.endsAt)}</span>
-                    </div>
-
-                    <span className={styles.btn}>Bid Now →</span>
-                  </div>
-                </Link>
-              );
-            })}
-          </div>
-        )}
-
-        {!loading && effectiveItems.length === 0 && (
-          <p className={styles.empty}>
-            No featured auction items right now, but you can still browse all live items below.
-          </p>
-        )}
-
-        <div className={styles.moreWrap}>
-          <Link href="#auction" className={styles.moreBtn}>
-            View all auction items
-          </Link>
-        </div>
       </div>
     </section>
   );

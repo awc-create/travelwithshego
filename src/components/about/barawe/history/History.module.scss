@@ -1,12 +1,10 @@
-:root {
+.wrap {
   --gold: #b38a45;
   --ring: rgba(0, 0, 0, 0.06);
   --txt: #1a1a1a;
   --container: min(1100px, 92vw);
   --padY: clamp(2rem, 6vw, 4rem);
-}
 
-.wrap {
   background: linear-gradient(to bottom, #fffdf7 0%, #faf8f1 100%);
   padding: var(--padY) 0;
   color: var(--txt);

@@ -1,0 +1,797 @@
+/* src/components/admin/donations/DonationSettings.module.scss */
+/* WRAPPER -------------------------------------------------------- */
+
+.wrapper {
+  --ink: #0b0b0b;
+  --muted: #6b7280;
+  --line: #e5e7eb;
+  --card: #ffffff;
+  --soft: #f3f4f6;
+  --shadow-1: 0 8px 24px rgba(15, 23, 42, 0.06);
+  --radius: 14px;
+
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-1);
+  padding: 18px;
+  animation: fadeIn 0.18s ease both;
+}
+
+/* HEADER --------------------------------------------------------- */
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 8px;
+
+  h2 {
+    margin: 0 0 2px;
+    font-size: 1.2rem;
+    letter-spacing: 0.2px;
+    color: var(--ink);
+  }
+
+  p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--muted);
+  }
+}
+
+.headerActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* BUTTONS -------------------------------------------------------- */
+
+.primaryButton {
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid #111827 !important;
+  background: #111827 !important;
+  color: #ffffff !important;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    transform 0.04s ease,
+    box-shadow 0.12s ease;
+}
+
+.primaryButton:hover:not(:disabled) {
+  background: #020617 !important;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.25);
+}
+
+.primaryButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.secondaryButton {
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid #d1d5db;
+  background: #ffffff;
+  color: #111827;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    box-shadow 0.12s ease,
+    transform 0.04s ease;
+}
+
+.secondaryButton:hover:not(:disabled) {
+  background: #f3f4f6;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.12);
+}
+
+/* ERROR / TEXT --------------------------------------------------- */
+
+.error {
+  color: #b91c1c;
+  font-size: 0.85rem;
+  margin: 6px 0 8px;
+}
+
+.muted {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+/* FILTERS -------------------------------------------------------- */
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  padding: 8px 10px;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  background: #f9fafb;
+}
+
+.filterGroup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+
+  label {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--ink);
+  }
+
+  select,
+  input {
+    border: 1px solid #d1d5db;
+    border-radius: 999px;
+    padding: 6px 10px;
+    font-size: 0.85rem;
+    background: #ffffff;
+    outline: none;
+    min-width: 120px;
+    transition:
+      border-color 0.15s ease,
+      box-shadow 0.15s ease,
+      background 0.15s ease;
+  }
+
+  select:focus,
+  input:focus {
+    border-color: #111827;
+    box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.1);
+    background: #ffffff;
+  }
+}
+
+.searchLabel {
+  min-width: 220px;
+}
+
+.applyButton {
+  align-self: flex-end;
+  padding: 7px 14px;
+  border-radius: 999px;
+  border: 1px solid #111827 !important;
+  background: #111827 !important;
+  color: #ffffff !important;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    transform 0.04s ease,
+    box-shadow 0.12s ease;
+}
+
+.applyButton:hover:not(:disabled) {
+  background: #020617 !important;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.25);
+}
+
+/* STATS ROW ------------------------------------------------------ */
+
+.statsRow {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.statCard,
+.statCardWide {
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.statCardWide {
+  grid-column: span 2;
+}
+
+.statLabel {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.statValue {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.statSub {
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+/* TABLE ---------------------------------------------------------- */
+
+.tableWrapper {
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: #ffffff;
+  padding: 10px 10px 12px;
+}
+
+.tableScroll {
+  max-height: 480px;
+  overflow: auto;
+  border-radius: 10px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+
+  thead {
+    background: #f9fafb;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }
+
+  th,
+  td {
+    padding: 7px 9px;
+    border-bottom: 1px solid #f1f5f9;
+    text-align: left;
+    vertical-align: top;
+  }
+
+  th {
+    font-weight: 600;
+    font-size: 0.75rem;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  tbody tr:last-child td {
+    border-bottom: none;
+  }
+}
+
+.row:nth-child(even) {
+  background: #f9fafb;
+}
+
+/* AMOUNT CELL ---------------------------------------------------- */
+
+.amountCell {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.amountMain {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.amountSub {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+/* BADGES --------------------------------------------------------- */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.badgeSuccess {
+  background: #ecfdf3;
+  border: 1px solid #bbf7d0;
+  color: #15803d;
+}
+
+.badgePending {
+  background: #fef9c3;
+  border: 1px solid #facc15;
+  color: #92400e;
+}
+
+.badgeFailed {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #b91c1c;
+}
+
+/* NEW: refunded badge */
+.badgeRefunded {
+  background: #eef2ff;
+  border: 1px solid #c7d2fe;
+  color: #3730a3;
+}
+
+.badgeDefault {
+  background: #e5e7eb;
+  border: 1px solid #d1d5db;
+  color: #374151;
+}
+
+/* TYPE + FREQ CHIPS ---------------------------------------------- */
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.chipDirect {
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  color: #1d4ed8;
+}
+
+.chipAuction {
+  background: #fef3c7;
+  border: 1px solid #fde68a;
+  color: #92400e;
+}
+
+.freq {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+/* NEW: freq chip in drawer */
+.freqChip {
+  @extend .chip;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  color: #4b5563;
+}
+
+/* DONOR / SESSION ------------------------------------------------ */
+
+.donorCell {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.donorName {
+  font-weight: 500;
+}
+
+.sessionCode {
+  font-size: 0.75rem;
+  background: #0f172a;
+  color: #e5e7eb;
+  padding: 2px 6px;
+  border-radius: 6px;
+  max-width: 200px;
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* NEW: ROW ACTIONS ----------------------------------------------- */
+
+.rowActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.smallButton,
+.smallButtonGhost {
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition:
+    background 0.15s ease,
+    box-shadow 0.12s ease,
+    transform 0.04s ease;
+}
+
+.smallButton {
+  background: #111827;
+  border-color: #111827;
+  color: #ffffff;
+}
+
+.smallButton:hover:not(:disabled) {
+  background: #020617;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.25);
+}
+
+.smallButton:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.smallButtonGhost {
+  background: #ffffff;
+  border-color: #d1d5db;
+  color: #111827;
+}
+
+.smallButtonGhost:hover:not(:disabled) {
+  background: #f3f4f6;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.12);
+}
+
+/* DRAWER --------------------------------------------------------- */
+
+.drawerOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  justify-content: flex-end;
+  align-items: stretch;
+  background: radial-gradient(circle at top left, rgba(15, 23, 42, 0.28), rgba(15, 23, 42, 0.75));
+  backdrop-filter: blur(2px);
+}
+
+.drawer {
+  width: min(650px, 100vw);
+  height: 100vh;
+  max-height: 100vh;
+  background: #ffffff;
+  border-left: 1px solid #e5e7eb;
+  box-shadow: -18px 0 40px rgba(15, 23, 42, 0.35);
+  display: flex;
+  flex-direction: column;
+}
+
+/* make header sticky so actions always visible when content *does*
+   overflow on smaller screens */
+.drawerHeader {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  padding: 16px 18px 12px;
+  border-bottom: 1px solid #e5e7eb;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+  background: linear-gradient(to bottom, #ffffff, #f9fafb);
+
+  h3 {
+    margin: 0 0 4px;
+    font-size: 1.02rem;
+    letter-spacing: 0.01em;
+    color: var(--ink);
+  }
+
+  p {
+    margin: 0;
+    font-size: 0.86rem;
+    color: var(--muted);
+  }
+}
+
+.drawerClose {
+  border: 0;
+  background: #f3f4f6;
+  color: #111827;
+  border-radius: 999px;
+  padding: 4px 10px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 500;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.15);
+}
+
+.drawerClose:hover {
+  background: #e5e7eb;
+}
+
+/* main content fills the remaining height and only scrolls when needed */
+.drawerContent {
+  flex: 1;
+  padding: 14px 18px 18px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  background: #f9fafb;
+}
+
+/* top badges in a little pill card */
+.drawerBadges {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 6px 8px;
+  border-radius: 999px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08);
+}
+
+/* RECEIPT SECTION ------------------------------------------------ */
+
+.receiptSection {
+  background: #fefce8; // very soft warm background
+  border-color: #facc15;
+}
+
+.drawerSectionHeaderRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 6px;
+
+  h4 {
+    margin-bottom: 2px;
+  }
+}
+
+.drawerSectionCaption {
+  margin: 0;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.sectionTag {
+  align-self: flex-start;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: #111827;
+  color: #f9fafb;
+}
+
+.drawerMetaRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 4px 0 10px;
+}
+
+.metaItem {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.metaLabel {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.metaValue {
+  font-size: 0.82rem;
+  color: var(--ink);
+  font-weight: 500;
+  word-break: break-all;
+}
+
+.drawerActionsRow {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+/* Wide primary button specifically for drawer sections */
+.primaryButtonWide {
+  @extend .primaryButton;
+  width: 100%;
+  justify-content: center;
+  text-align: center;
+}
+
+/* Inline feedback messages for resend action */
+.inlineError {
+  margin-top: 6px;
+  font-size: 0.8rem;
+  color: #b91c1c;
+}
+
+.inlineSuccess {
+  margin-top: 6px;
+  font-size: 0.8rem;
+  color: #15803d;
+}
+
+
+/* INFO SECTIONS -------------------------------------------------- */
+
+.drawerSection {
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  background: #f9fafb;
+  padding: 8px 10px;
+
+  h4 {
+    margin: 0 0 4px;
+    font-size: 0.9rem;
+    color: var(--ink);
+  }
+}
+
+.infoList {
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 4px;
+
+  div {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  dt {
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+
+  dd {
+    margin: 0;
+    font-size: 0.82rem;
+    color: var(--ink);
+    text-align: right;
+  }
+}
+
+/* TIMELINE ------------------------------------------------------- */
+
+.timeline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.timelineItem {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 8px;
+}
+
+.timelineDot {
+  margin-top: 6px;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: #111827;
+}
+
+.timelineBody {
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  padding: 6px 8px;
+}
+
+.timelineHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 2px;
+}
+
+.timelineLabel {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.timelineTime {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.timelineDesc {
+  margin: 0;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+/* RESPONSIVE ----------------------------------------------------- */
+
+@media (max-width: 960px) {
+  .statsRow {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .statCardWide {
+    grid-column: span 3;
+  }
+
+  .drawer {
+    width: min(100vw, 420px);
+  }
+}
+
+@media (max-width: 720px) {
+  .filters {
+    flex-direction: column;
+  }
+
+  .filterGroup {
+    width: 100%;
+  }
+
+  .searchLabel {
+    width: 100%;
+  }
+
+  .statsRow {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .statCardWide {
+    grid-column: span 2;
+  }
+
+  .drawer {
+    width: min(100vw, 480px);
+  }
+
+  .tableScroll {
+    max-height: 360px;
+  }
+}
+
+.successMessage {
+  font-size: 0.8rem;
+  color: #15803d;
+  margin-top: 4px;
+}
+
+/* ANIMATION ------------------------------------------------------ */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(2px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}

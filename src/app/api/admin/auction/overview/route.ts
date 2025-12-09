@@ -2,8 +2,6 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
-export const dynamic = 'force-dynamic';
-
 export async function GET() {
   try {
     const items = await prisma.auctionItem.findMany({
@@ -16,7 +14,7 @@ export async function GET() {
 
     const bids = await prisma.auctionBid.groupBy({
       where: {
-        auctionItemId: { in: items.map((i) => i.id) },
+        auctionItemId: { in: items.map((i: (typeof items)[number]) => i.id) },
       },
       by: ['auctionItemId'],
       _max: {
@@ -46,7 +44,7 @@ export async function GET() {
       });
     }
 
-    const safeItems = items.map((item) => {
+    const safeItems = items.map((item: (typeof items)[number]) => {
       const stats = statsMap.get(item.id);
       return {
         id: item.id,

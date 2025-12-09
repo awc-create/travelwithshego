@@ -2,11 +2,11 @@
 import Link from 'next/link';
 
 type Props = {
-  searchParams: { session_id?: string };
+  searchParams: Promise<{ session_id?: string }>;
 };
 
-export default function AuctionSuccessPage({ searchParams }: Props) {
-  const { session_id } = searchParams;
+export default async function AuctionSuccessPage({ searchParams }: Props) {
+  const { session_id } = await searchParams;
 
   return (
     <main className="auction-success-page">

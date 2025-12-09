@@ -2,10 +2,9 @@
 
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { useMemo } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './FounderLegacy.module.scss';
 
-// ✅ Just drop more items in this array when you have new photos
 const baseFrames = [
   {
     src: '/assets/shego/band-1.jpg',
@@ -30,19 +29,21 @@ const baseFrames = [
 // repeat each image twice so the strip feels longer
 const reelFrames = [...baseFrames, ...baseFrames];
 
+type Frame = (typeof reelFrames)[number];
+
 export default function FounderLegacy() {
-  // ✅ Auto-shuffle the frames once on mount so it feels organic
-  const shuffledFrames = useMemo(() => {
+  // ✅ deterministic initial value for SSR + first client render
+  const [loopFrames, setLoopFrames] = useState<Frame[]>(() => [...reelFrames, ...reelFrames]);
+
+  // ✅ shuffle only on the client, after hydration
+  useEffect(() => {
     const arr = [...reelFrames];
     for (let i = arr.length - 1; i > 0; i -= 1) {
       const j = Math.floor(Math.random() * (i + 1));
       [arr[i], arr[j]] = [arr[j], arr[i]];
     }
-    return arr;
+    setLoopFrames([...arr, ...arr]);
   }, []);
-
-  // we still duplicate to make the loop feel continuous
-  const loopFrames = [...shuffledFrames, ...shuffledFrames];
 
   return (
     <section className={styles.legacySection} aria-labelledby="founder-legacy-heading">
@@ -90,7 +91,6 @@ export default function FounderLegacy() {
         <div className={styles.reelColumn} aria-label="Photo memories from Shego’s journey">
           <div className={styles.reelWrapper}>
             <div className={styles.reelShell}>
-              {/* sprocket columns are drawn in CSS ::before/::after */}
               <div className={styles.reelMask}>
                 <div className={styles.reelTrack}>
                   {loopFrames.map((frame, index) => (

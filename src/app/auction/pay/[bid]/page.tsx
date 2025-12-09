@@ -1,26 +1,26 @@
+// src/app/auction/pay/[bid]/page.tsx
 import { notFound } from 'next/navigation';
 import { prisma } from '@/lib/prisma';
 import AuctionPayClient from '../AuctionPayClient';
 
 type PayPageProps = {
-  params: { bidId: string };
+  params: Promise<{ bid: string }>;
 };
 
-export const dynamic = 'force-dynamic';
-
 export default async function AuctionPayPage({ params }: PayPageProps) {
-  const { bidId } = params;
+  // Next 15 types params as a Promise, so we await it
+  const { bid } = await params;
 
-  const bid = await prisma.auctionBid.findUnique({
-    where: { id: bidId },
+  const bidRecord = await prisma.auctionBid.findUnique({
+    where: { id: bid },
     include: { auctionItem: true },
   });
 
-  if (!bid || !bid.auctionItem) {
+  if (!bidRecord || !bidRecord.auctionItem) {
     notFound();
   }
 
-  const item = bid.auctionItem;
+  const item = bidRecord.auctionItem;
 
   // Only allow payment once auction has ended
   if (!item.endsAt || item.endsAt.getTime() > Date.now()) {
@@ -28,15 +28,14 @@ export default async function AuctionPayPage({ params }: PayPageProps) {
   }
 
   // Only allow the marked winner to pay
-  if (!bid.isWinner) {
-    // Optional: show a nicer page here instead of 404
+  if (!bidRecord.isWinner) {
     notFound();
   }
 
   const safeItem = {
-    bidId: bid.id,
+    bidId: bidRecord.id,
     title: item.title,
-    amountPence: bid.amountPence,
+    amountPence: bidRecord.amountPence,
     slug: item.slug,
   };
 

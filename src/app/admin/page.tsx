@@ -1,12 +1,26 @@
 // src/app/admin/page.tsx
-import type { Metadata } from 'next';
+import { getServerSession } from 'next-auth';
+import { redirect } from 'next/navigation';
+import { authOptions } from '@/lib/auth';
 import AdminClient from './AdminClient';
 
-export const metadata: Metadata = {
-  title: 'Admin Dashboard | Travel With Shego',
-  description: 'Manage home page, about page, contact page, and auction items.',
-};
+export default async function AdminPage() {
+  let session = null;
 
-export default function AdminPage() {
+  try {
+    session = await getServerSession(authOptions);
+  } catch (err) {
+    console.error('[ADMIN_SESSION_ERROR]', err);
+    redirect('/login');
+  }
+
+  if (!session || !session.user?.email) {
+    redirect('/login');
+  }
+
+  if (session.user.role !== 'admin') {
+    redirect('/login');
+  }
+
   return <AdminClient />;
 }

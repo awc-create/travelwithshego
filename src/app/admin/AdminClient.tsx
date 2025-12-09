@@ -1,4 +1,3 @@
-// src/app/admin/AdminClient.tsx
 'use client';
 
 import { useState } from 'react';
@@ -9,8 +8,9 @@ import AboutUsSettings from '@/components/admin/about/AboutUsSettings';
 import ContactSettings from '@/components/admin/contact/ContactSettings';
 import AuctionSettings from '@/components/admin/auction/AuctionSettings';
 import AuctionOverview from '@/components/admin/auction/AuctionOverview';
+import DonationSettings from '@/components/admin/donations/DonationSettings';
 
-type SectionKey = 'home' | 'about' | 'contact' | 'auction' | 'auctionOverview';
+type SectionKey = 'home' | 'about' | 'contact' | 'auction' | 'auctionOverview' | 'donations';
 
 const sections: { key: SectionKey; label: string }[] = [
   { key: 'home', label: 'Home' },
@@ -18,6 +18,7 @@ const sections: { key: SectionKey; label: string }[] = [
   { key: 'contact', label: 'Contact' },
   { key: 'auction', label: 'Auction Items' },
   { key: 'auctionOverview', label: 'Auction Overview' },
+  { key: 'donations', label: 'Donations' },
 ];
 
 export default function AdminClient() {
@@ -36,6 +37,8 @@ export default function AdminClient() {
         return <AuctionSettings />;
       case 'auctionOverview':
         return <AuctionOverview goToItemsTab={() => setActiveSection('auction')} />;
+      case 'donations':
+        return <DonationSettings />;
       default:
         return null;
     }

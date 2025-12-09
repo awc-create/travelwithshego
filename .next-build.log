@@ -1,0 +1,14 @@
+yarn run v1.22.22
+$ next build --turbopack
+   ▲ Next.js 15.5.6 (Turbopack)
+   - Environments: .env.local, .env
+
+   Creating an optimized production build ...
+ ✓ Finished writing to disk in 155ms
+ ✓ Compiled successfully in 22.1s
+   Skipping linting
+   Checking validity of types ...
+   Collecting page data ...
+ ⨯ Invalid segment configuration export detected. This can cause unexpected behavior from the configs not being applied. You should see the relevant failures in the logs above. Please fix them to continue.
+error Command failed with exit code 1.
+info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.

@@ -1,10 +1,8 @@
-:root {
+.impactSection {
   --gold: #b38a45;
   --container: min(960px, 92vw);
   --padY: clamp(2rem, 6vw, 4rem);
-}
 
-.impactSection {
   background: linear-gradient(to bottom, #fffdf7 0%, #faf8f1 100%);
   padding: var(--padY) 0;
   color: #1a1a1a;

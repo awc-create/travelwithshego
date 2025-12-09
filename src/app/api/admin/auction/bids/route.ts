@@ -2,8 +2,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
-export const dynamic = 'force-dynamic';
-
 export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
@@ -27,7 +25,7 @@ export async function GET(req: NextRequest) {
       orderBy: [{ amountPence: 'desc' }, { createdAt: 'desc' }],
     });
 
-    const safeBids = bids.map((b) => ({
+    const safeBids = bids.map((b: (typeof bids)[number]) => ({
       id: b.id,
       amountPence: b.amountPence,
       email: b.email,

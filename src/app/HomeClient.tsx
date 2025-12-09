@@ -3,18 +3,20 @@
 
 import Hero from '@/components/home/hero/Hero';
 import Mission from '@/components/home/mission/Mission';
-import Gallery from '@/components/home/gallery/Gallery';
+// import Gallery from '@/components/home/gallery/Gallery';
 import Testimonial from '@/components/home/testimonial/Testimonial';
 import Donation from '@/components/home/donation/Donation';
 import SectionDivider from '@/components/common/SectionDivider';
+import BuildingGallery from '@/components/home/gallery/BuildingGallery';
 import type { HomeData } from '@/lib/getHomeData';
 import { useDonationStats } from '@/hooks/useDonationStats';
 
 type HomeClientProps = {
   data: HomeData;
+  buildingImages?: string[]; // optional, with default
 };
 
-export default function HomeClient({ data }: HomeClientProps) {
+export default function HomeClient({ data, buildingImages = [] }: HomeClientProps) {
   const { stats } = useDonationStats();
 
   const raised = (stats?.raisedPence ?? 3_400 * 100) / 100;
@@ -30,12 +32,16 @@ export default function HomeClient({ data }: HomeClientProps) {
 
       <SectionDivider variant="angle" color="#ffffff" height={36} />
 
+      {/* Admin-configured gallery from DB
       <Gallery
         id="gallery"
         caption={data.gallery.caption}
         images={data.gallery.images}
         showCarousel
-      />
+      /> */}
+
+      {/* Folder-based gallery from /public/assets/building */}
+      <BuildingGallery images={buildingImages} />
 
       <SectionDivider variant="curve" color="#ffffff" height={72} />
 

@@ -1,14 +1,11 @@
-/* Hero — soft gradient intro */
-:root {
+.wrap {
   --gold: #b38a45;
   --tone-hero-top: #faf6ea;
   --tone-hero-bottom: #ffffff;
   --max: min(1100px, 92vw);
   --padY: clamp(2rem, 6vw, 4rem);
   --ring: rgba(0, 0, 0, 0.06);
-}
 
-.wrap {
   position: relative;
   padding: var(--padY) 0 var(--padY);
   background: linear-gradient(

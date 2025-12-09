@@ -2,15 +2,11 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
-export const dynamic = 'force-dynamic';
-
 export async function GET() {
   try {
     const items = await prisma.auctionItem.findMany({
       where: { active: true, closed: false },
-      // ❗ if `sortOrder` doesn't exist in your schema, remove or change this:
-      // orderBy: { sortOrder: 'asc' },
-      orderBy: { endsAt: 'asc' }, // or createdAt, etc. — pick a real field
+      orderBy: { endsAt: 'asc' },
       include: {
         bids: {
           select: { amountPence: true },
@@ -23,7 +19,7 @@ export async function GET() {
       return NextResponse.json([]);
     }
 
-    const safe = items.map((item) => {
+    const safe = items.map((item: (typeof items)[number]) => {
       const highestBid = item.bids[0]?.amountPence ?? null;
       const bidCount = item.bids.length;
 
@@ -33,7 +29,7 @@ export async function GET() {
         title: item.title,
         description: item.description,
         imageUrl: item.imageUrl,
-        pricePence: item.pricePence, // make sure this matches your schema
+        pricePence: item.pricePence,
         highestBidPence: highestBid,
         bidCount,
         endsAt: item.endsAt ? item.endsAt.toISOString() : null,
@@ -45,7 +41,6 @@ export async function GET() {
   } catch (err) {
     console.error('[AUCTION_PUBLIC_ERROR]', err);
 
-    // Optional: show details in dev so you can see the real error
     return NextResponse.json(
       {
         error: 'Internal server error',

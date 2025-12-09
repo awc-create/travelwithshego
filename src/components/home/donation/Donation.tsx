@@ -9,8 +9,8 @@ type DonationProps = {
   donateHref: string;
   contactHref?: string;
   contactLabel?: string;
-  raised: number;
-  goal: number;
+  raised: number; // dollars
+  goal: number; // dollars
   title?: string;
   subtitle?: string;
 };
@@ -29,9 +29,9 @@ export default function Donation({
   const pct = animGoal > 0 ? Math.min(100, Math.round((animRaised / animGoal) * 100)) : 0;
 
   const fmt = (n: number) =>
-    new Intl.NumberFormat('en-GB', {
+    new Intl.NumberFormat('en-US', {
       style: 'currency',
-      currency: 'GBP',
+      currency: 'USD',
       maximumFractionDigits: 0,
     })
       .format(Math.round(n))

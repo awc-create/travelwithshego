@@ -4,21 +4,20 @@ import { notFound } from 'next/navigation';
 import AuctionItemClient from './AuctionItemClient';
 
 type AuctionItemPageProps = {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 };
 
-export const dynamic = 'force-dynamic';
-
 export default async function AuctionItemPage({ params }: AuctionItemPageProps) {
+  const { slug } = await params; // 👈 await because it's typed as a Promise
+
   const item = await prisma.auctionItem.findUnique({
-    where: { slug: params.slug },
+    where: { slug },
   });
 
   if (!item || !item.active) {
     notFound();
   }
 
-  // Highest bid + bid count for this item from AuctionBid
   const highest = await prisma.auctionBid.aggregate({
     where: {
       auctionItemId: item.id,

@@ -1,13 +1,11 @@
-:root {
+.heroMap {
   --gold: #b38a45;
   --max: min(1100px, 92vw);
   --padY: clamp(2rem, 6vw, 4rem);
   --tone-top: #fffdf7;
   --tone-bottom: #faf8f1;
   --ring: rgba(26, 26, 26, 0.08);
-}
-
-.heroMap {
+  
   background: linear-gradient(to bottom, var(--tone-top) 0%, var(--tone-bottom) 100%);
   padding: var(--padY) 0;
   scroll-margin-top: var(--navbar-height);

@@ -1,3 +1,4 @@
+// src/components/home/gallery/Gallery.tsx
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
