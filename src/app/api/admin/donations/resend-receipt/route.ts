@@ -6,7 +6,14 @@ import { buildDonationReceiptEmail } from '@/lib/email/donationReceiptEmail';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+// Optional but nice: make it explicit this is a Node, dynamic route
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+
+const resendApiKey = process.env.RESEND_API_KEY;
+
+// ✅ Safe: don’t construct Resend if there’s no API key (prevents build-time crash)
+const resend = resendApiKey ? new Resend(resendApiKey) : null;
 
 export async function POST(req: NextRequest) {
   try {
@@ -34,6 +41,14 @@ export async function POST(req: NextRequest) {
       return NextResponse.json(
         { error: 'Only succeeded donations can receive a receipt.' },
         { status: 400 }
+      );
+    }
+
+    // 🔐 Ensure email infra is configured
+    if (!resend) {
+      return NextResponse.json(
+        { error: 'Email service is not configured (missing RESEND_API_KEY).' },
+        { status: 500 }
       );
     }
 
