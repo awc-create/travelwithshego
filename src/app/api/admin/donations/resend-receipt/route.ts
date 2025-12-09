@@ -1,19 +1,14 @@
 // src/app/api/admin/donations/resend-receipt/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { Resend } from 'resend';
 import { buildDonationReceiptEmail } from '@/lib/email/donationReceiptEmail';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
+import { resend, RESEND_ENABLED, RESEND_FROM } from '@/lib/resend';
 
 // Optional but nice: make it explicit this is a Node, dynamic route
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
-
-const resendApiKey = process.env.RESEND_API_KEY;
-
-// ✅ Safe: don’t construct Resend if there’s no API key (prevents build-time crash)
-const resend = resendApiKey ? new Resend(resendApiKey) : null;
 
 export async function POST(req: NextRequest) {
   try {
@@ -45,14 +40,14 @@ export async function POST(req: NextRequest) {
     }
 
     // 🔐 Ensure email infra is configured
-    if (!resend) {
+    if (!RESEND_ENABLED || !resend) {
       return NextResponse.json(
         { error: 'Email service is not configured (missing RESEND_API_KEY).' },
         { status: 500 }
       );
     }
 
-    const from = process.env.RESEND_FROM;
+    const from = RESEND_FROM;
     if (!from) {
       return NextResponse.json(
         { error: 'RESEND_FROM is not configured on the server.' },

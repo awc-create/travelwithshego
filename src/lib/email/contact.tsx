@@ -1,13 +1,12 @@
 // src/lib/email/contact.tsx
 import React from 'react';
-import { resend } from '@/lib/resend';
+import { resend, RESEND_FROM, RESEND_CONTACT_TO, RESEND_ENABLED } from '@/lib/resend';
 import { ContactFormEmail } from '@/emails/ContactFormEmail';
 import { ContactAutoReplyEmail } from '@/emails/ContactAutoReplyEmail';
 
-const FROM = process.env.RESEND_FROM || 'Travel With Shego <no-reply@travelwithshego.com>';
-
-// This is where messages from the contact form go (your inbox)
-const TO = process.env.RESEND_CONTACT_TO || 'shegosaid@gmail.com';
+// From / To are centrally defined in lib/resend
+const FROM = RESEND_FROM;
+const TO = RESEND_CONTACT_TO;
 
 /**
  * Email sent TO YOU / TEAM with the visitor's message
@@ -27,6 +26,14 @@ export async function sendContactFormEmail(options: {
   const subject = safeName
     ? `New contact form message from ${safeName}`
     : 'New contact form message';
+
+  // If email infra isn’t configured, fail gracefully
+  if (!RESEND_ENABLED || !resend) {
+    console.error(
+      '[RESEND_DISABLED] Contact form email NOT sent (missing RESEND_API_KEY or Resend client).'
+    );
+    return;
+  }
 
   await resend.emails.send({
     from: FROM,
@@ -55,6 +62,13 @@ export async function sendContactAutoReply(options: { name?: string; email: stri
   const safeEmail = email.toString().trim();
 
   if (!safeEmail) return;
+
+  if (!RESEND_ENABLED || !resend) {
+    console.error(
+      '[RESEND_DISABLED] Contact auto-reply NOT sent (missing RESEND_API_KEY or Resend client).'
+    );
+    return;
+  }
 
   await resend.emails.send({
     from: FROM,
