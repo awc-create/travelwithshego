@@ -1,6 +1,6 @@
 // src/lib/email/donations.tsx
 import React from 'react';
-import { resend } from '@/lib/resend';
+import { resend, RESEND_ENABLED, RESEND_FROM } from '@/lib/resend';
 import { DonationReceiptEmail } from '@/emails/DonationReceiptEmail';
 import { DonationFailedEmail } from '@/emails/DonationFailedEmail';
 
@@ -20,7 +20,7 @@ export type DonationRecord = {
   stripeCheckoutSessionId: string | null;
 };
 
-const FROM = process.env.RESEND_FROM || 'Travel With Shego <no-reply@travelwithshego.com>';
+const FROM = RESEND_FROM || 'Travel With Shego <no-reply@travelwithshego.com>';
 
 export async function sendDonationReceiptEmail(options: {
   donation: DonationRecord;
@@ -30,6 +30,13 @@ export async function sendDonationReceiptEmail(options: {
   const { donation, stripeReference, isRecurringCharge = false } = options;
 
   if (!donation.email) return;
+
+  if (!RESEND_ENABLED || !resend) {
+    console.error(
+      '[RESEND_DISABLED] Donation receipt email NOT sent (missing RESEND_API_KEY or Resend client).'
+    );
+    return;
+  }
 
   const isMonthly = donation.frequency === 'MONTHLY';
 
@@ -67,6 +74,13 @@ export async function sendDonationFailedEmail(options: {
   const { donation, reason } = options;
 
   if (!donation.email) return;
+
+  if (!RESEND_ENABLED || !resend) {
+    console.error(
+      '[RESEND_DISABLED] Donation failed email NOT sent (missing RESEND_API_KEY or Resend client).'
+    );
+    return;
+  }
 
   const isMonthly = donation.frequency === 'MONTHLY';
 
