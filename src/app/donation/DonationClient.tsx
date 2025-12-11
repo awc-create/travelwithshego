@@ -1,4 +1,3 @@
-// src/app/donation/DonationClient.tsx
 'use client';
 
 import styles from './Donation.module.scss';
@@ -14,6 +13,7 @@ import DonationStories from '@/components/donation/stories/DonationStories';
 import DonationTransparency from '@/components/donation/transparency/DonationTransparency';
 import DonationFAQs from '@/components/donation/faqs/DonationFAQs';
 import DonationContact from '@/components/donation/contact/DonationContact';
+import RamadanBannerDonation from '@/components/donation/RamadanBannerDonation';
 
 import { useDonationStats } from '@/hooks/useDonationStats';
 
@@ -24,13 +24,17 @@ export default function DonationClient() {
   const raisedPence = stats?.raisedPence ?? 0;
   const goalPence = stats?.goalPence ?? 10_000 * 100;
 
-  // 🔥 PayPal URL from env
+  // 🔥 PayPal URLs from env
   const paypalUrl = process.env.NEXT_PUBLIC_PAYPAL_DONATION_URL ?? null;
+  const ramadanPaypalUrl = process.env.NEXT_PUBLIC_RAMADAN_DONATION_URL ?? null;
 
   return (
     <main className={styles.page}>
       {/* Hero with live numbers */}
       <Hero raisedPence={raisedPence} goalPence={goalPence} />
+
+      {/* Ramadan campaign block */}
+      <RamadanBannerDonation paypalUrl={ramadanPaypalUrl} />
 
       {/* Quick Stats with live numbers */}
       <QuickStats stats={stats} loading={loading} />

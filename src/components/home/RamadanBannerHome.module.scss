@@ -1,0 +1,140 @@
+.banner {
+  width: 100%;
+  background: linear-gradient(135deg, #fef6e9, #fffdf7);
+  padding: 1.75rem 1.25rem;
+}
+
+.inner {
+  max-width: 1120px;
+  margin: 0 auto;
+  border-radius: 24px;
+  padding: 1.5rem 1.75rem;
+  background: #ffffff;
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.08);
+  border: 1px solid rgba(248, 191, 82, 0.25);
+  display: flex;
+  gap: 1.75rem;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.textBlock {
+  max-width: 640px;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  background: #fef3c7;
+  color: #92400e;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin: 0 0 0.4rem;
+}
+
+.title {
+  margin: 0 0 0.5rem;
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #1f2937;
+}
+
+.body {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #4b5563;
+}
+
+.ctaRow {
+  margin-top: 0.9rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.buttonPrimary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.65rem 1.3rem;
+  border-radius: 999px;
+  border: 0;
+  background: linear-gradient(135deg, #facc15, #eab308);
+  color: #111827;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  box-shadow: 0 10px 25px rgba(180, 83, 9, 0.35);
+  cursor: pointer;
+  transition: transform 0.09s ease, box-shadow 0.16s ease, filter 0.16s ease;
+}
+
+.buttonPrimary:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.03);
+  box-shadow: 0 14px 32px rgba(180, 83, 9, 0.45);
+}
+
+.linkSecondary {
+  font-size: 0.86rem;
+  color: #6b7280;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.linkSecondary:hover {
+  color: #4b5563;
+}
+
+.statBlock {
+  min-width: 230px;
+  max-width: 260px;
+  padding: 0.9rem 1rem;
+  border-radius: 18px;
+  background: #0f172a;
+  color: #f9fafb;
+}
+
+.statLabel {
+  margin: 0 0 0.25rem;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #e5e7eb;
+}
+
+.statMain {
+  margin: 0 0 0.5rem;
+  font-size: 0.98rem;
+  font-weight: 700;
+}
+
+.statNote {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #9ca3af;
+}
+
+@media (max-width: 768px) {
+  .banner {
+    padding: 1.35rem 1rem;
+  }
+
+  .inner {
+    padding: 1.25rem 1.1rem;
+    border-radius: 20px;
+    flex-direction: column;
+  }
+
+  .statBlock {
+    width: 100%;
+  }
+}
