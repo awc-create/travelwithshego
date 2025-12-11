@@ -16,7 +16,12 @@ export const metadata: Metadata = {
   alternates: { canonical: '/donation' },
 };
 
+export const dynamic = 'force-dynamic'; // ensures server runtime env is used
+
 export default function DonationPage() {
-  // ❌ no props needed, DonationClient reads stats via hook
-  return <DonationClient />;
+  // ⭐ Read env on SERVER — always works on Hetzner/Vercel
+  const paypalUrl = 'https://www.paypal.com/ncp/payment/EN8NFTKFUCLR8';
+  const ramadanPaypalUrl = 'https://www.paypal.com/ncp/payment/7RSWYTZQDP7NL';
+
+  return <DonationClient paypalUrl={paypalUrl} ramadanPaypalUrl={ramadanPaypalUrl} />;
 }

@@ -7,7 +7,7 @@ import 'leaflet/dist/leaflet.css';
 
 import RamadanFloatingButton from '@/components/common/RamadanFloatingButton';
 
-const ramadanUrl = process.env.NEXT_PUBLIC_RAMADAN_DONATION_URL ?? null;
+const ramadanUrl = 'https://www.paypal.com/ncp/payment/7RSWYTZQDP7NL';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (

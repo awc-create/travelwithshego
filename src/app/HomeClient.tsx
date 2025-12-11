@@ -23,7 +23,7 @@ export default function HomeClient({ data, buildingImages = [] }: HomeClientProp
   const goal = (stats?.goalPence ?? 10_000 * 100) / 100;
 
   // 🔥 Use the correct env var name
-  const ramadanPaypalUrl = process.env.NEXT_PUBLIC_RAMADAN_DONATION_URL ?? null;
+  const ramadanPaypalUrl = 'https://www.paypal.com/ncp/payment/7RSWYTZQDP7NL';
 
   return (
     <>
