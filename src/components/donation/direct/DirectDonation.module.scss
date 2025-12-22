@@ -293,6 +293,7 @@
 }
 
 .paypalDivider {
+  margin: 1.75rem 0;
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -348,23 +349,30 @@
 }
 
 .gofundmeBlock {
-  margin-top: 1.25rem;
+  margin-top: 2rem;
   text-align: center;
+  margin-bottom: 1.5rem;
 }
 
 .gofundmeButton {
   display: inline-block;
-  padding: 12px 18px;
+  width: 100%;
+  text-align: center;
+
+  padding: 14px 18px;
   border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  color: #fff;
+
+  background: transparent;
+  border: 1.5px solid var(--gold, #d6b87c);
+
+  color: var(--gold, #d6b87c);
+  font-weight: 600;
   text-decoration: none;
-  font-weight: 500;
+
   transition: all 0.2s ease;
 
   &:hover {
-    background: rgba(255, 255, 255, 0.06);
-    border-color: rgba(255, 255, 255, 0.45);
+    background: rgba(214, 184, 124, 0.12);
   }
 }
 
