@@ -43,9 +43,34 @@ Image: public/assets/about-lighthouse.jpg`,
   {
     id: 'republic',
     title: 'Republic & Trade',
-    summary: 'Content coming soon...',
-    body: '',
-    icon: 'books',
+    summary:
+      'How Baraawe developed into a self-governing trading republic, guided by elders and sustained through Indian Ocean commerce.',
+    body: `Republic & Trade (16th–18th Century)
+
+A City Governed by Its People
+
+By the 16th century, Baraawe had developed into a confident and well-organised trading republic. Instead of being ruled by a single leader, the city was guided by a Council of Elders who understood both community life and regional trade. They settled disputes, supported social order, and ensured that Baraawe’s harbour remained open and welcoming to travellers.
+
+Their influence came not from military power, but from their ability to maintain balance and stability during a period of change across the coast. Locals often describe this time as one when “the city’s strength was its people, not its walls,” reflecting how decisions were made collectively and how neighbourhoods had a voice in the city’s future.
+
+Trade Across the Indian Ocean
+
+Trade continued to define Baraawe’s identity. Merchants from Arabia, India, Persia, and the wider Swahili Coast visited the port regularly, exchanging textiles, spices, grains, and crafted goods. These interactions connected Baraawe to major trade networks across the Indian Ocean and added to the city’s cultural diversity.
+
+A traveller arriving by dhow might hear several languages before reaching the main market yet still feel welcomed. This mixture of cultures shaped Baraawe’s crafts, poetry, architecture, and cuisine.
+
+Image: public/assets/sail-boat-baraawe-about.jpg
+
+Dhow, symbolising trade routes.
+
+Resilience and Independence
+
+Foreign pressure grew during this period. In 1506, Portuguese forces attempted to take control of trade routes along the East African coast. Their attack on Baraawe caused disruption, but the city rebuilt quickly and returned to its trading activity.
+
+After this event, Baraawe focused even more on protecting its economic independence — managing its own markets, negotiating trade on its own terms, and relying on strong trader networks rather than foreign powers.
+
+By the 18th century, Baraawe remained a respected coastal hub. Its local governance, active port, and long-standing trade relationships supported a steady, self-sustaining economy. Trade brought wealth, but independence brought dignity and unity — and that balance allowed Baraawe to thrive for generations.`,
+    icon: 'sail',
   },
 
   {
@@ -88,8 +113,49 @@ Although fewer people speak Chimiini in Baraawe itself, the Bravanese diaspora h
   {
     id: 'invasions',
     title: 'Invasions Through the Years',
-    summary: 'Content coming soon...',
-    body: '',
+    summary:
+      'How Baraawe’s strategic position exposed it to foreign attacks, shifting powers, and modern conflict across the centuries.',
+    body: `Invasions Through the Years
+
+A Strategic Port, A Repeated Target
+
+Baraawe’s position on the Indian Ocean made it an important coastal town, but it also exposed the city to groups seeking control over its harbour and trade routes. Across the centuries, Baraawe faced invasions and changes in power that disrupted daily life and tested the strength of its people.
+
+The Portuguese Attack (1506)
+
+One of the earliest major assaults came in the early 1500s, when Portuguese forces attempted to dominate trade routes along the East African coast. This event, known as the Battle of Barawa, saw a large fleet led by Tristão da Cunha attack the city. Fighting took place, parts of the town were burned, and many residents fled temporarily for safety. The Portuguese withdrew soon after and did not remain in control.
+
+Although the attack caused significant disruption, Baraawe rebuilt quickly and reopened its port. This early recovery became a defining pattern in the city’s history, showing how strong and organised the community was even in times of crisis.
+
+Image: public/assets/fleet-attack-baraawe-about.jpg
+
+An illustration of the fleet involved in the 1506 attack.
+
+Regional Shifts and Changing Powers
+
+As time passed, regional political structures changed. The decline of the Ajuran Sultanate, which once controlled much of southern Somalia and its trade routes, brought new influences to the region. While these changes affected the wider area, everyday life in Baraawe continued to be guided by its own local traditions and social organisation.
+
+Image: public/assets/portugues-map-mogadishu-about.png
+
+1576 Portuguese map of the Mogadishu area.
+
+Colonial Rule
+
+A major shift occurred in the late 19th century when Italy established colonial control over southern Somalia. Local leadership systems were limited, new laws were introduced, and trade was redirected to serve colonial interests. Despite these pressures, Baraawe’s cultural and religious life continued, supported by strong community networks.
+
+Image: public/assets/italian-south-about.jpg
+
+Italian colonial presence in southern Somalia.
+
+Civil War and Modern Conflict
+
+The outbreak of civil war in the 1990s brought another prolonged period of instability. Control of Baraawe changed hands multiple times, public services weakened, and many families were displaced. In the 2000s, Islamist groups also gained influence due to the city’s strategic location, creating further challenges for residents.
+
+Despite these hardships, Baraawe consistently found ways to endure. Community ties, cultural traditions, and support from the diaspora helped preserve identity and continuity. Today, the city is gradually recovering and reconnecting with its long history as a resilient coastal town.
+
+Image: public/assets/after-civil-war-about.png
+
+Image to reflect the aftermath of conflict during the civil war.`,
     icon: 'history',
   },
 

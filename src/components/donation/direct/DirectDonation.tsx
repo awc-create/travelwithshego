@@ -293,6 +293,26 @@ export default function DirectDonation({ paypalUrl }: DirectDonationProps) {
             </div>
           ) : null}
 
+          <div className={styles.gofundmeBlock}>
+            <div className={styles.paypalDivider}>
+              <span>or</span>
+            </div>
+
+            <a
+              href="https://www.gofundme.com/f/hope-for-baraawe-tws"
+              target="_blank"
+              rel="noreferrer"
+              className={styles.gofundmeButton}
+            >
+              Donate via GoFundMe
+            </a>
+
+            <p className={styles.gofundmeNote}>
+              Prefer GoFundMe? You can support the same mission through our public GoFundMe
+              campaign.
+            </p>
+          </div>
+
           <p className={styles.trustNote}>
             Payments are handled through our{' '}
             <span className={styles.gold}>secure Donation partners</span>. We never ask for bank
