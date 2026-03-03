@@ -16,11 +16,11 @@ export default function RamadanFloatingButton({ paypalUrl }: RamadanFloatingButt
         target="_blank"
         rel="noreferrer"
         className={styles.fab}
-        aria-label="Open Ramadan 2025 donation link – help provide iftar meals for families in Baraawe."
+        aria-label="Open Ramadan 2026 donation link – help provide iftar meals for families in Baraawe."
       >
         <span className={styles.dot} />
-        <span className={styles.labelDesktop}>Ramadan 2025 · Give a Meal</span>
-        <span className={styles.labelMobile}>Ramadan 2025</span>
+        <span className={styles.labelDesktop}>Ramadan 2026 · Give a Meal</span>
+        <span className={styles.labelMobile}>Ramadan 2026</span>
       </a>
     </button>
   );

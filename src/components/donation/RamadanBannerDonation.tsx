@@ -10,9 +10,9 @@ export default function RamadanBannerDonation({ paypalUrl }: RamadanBannerDonati
   if (!paypalUrl) return null;
 
   return (
-    <section className={styles.wrap} aria-label="Ramadan 2025 special campaign">
+    <section className={styles.wrap} aria-label="Ramadan 2026 special campaign">
       <div className={styles.card}>
-        <p className={styles.eyebrow}>Special Campaign · Ramadan 2025</p>
+        <p className={styles.eyebrow}>Special Campaign · Ramadan 2026</p>
         <h2 className={styles.title}>Turn your Donation into a Ramadan meal.</h2>
         <p className={styles.body}>
           Donations made through our Ramadan campaign link go directly towards iftar meals, food

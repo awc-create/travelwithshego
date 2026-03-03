@@ -30,7 +30,7 @@ const fmtMoney = (pence: number) =>
 
 export default function Hero({
   // ⭐ NEW DEFAULT IMAGE HERE
-  imageSrc = '/assets/hero-donation.png',
+  imageSrc = '/assets/hero-donation.jpg',
   imageAlt = 'Illustration of children in Baraawe receiving support',
   raisedPence = 3_400 * 100,
   goalPence = 10_000 * 100,

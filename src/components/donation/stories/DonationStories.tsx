@@ -40,7 +40,7 @@ const stories: StoryCard[] = [
     label: 'Teacher',
     title: '“We can plan lessons, not just survive the term.”',
     text: 'A local teacher told us that steady support means they can plan ahead – not just worry if there will be enough materials for the next week. That stability comes directly from regular Donations.',
-    image: '/assets/school-barawe.png',
+    image: '/assets/students.jpeg',
     alt: 'Teacher working with children in a classroom in Baraawe',
   },
   {
