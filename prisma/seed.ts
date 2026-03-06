@@ -1,7 +1,7 @@
 // prisma/seed.ts
 import 'dotenv/config';
 import bcrypt from 'bcryptjs';
-import { prisma } from '../src/lib/prisma';
+import { prisma } from '@/lib/prisma';
 
 async function seedAdmin() {
   console.log('🌱 Seeding admin user...');
