@@ -1,7 +1,9 @@
 // prisma/seed.ts
 import 'dotenv/config';
 import bcrypt from 'bcryptjs';
-import { prisma } from '@/lib/prisma';
+import { PrismaClient } from '@prisma/client';
+
+const prisma = new PrismaClient();
 
 async function seedAdmin() {
   console.log('🌱 Seeding admin user...');
@@ -11,7 +13,7 @@ async function seedAdmin() {
   const adminPassword = process.env.ADMIN_PASSWORD;
 
   if (!adminEmail || !adminPassword) {
-    console.warn('⚠️  ADMIN_EMAIL or ADMIN_PASSWORD missing in .env. Skipping admin seeding.');
+    console.warn('⚠️ ADMIN_EMAIL or ADMIN_PASSWORD missing in .env. Skipping admin seeding.');
     return;
   }
 
@@ -50,7 +52,7 @@ async function seedAuctionItems() {
       description:
         'A high-quality print inspired by Baraawe, helping fund school supplies and teaching materials.',
       imageUrl: null as string | null,
-      pricePence: 50_00, // $50.00 equivalent (if you later switch currency)
+      pricePence: 50_00,
       active: true,
       sortOrder: 1,
     },
@@ -59,14 +61,13 @@ async function seedAuctionItems() {
       title: 'Traditional Handcrafted Basket',
       description: 'A beautiful handcrafted basket made in support of the Baraawe initiative.',
       imageUrl: null as string | null,
-      pricePence: 35_00, // $35.00 equivalent
+      pricePence: 35_00,
       active: true,
       sortOrder: 2,
     },
   ];
 
   for (const item of items) {
-    // If an item with this slug already exists, skip
     const existing = await prisma.auctionItem.findFirst({
       where: { slug: item.slug },
     });
