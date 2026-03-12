@@ -43,7 +43,10 @@ export async function POST(req: Request) {
 
     const pathSegments = parsePathSegments(body?.pathSegments);
 
-    const prefixParts = ['prince-foods-b2c', ...pathSegments.map((x) => slugify(x))];
+    const prefixParts = [
+      process.env.STORAGE_ROOT || 'travel-with-shego',
+      ...pathSegments.map((x) => slugify(x)),
+    ];
     const prefix = `${prefixParts.join('/')}/`;
 
     const files = await listFilesFromStorage(prefix);

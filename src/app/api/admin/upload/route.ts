@@ -44,6 +44,8 @@ function getAllowedTypesMessage(): string {
 
 export async function POST(req: Request) {
   try {
+    console.log('[UPLOAD] request received');
+
     const formData = await req.formData();
 
     const file = formData.get('file');
@@ -65,6 +67,14 @@ export async function POST(req: Request) {
     const mimeType = file.type || 'application/octet-stream';
     const isImage = isAllowedImageType(mimeType);
     const isVideo = isAllowedVideoType(mimeType);
+
+    console.log('[UPLOAD] file info', {
+      name: file.name,
+      size: file.size,
+      type: mimeType,
+      itemName,
+      pathSegments,
+    });
 
     if (!isImage && !isVideo) {
       return NextResponse.json({ ok: false, error: getAllowedTypesMessage() }, { status: 400 });
@@ -96,11 +106,15 @@ export async function POST(req: Request) {
       filename: file.name,
     });
 
+    console.log('[UPLOAD] objectKey', objectKey);
+
     const uploaded = await uploadBufferToStorage({
       buffer,
       objectKey,
       contentType: mimeType,
     });
+
+    console.log('[UPLOAD] success', uploaded.url);
 
     return NextResponse.json({
       ok: true,
@@ -113,7 +127,13 @@ export async function POST(req: Request) {
       },
     });
   } catch (error) {
-    console.error('Upload failed:', error);
-    return NextResponse.json({ ok: false, error: 'Upload failed' }, { status: 500 });
+    console.error('[UPLOAD FAILED]', error);
+    return NextResponse.json(
+      {
+        ok: false,
+        error: error instanceof Error ? error.message : 'Upload failed',
+      },
+      { status: 500 }
+    );
   }
 }
