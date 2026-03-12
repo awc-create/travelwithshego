@@ -1,3 +1,4 @@
+// src/components/home/mission/Mission.tsx
 'use client';
 
 import React from 'react';
