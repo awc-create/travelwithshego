@@ -1,17 +1,10 @@
-/* Legacy – slightly deeper, to sit after band */
-
 .legacySection {
   width: 100vw;
   margin-left: 50%;
   margin-right: 50%;
   transform: translateX(-50%);
   padding: clamp(4rem, 7vw, 6rem) 0;
-
-  background: linear-gradient(
-    to bottom,
-    #f3e5d1 0%,   /* deeper toast-cream */
-    #ead6be 100%
-  );
+  background: linear-gradient(to bottom, #f3e5d1 0%, #ead6be 100%);
 }
 
 .inner {
@@ -27,10 +20,8 @@
   }
 }
 
-/* copy */
-
 .copy {
-  max-width: 560px;
+  max-width: 590px;
 }
 
 .kicker {
@@ -47,12 +38,13 @@
 }
 
 .heading {
-  font-size: clamp(1.9rem, 3.4vw, 2.4rem);
-  line-height: 1.15;
+  font-size: clamp(2rem, 3.5vw, 2.5rem);
+  line-height: 1.14;
   font-weight: 900;
   letter-spacing: -0.02em;
   color: #111827;
   margin: 0 0 1rem;
+  max-width: 16ch;
 }
 
 .highlight {
@@ -61,14 +53,14 @@
 
 .lead {
   font-size: 1.03rem;
-  line-height: 1.7;
+  line-height: 1.75;
   color: #6b7280;
-  margin-bottom: 1.3rem;
+  margin-bottom: 1.25rem;
 }
 
 .body {
   font-size: 0.99rem;
-  line-height: 1.7;
+  line-height: 1.76;
   color: #111827;
 
   p + p {
@@ -77,13 +69,12 @@
 }
 
 .note {
-  margin-top: 1.4rem;
-  font-size: 0.9rem;
-  line-height: 1.6;
+  margin-top: 1.35rem;
+  font-size: 0.95rem;
+  line-height: 1.65;
   color: #6b7280;
+  font-weight: 600;
 }
-
-/* reel column */
 
 .reelColumn {
   display: flex;
@@ -101,7 +92,6 @@
   gap: 0.6rem;
 }
 
-/* outer shell that looks like a piece of film */
 .reelShell {
   position: relative;
   width: 240px;
@@ -116,10 +106,9 @@
   overflow: hidden;
 }
 
-/* sprocket holes left + right */
 .reelShell::before,
 .reelShell::after {
-  content: "";
+  content: '';
   position: absolute;
   top: 10px;
   bottom: 10px;
@@ -153,7 +142,6 @@
   overflow: hidden;
 }
 
-/* vertical track that scrolls up */
 .reelTrack {
   position: relative;
   display: flex;
@@ -174,8 +162,6 @@
     transform: translateY(-50%);
   }
 }
-
-/* individual frame */
 
 .frame {
   margin: 0;
@@ -201,8 +187,6 @@
   display: block;
 }
 
-/* caption under each frame */
-
 .caption {
   padding: 0.35rem 0.1rem 0.3rem;
   display: flex;
@@ -221,11 +205,10 @@
   color: #9ca3af;
 }
 
-/* subtle helper text under the strip */
-
 .reelHint {
   font-size: 0.8rem;
   color: #6b7280;
   opacity: 0.85;
   text-align: center;
+  max-width: 22ch;
 }

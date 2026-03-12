@@ -13,26 +13,23 @@ export default function ShegoBand() {
         viewport={{ once: true, margin: '-120px' }}
         transition={{ duration: 0.7, ease: 'easeOut' }}
       >
-        {/* heading */}
         <h2 id="shegoband-heading" className={styles.heading}>
-          The <span className={styles.highlight}>Shego Band</span> — a new Somali sound in the
-          diaspora.
+          The <span className={styles.highlight}>ShegoBand,</span> a Somali sound that travelled.
         </h2>
 
         <p className={styles.intro}>
-          Led by singer and composer <strong>Shego Said</strong>, the Shego Band blended Somali
-          dance rhythms with hip-hop, soul and jazz influences. Switching between Somali, Arabic and
-          Swahili, their sound became a defining voice for Somalis growing up away from home.
+          Led by singer, composer and producer <strong>Shego Said</strong>, ShegoBand blended Somali
+          dance rhythms with hip-hop, soul and jazz influences. It became a sound that felt rooted
+          in home while still speaking to a generation shaped by migration and diaspora.
         </p>
 
         <p className={styles.paragraph}>
-          After leaving Brava and eventually settling in Toronto, Shego brought together
-          professional musicians and producers from across the diaspora. On stage and in studio,
-          they became a cultural anchor — proving that even in exile, music, language and heritage
-          stay alive.
+          After leaving Brava and eventually settling in Toronto, Shego brought together talented
+          musicians and producers who could honour traditional Somali feeling while giving it a new
+          energy on stage and in studio. Their music became both memory and movement. A way of
+          keeping identity alive far from home.
         </p>
 
-        {/* trio */}
         <div className={styles.trio}>
           <div className={styles.card}>
             <span className={styles.label}>Line-up</span>
@@ -45,23 +42,23 @@ export default function ShegoBand() {
           <div className={styles.card}>
             <span className={styles.label}>Sound</span>
             <span className={styles.value}>
-              Somali dance • Hip-hop • Soul • East African rhythms
+              Somali dance • Hip-hop • Soul • Jazz textures • East African rhythms
             </span>
           </div>
 
           <div className={styles.card}>
             <span className={styles.label}>Legacy</span>
             <span className={styles.value}>
-              A defining influence on modern Somali music in the diaspora.
+              A defining cultural voice for Somalis across the diaspora.
             </span>
           </div>
         </div>
 
         <p className={styles.outro}>
-          In the mid-2000s, ShegoBand toured with Arts Midwest World Fest, performing alongside
-          Somali legends like Hibo Nuur and oud master Kooshin. While Shego is no longer performing
-          actively, the body of work lives on — and continues to inspire young Somali artists
-          worldwide.
+          In the mid-2000s, ShegoBand toured with Arts Midwest World Fest alongside Somali artists
+          including Hibo Nuur and Kooshin. Those performances introduced many audiences to Somali
+          music through joy, artistry and story, not just headlines about conflict. That cultural
+          legacy still matters, and it still shapes the work Shego does now.
         </p>
       </motion.div>
     </section>

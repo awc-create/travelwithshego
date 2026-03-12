@@ -1,4 +1,3 @@
-// src/app/HomeClient.tsx
 'use client';
 
 import Hero from '@/components/home/hero/Hero';
@@ -10,9 +9,8 @@ import BuildingGallery from '@/components/home/gallery/BuildingGallery';
 import type { HomeData } from '@/lib/getHomeData';
 import { useDonationStats } from '@/hooks/useDonationStats';
 import RamadanHomeBanner from '@/components/home/RamadanBannerHome';
-
-// ✅ NEW: Evidence section
 import ImpactEvidence, { type EvidenceItem } from '@/components/home/evidence/ImpactEvidence';
+import FounderBridge from '@/components/home/founder-bridge/FounderBridge';
 
 type HomeClientProps = {
   data: HomeData;
@@ -25,11 +23,8 @@ export default function HomeClient({ data, buildingImages = [] }: HomeClientProp
   const raised = (stats?.raisedPence ?? 3_400 * 100) / 100;
   const goal = (stats?.goalPence ?? 10_000 * 100) / 100;
 
-  // 🔥 Use the correct env var name
   const ramadanPaypalUrl = 'https://www.paypal.com/ncp/payment/7RSWYTZQDP7NL';
 
-  // ✅ TEMP: hardcoded evidence items (replace later with CMS/Admin)
-  // Use posters for videos (recommended)
   const evidenceItems: EvidenceItem[] = [
     {
       type: 'image',
@@ -62,7 +57,6 @@ export default function HomeClient({ data, buildingImages = [] }: HomeClientProp
 
   return (
     <>
-      {/* ⭐ Ramadan banner strip */}
       <RamadanHomeBanner paypalUrl={ramadanPaypalUrl} />
 
       <Hero raised={raised} goal={goal} donateHref="/donation" />
@@ -71,7 +65,10 @@ export default function HomeClient({ data, buildingImages = [] }: HomeClientProp
 
       <Mission id="mission" donateHref="/donation" stats={data.mission} />
 
-      {/* ✅ NEW: Evidence section */}
+      <SectionDivider variant="angle" color="#ffffff" height={36} />
+
+      <FounderBridge founderHref="/founder" />
+
       <SectionDivider variant="angle" color="#ffffff" height={36} />
 
       <ImpactEvidence

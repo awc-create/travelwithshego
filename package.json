@@ -17,9 +17,11 @@
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.11.1",
+    "@aws-sdk/client-s3": "^3.1006.0",
     "@iconify/react": "^6.0.2",
     "@prisma/client": "^6.13.0",
     "@uploadthing/react": "^7.3.3",
+    "aws-sdk": "^2.1693.0",
     "bcryptjs": "^3.0.3",
     "clsx": "^2.1.1",
     "framer-motion": "^12.23.24",

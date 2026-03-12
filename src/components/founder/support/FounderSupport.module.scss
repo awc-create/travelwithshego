@@ -1,19 +1,11 @@
-/* Support – very light, so it fades smoothly into the global dark footer */
-
 .supportSection {
   position: relative;
-
   width: 100vw;
   margin-left: 50%;
   margin-right: 50%;
   transform: translateX(-50%);
-
-  padding: clamp(3.25rem, 6vw, 4.25rem) clamp(1.5rem, 6vw, 4.5rem);
-  background: linear-gradient(
-    to bottom,
-    #f9f4eb 0%,   /* lightest band */
-    #ffffff 100%  /* fades into site footer */
-  );
+  padding: clamp(3.35rem, 6vw, 4.35rem) clamp(1.5rem, 6vw, 4.5rem);
+  background: linear-gradient(to bottom, #f9f4eb 0%, #ffffff 100%);
 }
 
 .inner {
@@ -23,10 +15,8 @@
   gap: clamp(1.8rem, 3vw, 2.4rem);
 }
 
-/* HEADER */
-
 .header {
-  max-width: 720px;
+  max-width: 760px;
 }
 
 .kicker {
@@ -40,11 +30,12 @@
 }
 
 .heading {
-  font-size: clamp(1.9rem, 3.6vw, 2.4rem);
+  font-size: clamp(1.95rem, 3.7vw, 2.45rem);
   font-weight: 800;
   line-height: 1.2;
   color: #111827;
   margin: 0 0 0.5rem;
+  max-width: 18ch;
 }
 
 .highlight {
@@ -53,11 +44,10 @@
 
 .lead {
   font-size: 1.02rem;
-  line-height: 1.7;
+  line-height: 1.72;
   color: #6b7280;
+  max-width: 64ch;
 }
-
-/* GRID */
 
 .grid {
   display: grid;
@@ -70,9 +60,10 @@
 }
 
 .card {
-  background: #ffffff;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(8px);
   border-radius: 18px;
-  padding: 1.05rem 1.15rem;
+  padding: 1.08rem 1.15rem;
   border: 1px solid rgba(0, 0, 0, 0.04);
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
   display: grid;
@@ -90,17 +81,18 @@
   font-size: 1.02rem;
   font-weight: 700;
   color: #111827;
+  line-height: 1.45;
 }
 
 .body {
   font-size: 0.95rem;
-  line-height: 1.6;
+  line-height: 1.62;
   color: #4b5563;
 }
 
 .detail {
   font-size: 0.9rem;
-  line-height: 1.6;
+  line-height: 1.62;
   color: #6b7280;
 }
 
@@ -115,10 +107,8 @@
   }
 }
 
-/* FOOTER */
-
 .footer {
-  margin-top: 0.5rem;
+  margin-top: 0.35rem;
   display: flex;
   flex-wrap: wrap;
   gap: 0.8rem 1.4rem;
@@ -132,10 +122,11 @@
 }
 
 .note {
-  flex: 1 1 260px;
-  font-size: 0.93rem;
-  line-height: 1.6;
+  flex: 1 1 300px;
+  font-size: 0.94rem;
+  line-height: 1.66;
   color: #4b5563;
+  max-width: 70ch;
 }
 
 .primary {

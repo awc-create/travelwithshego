@@ -1,5 +1,6 @@
 'use client';
 
+import { motion } from 'framer-motion';
 import styles from './FounderStory.module.scss';
 
 interface FounderStoryProps {
@@ -12,6 +13,7 @@ export default function FounderStory({ onScrollToDonate }: FounderStoryProps) {
       onScrollToDonate();
       return;
     }
+
     const donate = document.querySelector('#donate');
     if (donate instanceof HTMLElement) {
       donate.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -24,87 +26,101 @@ export default function FounderStory({ onScrollToDonate }: FounderStoryProps) {
       data-founder-scroll-target
       aria-labelledby="founder-story-heading"
     >
-      <div className={styles.inner}>
-        {/* LEFT – narrative */}
+      <motion.div
+        className={styles.inner}
+        initial={{ opacity: 0, y: 28 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: '-120px' }}
+        transition={{ duration: 0.7, ease: 'easeOut' }}
+      >
         <div>
-          <span className={styles.kicker}>From Brava to Toronto</span>
+          <span className={styles.kicker}>Continuing my grandmother&apos;s dream</span>
+
           <h2 id="founder-story-heading" className={styles.heading}>
-            How one band became a{' '}
-            <span className={styles.highlight}>bridge for Somali culture.</span>
+            A legacy of education, dignity and{' '}
+            <span className={styles.highlight}>hope in Barawa.</span>
           </h2>
 
           <p className={styles.lead}>
-            The story starts in Brava (Baraawe), where a young Shego first picked up the guitar. In
-            the 1980s he and his brother Said moved through Saudi Arabia, Egypt and the United
-            States before finally settling in Toronto in 1991 — carrying Somali songs, rhythms and
-            stories with them the whole way.
+            My name is Shego Said. For many years, people knew me through music. But the deepest
+            reason behind this work comes from one woman: my grandmother, Dada Fatima.
           </p>
 
           <div className={styles.body}>
             <p>
-              In Toronto, that journey became ShegoBand: an energetic ensemble blending Somali dance
-              music, hip-hop, soul and jazz-influenced arrangements, with lyrics in Somali, Arabic,
-              Swahili and more. Most of the musicians were professionals and producers, able to
-              craft a sound that felt modern while still rooted in Somalia&apos;s traditional
-              rhythms.
+              She was from Barawa, a coastal town in Somalia with its own language, identity and
+              history. During the civil war, Barawa was deeply affected. Families were torn apart,
+              many parents were killed, schools were damaged, and children were left orphaned or
+              living in extreme hardship.
             </p>
+
             <p>
-              Over time, the work expanded. Shego produced and recorded Somali artists in the
-              diaspora, helping to keep a scattered culture connected. Tours like Arts Midwest World
-              Fest in 2005–2006 brought ShegoBand, Hibo Nuur and Kooshin to new audiences — offering
-              a living taste of Somali music and history at a time when many people only heard about
-              the country through war.
+              Hunger became common. Resources disappeared. For many children, education stopped
+              being a possibility and survival became the only focus.
             </p>
+
             <p>
-              Today, Shego isn&apos;t chasing stages. The focus is on what those years created: an
-              archive of music, a community that still knows his name, and a commitment to quietly
-              support orphans, education and families in Somalia through the platform he built.
+              My grandmother believed one thing with absolute certainty: no child should grow up
+              without education, and no child should go to sleep hungry.
+            </p>
+
+            <p>
+              Before she passed away, she gave me a piece of land. But to her, it was never just
+              land. It was a mission. She asked me to use it to build a school and community center
+              for orphaned children and vulnerable families — and she made me promise that it would
+              always belong to the children.
+            </p>
+
+            <p>
+              That promise changed my life. What you see through Travel with Shego today begins
+              there.
             </p>
           </div>
         </div>
 
-        {/* RIGHT – simple timeline / phases */}
-        <aside className={styles.timeline} aria-label="How the work has grown">
-          <p className={styles.pillLabel}>How the journey unfolded</p>
+        <aside className={styles.timeline} aria-label="How the story took shape">
+          <p className={styles.pillLabel}>The foundation of the mission</p>
 
           <div className={styles.eventCard}>
-            <span className={styles.eventMeta}>1 · Roots</span>
-            <span className={styles.eventTitle}>Brava, family and the oud</span>
+            <span className={styles.eventMeta}>1 · Barawa</span>
+            <span className={styles.eventTitle}>A place with history, culture and loss</span>
             <p className={styles.eventBody}>
-              Childhood in Brava, learning guitar and oud, surrounded by elders&apos; stories and
-              the rhythms that would later shape ShegoBand&apos;s sound.
+              Barawa is more than a hometown. It is the place that shaped Shego’s roots and the
+              place where war left many children and families without support.
             </p>
           </div>
 
           <div className={styles.eventCard}>
-            <span className={styles.eventMeta}>2 · Diaspora</span>
-            <span className={styles.eventTitle}>A long road to Toronto</span>
+            <span className={styles.eventMeta}>2 · Dada Fatima</span>
+            <span className={styles.eventTitle}>A grandmother’s vision</span>
             <p className={styles.eventBody}>
-              Years spent in Saudi Arabia, Egypt and the United States, before settling in Canada in
-              1991. The music evolves with every move, but stays rooted in Somali culture.
+              Dada Fatima believed education and food were not luxuries. They were a child’s basic
+              right, even in the hardest times.
             </p>
           </div>
 
           <div className={styles.eventCard}>
-            <span className={styles.eventMeta}>3 · ShegoBand & legacy</span>
-            <span className={styles.eventTitle}>From live shows to lasting impact</span>
+            <span className={styles.eventMeta}>3 · The promise</span>
+            <span className={styles.eventTitle}>Land given for the children</span>
             <p className={styles.eventBody}>
-              ShegoBand becomes a name known across the Somali diaspora. Tours, recordings and
-              collaborations showcase Somali music to new audiences and help lay the groundwork for
-              today&apos;s community projects.
+              Before she passed, she entrusted Shego with land and a responsibility: build something
+              that would protect, feed and educate future generations.
             </p>
           </div>
+
+          <blockquote className={styles.quote}>
+            “No child should grow up without education. No child should go to sleep hungry.”
+          </blockquote>
 
           <p className={styles.footerNote}>
-            When you listen to the music, share it with younger Somalis or{' '}
+            That promise is still being carried forward today. And when people{' '}
             <button type="button" className={styles.link} onClick={handleDonateClick}>
-              give directly
+              give support
             </button>
-            , you&apos;re helping that journey continue — honouring Shego&apos;s work while
-            supporting children and families in Somalia.
+            , they become part of that promise too.
           </p>
         </aside>
-      </div>
+      </motion.div>
     </section>
   );
 }

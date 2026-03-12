@@ -3,14 +3,13 @@
 
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { UploadButton } from '@uploadthing/react';
-import type { OurFileRouter } from '@/app/api/uploadthing/core';
+import ImageUploader from '@/components/admin/image/ImageUploader';
 import styles from './GallerySettings.module.scss';
 
 type GalleryForm = {
   imageUrls: string[];
-  title?: string | null; // NEW
-  subtitle?: string | null; // NEW
+  title?: string | null;
+  subtitle?: string | null;
   caption?: string | null;
 };
 
@@ -25,12 +24,13 @@ export default function GallerySettings() {
   const [form, setForm] = useState<GalleryForm>(DEFAULTS);
   const [saving, setSaving] = useState(false);
 
-  // Load saved gallery from DB
+  // Load saved gallery
   useEffect(() => {
     (async () => {
       try {
         const res = await fetch('/api/home/gallery', { cache: 'no-store' });
         if (!res.ok) return;
+
         const data = (await res.json()) as Partial<GalleryForm>;
         setForm({ ...DEFAULTS, ...data });
       } catch (err) {
@@ -56,9 +56,15 @@ export default function GallerySettings() {
     setForm((f) => {
       const arr = [...f.imageUrls];
       const j = i + dir;
+
       if (j < 0 || j >= arr.length) return f;
+
       [arr[i], arr[j]] = [arr[j], arr[i]];
-      return { ...f, imageUrls: arr };
+
+      return {
+        ...f,
+        imageUrls: arr,
+      };
     });
   };
 
@@ -70,9 +76,8 @@ export default function GallerySettings() {
 
   const save = async () => {
     setSaving(true);
+
     try {
-      // Send only the keys your API currently accepts; include title/subtitle
-      // (your API can ignore them safely if not yet supported).
       const payload = {
         imageUrls: form.imageUrls,
         title: form.title ?? null,
@@ -85,7 +90,9 @@ export default function GallerySettings() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       });
+
       if (!res.ok) throw new Error('Save failed');
+
       alert('Gallery updated successfully!');
     } catch (err) {
       console.error(err);
@@ -137,31 +144,17 @@ export default function GallerySettings() {
         {/* Upload images */}
         <label className={styles.full}>
           <span>Upload Images</span>
-          <UploadButton<OurFileRouter, 'mediaUploader'>
-            endpoint="mediaUploader"
-            onClientUploadComplete={(files) => {
-              const urls = files.map((f) => f.url).filter(Boolean) as string[];
-              if (urls.length) {
-                setForm((f) => ({
-                  ...f,
-                  imageUrls: [...f.imageUrls, ...urls],
-                }));
-              }
-              alert('Upload complete!');
-            }}
-            onUploadError={(err) => {
-              console.error(err);
-              alert(err?.message ?? 'Upload failed');
-            }}
-            appearance={{
-              button:
-                'px-4 py-2 mt-2 rounded-lg border border-gray-300 bg-white font-semibold hover:bg-gray-50 transition',
-            }}
-            content={{
-              button({ isUploading }) {
-                return isUploading ? 'Uploading...' : 'Select Images';
-              },
-            }}
+
+          <ImageUploader
+            files={form.imageUrls}
+            setFiles={(urls) =>
+              setForm((f) => ({
+                ...f,
+                imageUrls: urls,
+              }))
+            }
+            pathSegments={['gallery']}
+            itemName="home-gallery"
           />
         </label>
 
@@ -191,6 +184,7 @@ export default function GallerySettings() {
                 >
                   ←
                 </button>
+
                 <button
                   type="button"
                   onClick={() => move(i, 1)}
@@ -199,6 +193,7 @@ export default function GallerySettings() {
                 >
                   →
                 </button>
+
                 <button type="button" onClick={() => removeUrl(i)} className={styles.removeBtn}>
                   ✕ Remove
                 </button>
@@ -223,7 +218,6 @@ export default function GallerySettings() {
             className={styles.buttonSecondary}
             onClick={clearAll}
             disabled={saving || form.imageUrls.length === 0}
-            aria-label="Clear all images"
             style={{ marginLeft: '.5rem' }}
           >
             Clear All Images

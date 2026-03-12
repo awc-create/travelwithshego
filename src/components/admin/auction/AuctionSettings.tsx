@@ -1,9 +1,7 @@
-// src/components/admin/auction/AuctionSettings.tsx
 'use client';
 
 import { useEffect, useState, DragEvent, ChangeEvent, FormEvent } from 'react';
-import { UploadButton } from '@uploadthing/react';
-import type { OurFileRouter } from '@/app/api/uploadthing/core';
+import ImageUploader from '@/components/admin/image/ImageUploader';
 import styles from './AuctionSettings.module.scss';
 
 type AuctionItem = {
@@ -56,9 +54,6 @@ type EndsLabelInfo = {
   status: EndsLabelStatus;
 };
 
-/**
- * Default: 7 days from now, 20:00 local time, formatted for datetime-local.
- */
 function getDefaultEndsAtLocalInput(): string {
   const now = new Date();
   const defaultEnd = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
@@ -73,12 +68,6 @@ function getDefaultEndsAtLocalInput(): string {
   return `${y}-${m}-${d}T${hh}:${mm}`;
 }
 
-/**
- * Convert an ISO string into a simple label:
- * - "Ended" (past)
- * - "Ends today" (same calendar day, future)
- * - "Ends in X days" (future date)
- */
 function getEndsLabelInfo(endsAt: string | null): EndsLabelInfo | null {
   if (!endsAt) return null;
 
@@ -121,15 +110,12 @@ export default function AuctionSettings() {
   const [error, setError] = useState<string | null>(null);
   const [slugError, setSlugError] = useState<string | null>(null);
 
-  // drag-reorder state
   const [dragIndex, setDragIndex] = useState<number | null>(null);
   const [draggingId, setDraggingId] = useState<string | null>(null);
   const [reordering, setReordering] = useState(false);
 
-  // bulk select
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
 
-  // image modal
   const [imageModalUrl, setImageModalUrl] = useState<string | null>(null);
   const [imageModalTitle, setImageModalTitle] = useState<string>('');
 
@@ -152,10 +138,6 @@ export default function AuctionSettings() {
   useEffect(() => {
     void load();
   }, []);
-
-  // ─────────────────────────────
-  //   FORM HELPERS
-  // ─────────────────────────────
 
   function validateSlug(value: string, currentId: string | null): void {
     const trimmed = value.trim();
@@ -217,10 +199,6 @@ export default function AuctionSettings() {
     setSlugError(null);
   }
 
-  // ─────────────────────────────
-  //   SAVE / DELETE
-  // ─────────────────────────────
-
   async function saveItem() {
     setSaving(true);
     setError(null);
@@ -228,6 +206,7 @@ export default function AuctionSettings() {
     try {
       const trimmedSlug = form.slug.trim().toLowerCase();
       validateSlug(trimmedSlug, editingId);
+
       if (slugError || !trimmedSlug) {
         setSaving(false);
         return;
@@ -294,16 +273,10 @@ export default function AuctionSettings() {
       pricePence: item.pricePence,
       sortOrder: item.sortOrder,
       active: item.active,
-      endsAt: item.endsAt
-        ? new Date(item.endsAt).toISOString().slice(0, 16) // yyyy-MM-ddTHH:mm
-        : null,
+      endsAt: item.endsAt ? new Date(item.endsAt).toISOString().slice(0, 16) : null,
     });
     setSlugError(null);
   }
-
-  // ─────────────────────────────
-  //   EXPORT / IMPORT CSV
-  // ─────────────────────────────
 
   function handleExport() {
     if (!items.length) {
@@ -465,10 +438,6 @@ export default function AuctionSettings() {
     }
   }
 
-  // ─────────────────────────────
-  //   DRAG REORDER
-  // ─────────────────────────────
-
   function reorder<T>(list: T[], from: number, to: number): T[] {
     const copy = [...list];
     const [moved] = copy.splice(from, 1);
@@ -520,10 +489,6 @@ export default function AuctionSettings() {
       setReordering(false);
     }
   }
-
-  // ─────────────────────────────
-  //   BULK SELECTION / ACTIONS
-  // ─────────────────────────────
 
   function toggleSelect(id: string) {
     setSelectedIds((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
@@ -582,10 +547,6 @@ export default function AuctionSettings() {
     }
   }
 
-  // ─────────────────────────────
-  //   IMAGE MODAL
-  // ─────────────────────────────
-
   function openImageModal(url: string, title: string) {
     setImageModalUrl(url);
     setImageModalTitle(title);
@@ -595,10 +556,6 @@ export default function AuctionSettings() {
     setImageModalUrl(null);
     setImageModalTitle('');
   }
-
-  // ─────────────────────────────
-  //   RENDER
-  // ─────────────────────────────
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -617,7 +574,6 @@ export default function AuctionSettings() {
 
       {error && <p className={styles.error}>{error}</p>}
 
-      {/* Tools: export / import / sample */}
       <div className={styles.tools}>
         <button
           type="button"
@@ -648,7 +604,6 @@ export default function AuctionSettings() {
         <code>50.00</code>). Export, tweak in a spreadsheet, then import.
       </p>
 
-      {/* Bulk bar */}
       <div className={styles.bulkBar}>
         <label className={styles.bulkSelect}>
           <input
@@ -693,7 +648,6 @@ export default function AuctionSettings() {
       </div>
 
       <div className={styles.layout}>
-        {/* LEFT: Form */}
         <div className={styles.formPane}>
           <h3 className={styles.subTitle}>
             {editingId ? 'Edit Auction Item' : 'New Auction Item'}
@@ -734,39 +688,34 @@ export default function AuctionSettings() {
               />
             </label>
 
-            {/* Image row: text input + UploadThing + preview */}
-            <label className={styles.full}>
-              Image
-              <div className={styles.imageControls}>
-                <input
-                  value={form.imageUrl ?? ''}
-                  onChange={setField('imageUrl')}
-                  placeholder="Paste image URL or upload below"
+            <div className={styles.full}>
+              <ImageUploader
+                label="Image"
+                single
+                files={form.imageUrl ? [form.imageUrl] : []}
+                setFiles={(urls) =>
+                  setForm((f) => ({
+                    ...f,
+                    imageUrl: urls[0] ?? '',
+                  }))
+                }
+                pathSegments={['auction']}
+                itemName={form.slug || 'auction-item'}
+                accept="image/*"
+              />
+            </div>
+
+            {form.imageUrl && (
+              <div className={styles.imagePreview}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={form.imageUrl}
+                  alt={form.title || 'Auction item image'}
+                  onClick={() => openImageModal(form.imageUrl ?? '', form.title || '')}
                 />
-                <UploadButton<OurFileRouter, 'mediaUploader'>
-                  endpoint="mediaUploader"
-                  onClientUploadComplete={(res) => {
-                    if (!res?.[0]) return;
-                    const url = res[0].url;
-                    setForm((f) => ({ ...f, imageUrl: url }));
-                  }}
-                  onUploadError={(err) => {
-                    alert(err.message);
-                  }}
-                />
+                <span className={styles.imageHint}>Click to enlarge</span>
               </div>
-              {form.imageUrl && (
-                <div className={styles.imagePreview}>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={form.imageUrl}
-                    alt={form.title || 'Auction item image'}
-                    onClick={() => openImageModal(form.imageUrl ?? '', form.title || '')}
-                  />
-                  <span className={styles.imageHint}>Click to enlarge</span>
-                </div>
-              )}
-            </label>
+            )}
 
             <label>
               Suggested amount (£)
@@ -817,7 +766,6 @@ export default function AuctionSettings() {
           </form>
         </div>
 
-        {/* RIGHT: List */}
         <aside className={styles.listPane}>
           <div className={styles.listHeader}>
             <span>Existing items</span>
@@ -917,7 +865,6 @@ export default function AuctionSettings() {
         </aside>
       </div>
 
-      {/* Image modal */}
       {imageModalUrl && (
         <div className={styles.imageModal} onClick={closeImageModal}>
           <div className={styles.imageModalInner} onClick={(e) => e.stopPropagation()}>

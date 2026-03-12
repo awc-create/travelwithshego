@@ -1,90 +1,85 @@
 'use client';
 
+import { motion } from 'framer-motion';
 import styles from './FounderSupport.module.scss';
 
 export default function FounderSupport() {
   return (
     <section className={styles.supportSection} aria-labelledby="founder-support-heading">
-      <div className={styles.inner}>
-        {/* HEADER / INTRO */}
+      <motion.div
+        className={styles.inner}
+        initial={{ opacity: 0, y: 28 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: '-120px' }}
+        transition={{ duration: 0.7, ease: 'easeOut' }}
+      >
         <header className={styles.header}>
-          <span className={styles.kicker}>Standing with Shego</span>
+          <span className={styles.kicker}>The road ahead</span>
           <h2 id="founder-support-heading" className={styles.heading}>
-            You don&apos;t have to be on stage to{' '}
-            <span className={styles.highlight}>keep this work going.</span>
+            The vision is bigger than what exists today —{' '}
+            <span className={styles.highlight}>and support helps carry it forward.</span>
           </h2>
           <p className={styles.lead}>
-            These days, most of Shego&apos;s work happens quietly: supporting families, guiding
-            young people and staying connected with trusted contacts in Somalia. If you want to
-            help, there are simple, steady ways to do it.
+            There has already been progress, but the needs are still larger than the resources.
+            Classroom space is limited, supplies run short, meal support is not always consistent,
+            and better infrastructure is still needed. The hope is to keep building carefully, step
+            by step, without losing the dignity of the people this work is meant to serve.
           </p>
         </header>
 
-        {/* GRID OF WAYS TO HELP */}
-        <div className={styles.grid} aria-label="Ways you can support">
+        <div className={styles.grid} aria-label="Ways the mission can grow">
           <article className={styles.card}>
-            <p className={styles.label}>1 · Share the stories</p>
-            <h3 className={styles.title}>Amplify Baraawe&apos;s voice</h3>
+            <p className={styles.label}>1 · Expand the space</p>
+            <h3 className={styles.title}>More room for children to learn safely</h3>
             <p className={styles.body}>
-              Sharing Travel with Shego videos, interviews or posts helps more people understand
-              what life looks like for Somali families, both at home and in the diaspora. Awareness
-              makes it easier to gather quiet support when it is needed.
+              The long-term aim is to strengthen classroom capacity, improve shelter, and create a
+              more stable environment for education and care.
             </p>
             <p className={styles.detail}>
-              You can start with the{' '}
-              <a
-                href="https://www.youtube.com/@shegomedia"
-                target="_blank"
-                rel="noreferrer"
-                className={styles.link}
-              >
-                Travel With Shego YouTube channel
-              </a>
-              , or simply tell someone else about the work.
+              Better physical space means more children can be supported with dignity and
+              consistency.
             </p>
           </article>
 
           <article className={styles.card}>
-            <p className={styles.label}>2 · Back a practical need</p>
-            <h3 className={styles.title}>Help with fees, housing or a well</h3>
+            <p className={styles.label}>2 · Build practical programmes</p>
+            <h3 className={styles.title}>Sewing, carpentry and life skills</h3>
             <p className={styles.body}>
-              From school fees to rent top-ups or small community projects like wells, even modest
-              contributions can make a real difference when they&apos;re directed carefully and
-              locally.
+              The vision reaches beyond immediate relief. It includes vocational training, practical
+              skills and opportunities that can help families become stronger and more independent.
             </p>
             <p className={styles.detail}>
-              If you&apos;re thinking about helping in this way, you can reach out and ask about
-              current needs rather than giving into a general pot.
+              When adults can earn, households stabilise — and children benefit directly.
             </p>
           </article>
 
           <article className={styles.card}>
-            <p className={styles.label}>3 · Open doors for young people</p>
-            <h3 className={styles.title}>Mentoring, guidance & opportunities</h3>
+            <p className={styles.label}>3 · Keep the promise alive</p>
+            <h3 className={styles.title}>Support meals, education and family dignity</h3>
             <p className={styles.body}>
-              Many young people in the diaspora carry big responsibilities at home while trying to
-              study or build careers. Offering mentoring, work experience, or simply time and advice
-              can be just as valuable as money.
+              Some people may help through giving, others by sharing the story, opening doors,
+              connecting resources or simply staying involved over time.
             </p>
             <p className={styles.detail}>
-              If you have skills, networks or experience that could help, you can get in touch and
-              explore what might be useful and realistic.
+              What matters most is steady, sincere support that protects children and strengthens
+              the community from within.
             </p>
           </article>
         </div>
 
-        {/* FOOTER NOTE + CTA */}
         <footer className={styles.footer}>
           <p className={styles.note}>
-            None of this is about building a celebrity brand or constant fundraising. It&apos;s
-            about steady, respectful support — the kind that protects dignity and keeps
-            Baraawe&apos;s spirit alive in a quiet way.
+            Shego was once on stages around the world. Today, the work looks different: classrooms,
+            meals, supplies, conversations, and the daily effort of helping children who have
+            already lost too much. Dada Fatima’s dream was simple — no child without education, no
+            child without food. This mission continues in her name.
           </p>
+
           <a href="/contact" className={styles.primary}>
             Start a private conversation
           </a>
         </footer>
-      </div>
+      </motion.div>
     </section>
   );
 }

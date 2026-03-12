@@ -1,3 +1,4 @@
+// src/components/admin/media/MediaGallery.tsx
 'use client';
 
 import { useEffect, useState } from 'react';

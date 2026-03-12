@@ -1,27 +1,17 @@
 .heroSection {
   position: relative;
-
-  /* full-bleed */
   width: 100vw;
   margin-left: 50%;
   margin-right: 50%;
   transform: translateX(-50%);
-
   min-height: 100svh;
   padding: clamp(4rem, 7vw, 6rem) clamp(1.5rem, 6vw, 4.5rem);
-
-  background: linear-gradient(
-    to bottom,
-    var(--founder-bg-1) 0%,
-    var(--founder-bg-2) 100%
-  );
-
+  background: linear-gradient(to bottom, var(--founder-bg-1) 0%, var(--founder-bg-2) 100%);
   display: flex;
   align-items: center;
   overflow: hidden;
 }
 
-/* soft ambient glow */
 .bgGlow {
   position: absolute;
   inset: 0;
@@ -42,7 +32,6 @@
   z-index: 0;
 }
 
-/* layout */
 .heroContent {
   position: relative;
   z-index: 1;
@@ -64,7 +53,6 @@
   gap: 1rem;
 }
 
-/* tags */
 .tagRow {
   display: inline-flex;
   flex-wrap: wrap;
@@ -101,11 +89,10 @@
   color: var(--founder-text-muted);
 }
 
-/* text */
 .title {
-  font-size: clamp(2.4rem, 4.8vw, 3.4rem);
+  font-size: clamp(2.4rem, 4.8vw, 3.5rem);
   font-weight: 900;
-  line-height: 1.05;
+  line-height: 1.04;
   letter-spacing: -0.03em;
   color: var(--founder-text-main);
   margin: 0 0 1rem;
@@ -116,9 +103,9 @@
 }
 
 .subtitle {
-  max-width: 620px;
+  max-width: 640px;
   font-size: 1.05rem;
-  line-height: 1.75;
+  line-height: 1.78;
   color: var(--founder-text-muted);
   margin: 0 0 1.8rem;
 
@@ -128,7 +115,6 @@
   }
 }
 
-/* key cards */
 .keyCards {
   display: flex;
   flex-wrap: wrap;
@@ -141,12 +127,13 @@
 }
 
 .card {
-  padding: 0.9rem 1.1rem;
+  padding: 0.95rem 1.1rem;
   border-radius: 16px;
-  background: #ffffff;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(8px);
   border: 1px solid rgba(0, 0, 0, 0.06);
   box-shadow: 0 6px 14px rgba(0, 0, 0, 0.06);
-  min-width: 180px;
+  min-width: 185px;
 }
 
 .cardLabel {
@@ -162,9 +149,9 @@
   font-size: 0.95rem;
   font-weight: 600;
   color: var(--founder-text-main);
+  line-height: 1.5;
 }
 
-/* CTAs */
 .actions {
   display: flex;
   flex-wrap: wrap;
@@ -182,11 +169,7 @@
   align-items: center;
   padding: 0.9rem 1.7rem;
   border-radius: 999px;
-  background: linear-gradient(
-    135deg,
-    var(--founder-gold-soft),
-    var(--founder-gold)
-  );
+  background: linear-gradient(135deg, var(--founder-gold-soft), var(--founder-gold));
   color: #111;
   font-weight: 800;
   text-decoration: none;
@@ -215,9 +198,8 @@
   }
 }
 
-/* progress */
 .progressBlock {
-  max-width: 520px;
+  max-width: 560px;
 
   @media (max-width: 960px) {
     margin-left: auto;
@@ -237,11 +219,7 @@
 
 .progressFill {
   height: 100%;
-  background: linear-gradient(
-    90deg,
-    var(--founder-gold),
-    var(--founder-gold-soft)
-  );
+  background: linear-gradient(90deg, var(--founder-gold), var(--founder-gold-soft));
 }
 
 .progressMeta {
@@ -281,7 +259,6 @@
   box-shadow: 0 0 0 6px rgba(230, 207, 146, 0.4);
 }
 
-/* portrait */
 .portraitWrap {
   @media (max-width: 960px) {
     order: -1;
@@ -294,7 +271,6 @@
   max-width: 480px;
   aspect-ratio: 3 / 4;
   margin-left: auto;
-
   border-radius: 26px;
   overflow: hidden;
   background: #fdfbf6;
@@ -313,12 +289,11 @@
   filter: contrast(1.03) saturate(1.04);
 }
 
-/* badge on portrait */
 .badge {
   position: absolute;
   bottom: 16px;
   left: 16px;
-  padding: 0.35rem 0.9rem;
+  padding: 0.45rem 0.9rem;
   border-radius: 999px;
   font-size: 0.76rem;
   letter-spacing: 0.12em;
@@ -346,7 +321,6 @@
   }
 }
 
-/* scroll cue */
 .scrollCue {
   position: absolute;
   bottom: 32px;
@@ -380,5 +354,11 @@
   }
   50% {
     transform: translate(-50%, -8px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scrollCue {
+    animation: none;
   }
 }

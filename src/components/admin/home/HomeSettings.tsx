@@ -7,12 +7,15 @@ import MissionSettings from './MissionSettings';
 import GallerySettings from './GallerySettings';
 import TestimonialSettings from './TestimonialSettings';
 import DonationSettings from './DonationSettings';
+import ImpactEvidenceSettings from './ImpactEvidenceSettings';
 
-type HomeTab = 'hero' | 'mission' | 'gallery' | 'testimonial' | 'donation';
+type HomeTab = 'hero' | 'mission' | 'gallery' | 'evidence' | 'testimonial' | 'donation';
+
 const TABS: { key: HomeTab; label: string }[] = [
   { key: 'hero', label: 'Hero' },
   { key: 'mission', label: 'Mission' },
   { key: 'gallery', label: 'Gallery' },
+  { key: 'evidence', label: 'Evidence' },
   { key: 'testimonial', label: 'Testimonial' },
   { key: 'donation', label: 'Donation' },
 ];
@@ -45,6 +48,7 @@ export default function HomeSettings() {
         {active === 'hero' && <HeroSettings />}
         {active === 'mission' && <MissionSettings />}
         {active === 'gallery' && <GallerySettings />}
+        {active === 'evidence' && <ImpactEvidenceSettings />}
         {active === 'testimonial' && <TestimonialSettings />}
         {active === 'donation' && <DonationSettings />}
       </div>

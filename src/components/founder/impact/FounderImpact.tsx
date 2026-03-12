@@ -1,70 +1,80 @@
 'use client';
 
+import { motion } from 'framer-motion';
 import styles from './FounderImpact.module.scss';
 
 const impactHighlights = [
   {
     label: 'Education',
-    title: 'School fees & learning essentials',
-    body: 'Helping children stay in class by covering fees, uniforms, books and exam costs when families can’t manage alone.',
+    title: 'Learning for children who would otherwise miss school',
+    body: 'Support goes toward school access, books, supplies and the day-to-day essentials that help vulnerable children keep learning.',
   },
   {
-    label: 'Safe homes',
-    title: 'Support for orphans & vulnerable families',
-    body: 'Quietly assisting carers and single parents with rent, food and basics so children can stay in safe, stable homes.',
+    label: 'Meals',
+    title: 'Breakfast and food support where hunger is real',
+    body: 'Children cannot learn on an empty stomach. A key part of the work is helping make sure meals are available when families are struggling.',
   },
   {
-    label: 'Community projects',
-    title: 'Wells & local initiatives',
-    body: 'Backing small, community-led projects such as wells, repairs and local relief where they are needed most.',
+    label: 'Community livelihoods',
+    title: 'Practical work that strengthens families too',
+    body: 'The wider vision includes creating opportunities for local teachers, women learning sewing skills, and men receiving carpentry support.',
   },
 ];
 
 export default function FounderImpact() {
   return (
     <section id="donate" className={styles.impactSection} aria-labelledby="founder-impact-heading">
-      <div className={styles.inner}>
-        {/* LEFT – explanation + trust */}
+      <motion.div
+        className={styles.inner}
+        initial={{ opacity: 0, y: 28 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: '-120px' }}
+        transition={{ duration: 0.7, ease: 'easeOut' }}
+      >
         <div className={styles.copy}>
-          <span className={styles.kicker}>Where your support goes</span>
+          <span className={styles.kicker}>What the work looks like today</span>
+
           <h2 id="founder-impact-heading" className={styles.heading}>
-            Simple, direct help —{' '}
-            <span className={styles.highlight}>sent through trusted hands in Somalia.</span>
+            More than charity,{' '}
+            <span className={styles.highlight}>a small but growing community lifeline.</span>
           </h2>
 
           <p className={styles.lead}>
-            There is no big charity machine here. Support that comes through Travel with Shego is
-            passed on carefully: to families, carers and local leaders who know the streets, the
-            schools and the real needs. Every contribution is treated as amanah — a trust.
+            This work is not only about one building. It is about creating a place where children
+            can learn, eat and feel safe, while families around them become more stable and more
+            hopeful.
           </p>
 
-          <ul className={styles.principles} aria-label="How Shego handles funds">
+          <ul className={styles.principles} aria-label="Current areas of work">
             <li>
-              <strong>Local first.</strong> Money goes to people who live in the communities
-              affected, not distant offices.
+              <strong>Education for vulnerable children.</strong> Helping children stay connected to
+              learning even when home circumstances are difficult.
             </li>
             <li>
-              <strong>Quiet by design.</strong> No public fundraising targets or pressure — just
-              steady, discreet support.
+              <strong>Daily food support.</strong> Providing breakfast and practical help for
+              children who arrive hungry.
             </li>
             <li>
-              <strong>Accountable.</strong> Shego keeps personal records, voice notes and updates
-              from the ground to track how help is used.
+              <strong>Ramadan family support.</strong> Extending care to poorer households during a
+              season centred on generosity and compassion.
+            </li>
+            <li>
+              <strong>Economic dignity.</strong> Looking beyond relief alone by supporting work,
+              skills and opportunities inside the community.
             </li>
           </ul>
 
           <div className={styles.actions}>
             <a href="/contact" className={styles.primary}>
-              Ask about supporting a project
+              Ask how to support the work
             </a>
             <p className={styles.note}>
-              You&apos;re welcome to reach out if you want to help with school fees, a well, or a
-              specific family situation. Support is arranged personally, case by case.
+              Support is meant to be practical and personal. If you want to help with meals,
+              education, family support or a community need, you can reach out directly.
             </p>
           </div>
         </div>
 
-        {/* RIGHT – impact cards */}
         <div className={styles.grid} aria-label="Examples of current focus">
           {impactHighlights.map((item) => (
             <article key={item.label} className={styles.card}>
@@ -75,12 +85,11 @@ export default function FounderImpact() {
           ))}
 
           <div className={styles.smallPrint}>
-            These are typical areas of support. Needs change over time, but the aim stays the same:
-            protect children, keep families stable and make daily life a little easier for people
-            who have very little.
+            The exact needs change over time, but the purpose stays consistent: protect children,
+            strengthen families, and rebuild dignity from within the community.
           </div>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }
