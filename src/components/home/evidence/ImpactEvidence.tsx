@@ -1,4 +1,3 @@
-// src/components/home/evidence/ImpactEvidence.tsx
 'use client';
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -12,28 +11,36 @@ export type EvidenceItem =
       alt?: string;
       title?: string;
       caption?: string;
-      date?: string; // "Jan 2026" etc (display only)
+      date?: string;
       location?: string;
     }
   | {
       type: 'video';
-      src: string; // mp4/webm public or remote
-      poster?: string; // strongly recommended for reel + grid
+      src: string;
+      poster?: string;
       title?: string;
       caption?: string;
       date?: string;
       location?: string;
     };
 
-type Props = {
-  id?: string;
-  title?: string;
-  subtitle?: string;
-  stats?: Array<{ label: string; value: string }>;
-  items: EvidenceItem[];
-  intervalMs?: number;
-  ctaLabel?: string;
+type EvidenceResponse = {
+  key?: string;
+  title?: string | null;
+  subtitle?: string | null;
+  items?: EvidenceItem[];
 };
+
+const DEFAULT_TITLE = 'Evidence of Where Your Money Has Been Helping';
+const DEFAULT_SUBTITLE =
+  'Real updates from the ground — photos and video moments showing progress and impact.';
+const DEFAULT_STATS = [
+  { label: 'Community updates', value: 'Monthly' },
+  { label: 'Media proof', value: 'Photos + Videos' },
+  { label: 'Transparency', value: 'Always on-site' },
+];
+const DEFAULT_INTERVAL_MS = 5200;
+const DEFAULT_CTA_LABEL = 'View all evidence';
 
 function usePrefersReducedMotion() {
   const [reduced, setReduced] = useState(false);
@@ -49,34 +56,47 @@ function usePrefersReducedMotion() {
   return reduced;
 }
 
-export default function ImpactEvidence({
-  id = 'impact-evidence',
-  title = 'Evidence of Where Your Money Has Been Helping',
-  subtitle = 'Real updates from the ground — photos and video moments showing progress and impact.',
-  stats = [
-    { label: 'Community updates', value: 'Monthly' },
-    { label: 'Media proof', value: 'Photos + Videos' },
-    { label: 'Transparency', value: 'Always on-site' },
-  ],
-  items,
-  intervalMs = 5200,
-  ctaLabel = 'View all evidence',
-}: Props) {
+export default function ImpactEvidence() {
   const reducedMotion = usePrefersReducedMotion();
 
-  // ✅ Memoize so ESLint deps don't fluctuate
-  const safeItems = useMemo(() => items ?? [], [items]);
+  const [title, setTitle] = useState(DEFAULT_TITLE);
+  const [subtitle, setSubtitle] = useState(DEFAULT_SUBTITLE);
+  const [items, setItems] = useState<EvidenceItem[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
 
-  // Modal / Viewer state
   const [modalOpen, setModalOpen] = useState(false);
   const [filter, setFilter] = useState<'all' | 'image' | 'video'>('all');
 
   const [viewerOpen, setViewerOpen] = useState(false);
   const [viewerIdx, setViewerIdx] = useState(0);
   const overlayRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await fetch('/api/home/evidence', { cache: 'no-store' });
+        if (!res.ok) throw new Error('Failed to load evidence');
+
+        const data = (await res.json()) as EvidenceResponse;
+
+        setTitle(data.title?.trim() || DEFAULT_TITLE);
+        setSubtitle(data.subtitle?.trim() || DEFAULT_SUBTITLE);
+        setItems(Array.isArray(data.items) ? data.items : []);
+      } catch (err) {
+        console.error('Failed to fetch impact evidence:', err);
+        setTitle(DEFAULT_TITLE);
+        setSubtitle(DEFAULT_SUBTITLE);
+        setItems([]);
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, []);
+
+  const safeItems = useMemo(() => items ?? [], [items]);
 
   const filtered = useMemo(() => {
     if (filter === 'all') return safeItems;
@@ -85,7 +105,6 @@ export default function ImpactEvidence({
 
   const reelItem = safeItems[active];
 
-  // autoplay reel
   useEffect(() => {
     if (reducedMotion) return;
     if (!safeItems.length) return;
@@ -93,10 +112,10 @@ export default function ImpactEvidence({
 
     const t = window.setInterval(() => {
       setActive((i) => (i + 1) % safeItems.length);
-    }, intervalMs);
+    }, DEFAULT_INTERVAL_MS);
 
     return () => window.clearInterval(t);
-  }, [safeItems.length, intervalMs, paused, reducedMotion]);
+  }, [safeItems.length, paused, reducedMotion]);
 
   const go = useCallback(
     (idx: number) => {
@@ -110,7 +129,6 @@ export default function ImpactEvidence({
   const next = useCallback(() => go(active + 1), [go, active]);
   const prev = useCallback(() => go(active - 1), [go, active]);
 
-  // keyboard for modal/viewer
   useEffect(() => {
     if (!modalOpen && !viewerOpen) return;
 
@@ -119,23 +137,32 @@ export default function ImpactEvidence({
         if (viewerOpen) setViewerOpen(false);
         else setModalOpen(false);
       }
+
       if (!viewerOpen) return;
 
-      if (e.key === 'ArrowRight') setViewerIdx((i) => (i + 1) % filtered.length);
-      if (e.key === 'ArrowLeft') setViewerIdx((i) => (i - 1 + filtered.length) % filtered.length);
+      if (e.key === 'ArrowRight') {
+        setViewerIdx((i) => (i + 1) % filtered.length);
+      }
+
+      if (e.key === 'ArrowLeft') {
+        setViewerIdx((i) => (i - 1 + filtered.length) % filtered.length);
+      }
     };
 
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   }, [modalOpen, viewerOpen, filtered.length]);
 
-  // swipe for viewer
   useEffect(() => {
     if (!viewerOpen || !overlayRef.current) return;
+
     let startX = 0;
     const el = overlayRef.current;
 
-    const onTouchStart = (e: TouchEvent) => (startX = e.touches[0].clientX);
+    const onTouchStart = (e: TouchEvent) => {
+      startX = e.touches[0].clientX;
+    };
+
     const onTouchEnd = (e: TouchEvent) => {
       const dx = e.changedTouches[0].clientX - startX;
       if (dx > 40) setViewerIdx((i) => (i - 1 + filtered.length) % filtered.length);
@@ -144,17 +171,19 @@ export default function ImpactEvidence({
 
     el.addEventListener('touchstart', onTouchStart);
     el.addEventListener('touchend', onTouchEnd);
+
     return () => {
       el.removeEventListener('touchstart', onTouchStart);
       el.removeEventListener('touchend', onTouchEnd);
     };
   }, [viewerOpen, filtered.length]);
 
-  // lock scroll when modal open
   useEffect(() => {
     if (!modalOpen && !viewerOpen) return;
+
     const prevOverflow = document.documentElement.style.overflow;
     document.documentElement.style.overflow = 'hidden';
+
     return () => {
       document.documentElement.style.overflow = prevOverflow;
     };
@@ -175,7 +204,7 @@ export default function ImpactEvidence({
 
   return (
     <section
-      id={id}
+      id="impact-evidence"
       className={styles.section}
       aria-label="Evidence of impact section"
       onMouseEnter={() => setPaused(true)}
@@ -183,14 +212,13 @@ export default function ImpactEvidence({
     >
       <div className="container">
         <div className={styles.wrap}>
-          {/* Left */}
           <div className={styles.copy}>
             <span className={styles.kicker}>Impact Evidence</span>
             <h2 className={styles.title}>{title}</h2>
             <p className={styles.subtitle}>{subtitle}</p>
 
             <div className={styles.stats} aria-label="Impact highlights">
-              {stats.map((s) => (
+              {DEFAULT_STATS.map((s) => (
                 <div key={s.label} className={styles.stat}>
                   <div className={styles.value}>{s.value}</div>
                   <div className={styles.label}>{s.label}</div>
@@ -200,7 +228,7 @@ export default function ImpactEvidence({
 
             <div className={styles.actions}>
               <button className={styles.primary} onClick={openModal}>
-                {ctaLabel}
+                {DEFAULT_CTA_LABEL}
               </button>
 
               <button
@@ -224,9 +252,10 @@ export default function ImpactEvidence({
             </p>
           </div>
 
-          {/* Right: Reel */}
           <div className={styles.reel} aria-label="Impact reel">
-            {safeItems.length === 0 ? (
+            {loading ? (
+              <div className={styles.reelEmpty}>Loading evidence…</div>
+            ) : safeItems.length === 0 ? (
               <div className={styles.reelEmpty}>
                 No evidence media yet — upload from Admin <strong>Home → Evidence</strong>.
               </div>
@@ -242,19 +271,28 @@ export default function ImpactEvidence({
                       sizes="(max-width: 900px) 100vw, 52vw"
                       priority={active === 0}
                     />
+                  ) : reelItem?.poster ? (
+                    <>
+                      <Image
+                        src={reelItem.poster}
+                        alt="Impact evidence video poster"
+                        fill
+                        className={styles.cover}
+                        sizes="(max-width: 900px) 100vw, 52vw"
+                      />
+                      <div className={styles.playBadge} aria-hidden="true">
+                        ▶
+                      </div>
+                    </>
                   ) : (
                     <>
-                      {reelItem?.poster ? (
-                        <Image
-                          src={reelItem.poster}
-                          alt="Impact evidence video poster"
-                          fill
-                          className={styles.cover}
-                          sizes="(max-width: 900px) 100vw, 52vw"
-                        />
-                      ) : (
-                        <div className={styles.videoFallback}>Video</div>
-                      )}
+                      <video
+                        src={reelItem?.src}
+                        className={styles.coverVideo}
+                        muted
+                        playsInline
+                        preload="metadata"
+                      />
                       <div className={styles.playBadge} aria-hidden="true">
                         ▶
                       </div>
@@ -327,7 +365,6 @@ export default function ImpactEvidence({
         </div>
       </div>
 
-      {/* Modal (Grid) */}
       {modalOpen && (
         <div
           className={styles.modalOverlay}
@@ -422,7 +459,13 @@ export default function ImpactEvidence({
                             sizes="(max-width: 700px) 100vw, 33vw"
                           />
                         ) : (
-                          <div className={styles.videoFallback}>Video</div>
+                          <video
+                            src={it.src}
+                            className={styles.thumbVideo}
+                            muted
+                            playsInline
+                            preload="metadata"
+                          />
                         )}
                         <span className={styles.playMini} aria-hidden="true">
                           ▶
@@ -449,7 +492,6 @@ export default function ImpactEvidence({
             )}
           </div>
 
-          {/* Viewer Lightbox */}
           {viewerOpen && viewerItem && (
             <div
               ref={overlayRef}

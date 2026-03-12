@@ -6,6 +6,7 @@ const nextConfig = {
       { protocol: 'https', hostname: 'utfs.io' }, // UploadThing CDN
       { protocol: 'https', hostname: 'uploadthing.com' },
       { protocol: 'https', hostname: 'cdn.uploadthing.com' },
+      { protocol: 'https', hostname: 'travel-with-shego-media.hel1.your-objectstorage.com' },
       // add any other external hosts you use for images
     ],
     // If you really want to bypass  optimization locally:

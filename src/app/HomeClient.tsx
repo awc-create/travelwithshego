@@ -9,7 +9,7 @@ import BuildingGallery from '@/components/home/gallery/BuildingGallery';
 import type { HomeData } from '@/lib/getHomeData';
 import { useDonationStats } from '@/hooks/useDonationStats';
 import RamadanHomeBanner from '@/components/home/RamadanBannerHome';
-import ImpactEvidence, { type EvidenceItem } from '@/components/home/evidence/ImpactEvidence';
+import ImpactEvidence from '@/components/home/evidence/ImpactEvidence';
 import FounderBridge from '@/components/home/founder-bridge/FounderBridge';
 
 type HomeClientProps = {
@@ -24,36 +24,6 @@ export default function HomeClient({ data, buildingImages = [] }: HomeClientProp
   const goal = (stats?.goalPence ?? 10_000 * 100) / 100;
 
   const ramadanPaypalUrl = 'https://www.paypal.com/ncp/payment/7RSWYTZQDP7NL';
-
-  const evidenceItems: EvidenceItem[] = [
-    {
-      type: 'image',
-      src: '/assets/evidence/baraawe-1.jpg',
-      alt: 'Supplies arriving at the site',
-      title: 'Supplies arrived on site',
-      caption: 'First delivery of materials and essentials.',
-      location: 'Baraawe',
-      date: 'Jan 2026',
-    },
-    {
-      type: 'video',
-      src: '/assets/evidence/progress-1.mp4',
-      poster: '/assets/evidence/progress-1-poster.jpg',
-      title: 'Progress update',
-      caption: 'Short walk-through of the latest work completed.',
-      location: 'Baraawe',
-      date: 'Feb 2026',
-    },
-    {
-      type: 'image',
-      src: '/assets/evidence/baraawe-2.jpg',
-      alt: 'Volunteers working with the local community',
-      title: 'Community work day',
-      caption: 'Local volunteers helping organise and support the build.',
-      location: 'Baraawe',
-      date: 'Feb 2026',
-    },
-  ];
 
   return (
     <>
@@ -71,14 +41,7 @@ export default function HomeClient({ data, buildingImages = [] }: HomeClientProp
 
       <SectionDivider variant="angle" color="#ffffff" height={36} />
 
-      <ImpactEvidence
-        items={evidenceItems}
-        stats={[
-          { label: 'Evidence updates', value: 'Monthly' },
-          { label: 'Media proof', value: 'Photos + Videos' },
-          { label: 'Transparency', value: 'On-site' },
-        ]}
-      />
+      <ImpactEvidence />
 
       <SectionDivider variant="angle" color="#ffffff" height={36} />
 

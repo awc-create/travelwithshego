@@ -1,3 +1,4 @@
+// src/lib/client-upload.ts
 export interface UploadedFileResult {
   name: string;
   size: number;

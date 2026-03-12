@@ -2,7 +2,6 @@
 
 import ImageUploader from '@/components/admin/image/ImageUploader';
 import { uploadSingleFile } from '@/lib/client-upload';
-import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import styles from './ImpactEvidenceSettings.module.scss';
 
@@ -249,11 +248,10 @@ export default function ImpactEvidenceSettings() {
             <div key={`${item.src}-${index}`} className={styles.card}>
               <div className={styles.previewWrap}>
                 {item.type === 'image' ? (
-                  <Image
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
                     src={item.src}
                     alt={item.alt || `Evidence image ${index + 1}`}
-                    width={360}
-                    height={240}
                     className={styles.preview}
                   />
                 ) : (

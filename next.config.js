@@ -9,6 +9,7 @@ const nextConfig = {
       { protocol: 'https', hostname: 'utfs.io' }, // UploadThing CDN
       { protocol: 'https', hostname: 'uploadthing.com' },
       { protocol: 'https', hostname: 'cdn.uploadthing.com' },
+      { protocol: 'https', hostname: 'travel-with-shego-media.hel1.your-objectstorage.com' },
       // add more if you need them later
     ],
     // You can enable this if you want to fully bypass optimization:
