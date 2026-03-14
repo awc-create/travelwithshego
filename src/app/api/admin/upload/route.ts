@@ -1,5 +1,10 @@
+// src/app/api/admin/upload/route.ts
 import { buildObjectKey, uploadBufferToStorage } from '@/lib/storage';
 import { NextResponse } from 'next/server';
+
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+export const maxDuration = 60;
 
 const MAX_IMAGE_SIZE_BYTES = 8 * 1024 * 1024; // 8MB
 const MAX_VIDEO_SIZE_BYTES = 250 * 1024 * 1024; // 250MB
