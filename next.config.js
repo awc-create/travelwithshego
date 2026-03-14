@@ -1,26 +1,29 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'standalone', // ✅ required so .next/standalone exists
+  output: 'standalone',
   reactStrictMode: true,
-  trailingSlash: true,
+  // ✅ removed trailingSlash: true — it causes 308 redirects on API POST routes
+  //    which drops the request body (FormData) before it reaches the handler
 
   images: {
     remotePatterns: [
-      { protocol: 'https', hostname: 'utfs.io' }, // UploadThing CDN
+      { protocol: 'https', hostname: 'utfs.io' },
       { protocol: 'https', hostname: 'uploadthing.com' },
       { protocol: 'https', hostname: 'cdn.uploadthing.com' },
       { protocol: 'https', hostname: 'travel-with-shego-media.hel1.your-objectstorage.com' },
-      // add more if you need them later
     ],
-    // You can enable this if you want to fully bypass optimization:
-    // unoptimized: true,
   },
 
   eslint: { ignoreDuringBuilds: true },
 
-  // Ensure bcrypt (if you ever add it) or other native-ish deps get traced
   outputFileTracingIncludes: {
     '/**/*': ['./node_modules/bcryptjs/**'],
+  },
+
+  experimental: {
+    serverActions: {
+      bodySizeLimit: '256mb',
+    },
   },
 };
 
