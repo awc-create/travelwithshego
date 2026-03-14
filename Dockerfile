@@ -28,8 +28,6 @@ RUN \
 FROM node:22-alpine AS builder
 WORKDIR /app
 
-# Disable telemetry + provide *dummy* env so imports using
-# STRIPE / Prisma don't crash at build time.
 ENV NEXT_TELEMETRY_DISABLED=1 \
     STRIPE_SECRET_KEY="sk_test_dummy" \
     STRIPE_WEBHOOK_SECRET="whsec_dummy" \
@@ -41,7 +39,6 @@ COPY . .
 
 RUN ls -la src || true
 
-# Prisma client (only if schema exists)
 RUN \
   if [ -f prisma/schema.prisma ]; then \
     if [ -f yarn.lock ]; then \
@@ -55,7 +52,6 @@ RUN \
     echo "No prisma/schema.prisma found — skipping prisma generate"; \
   fi
 
-# Build Next.js (Turbopack)
 RUN \
   if [ -f yarn.lock ]; then \
     yarn build; \
@@ -65,7 +61,6 @@ RUN \
     npm run build; \
   fi
 
-# 🔎 Fail early if standalone wasn’t produced
 RUN node -e "const fs=require('fs'); if(!fs.existsSync('.next/standalone/server.js')){console.error('\\n❌ Missing .next/standalone/server.js. Ensure output:\"standalone\" in next.config.*'); process.exit(1)}"
 
 RUN node -e "const fs=require('fs');const p='.next/server/middleware-manifest.json'; console.log('\\n=== middleware-manifest ==='); console.log(fs.existsSync(p)?fs.readFileSync(p,'utf8'):'(missing)'); console.log('===========================\\n')"
@@ -84,20 +79,21 @@ RUN apk add --no-cache libc6-compat \
  && addgroup -g 1001 -S nodejs \
  && adduser -S nextjs -u 1001
 
-# bring in package.json + node_modules so Prisma CLI & client are available
 COPY --from=builder /app/package.json ./package.json
 COPY --from=deps    /app/node_modules ./node_modules
 
-# Standalone server + static assets
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
 COPY --from=builder /app/public ./public
 
-# Prisma migrations (for prisma migrate deploy run by Hetzner script)
 COPY --from=builder /app/prisma ./prisma
 
-# Prisma CLI (matches Prisma 6)
 RUN npm i -g prisma@6.13.0
+
+# ✅ Fix: create cache dir and give nextjs user (1001) write access
+# Must run as root before USER 1001 switch
+RUN mkdir -p .next/cache \
+ && chown -R 1001:1001 .next
 
 USER 1001
 EXPOSE 3000
