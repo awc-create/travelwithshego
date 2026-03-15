@@ -2,8 +2,6 @@
 const nextConfig = {
   output: 'standalone',
   reactStrictMode: true,
-  // ✅ removed trailingSlash: true — it causes 308 redirects on API POST routes
-  //    which drops the request body (FormData) before it reaches the handler
 
   images: {
     remotePatterns: [
@@ -25,6 +23,9 @@ const nextConfig = {
       bodySizeLimit: '256mb',
     },
   },
+
+  // ✅ Fixes "Request body exceeded 10MB" for App Router API routes
+  middlewareClientMaxBodySize: 268435456, // 256MB in bytes
 };
 
 module.exports = nextConfig;
