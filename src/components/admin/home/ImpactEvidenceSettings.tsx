@@ -1,3 +1,4 @@
+// ImpactEvidenceSettings.tsx
 'use client';
 
 import ImageUploader from '@/components/admin/image/ImageUploader';

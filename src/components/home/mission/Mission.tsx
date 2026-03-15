@@ -36,9 +36,9 @@ function Stat({ label, value }: { label: string; value: number }) {
 export default function Mission({
   id = 'mission',
   donateHref = '/donate',
-  stats = { familiesHoused: 0, childrenInCare: 0, mealsServed: 0 },
+  stats = { familiesHoused: 580, childrenInCare: 380, mealsServed: 7000 },
 }: MissionProps) {
-  const { familiesHoused = 0, childrenInCare = 0, mealsServed = 0 } = stats;
+  const { familiesHoused = 580, childrenInCare = 380, mealsServed = 7000 } = stats;
 
   const cards = [
     {

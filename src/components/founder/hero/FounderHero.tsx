@@ -80,7 +80,7 @@ export default function FounderHero() {
           </div>
 
           <motion.h1 id="founder-hero-title" className={styles.title} variants={itemVariants}>
-            The story behind <span className={styles.highlight}>Travel with Shego,</span>
+            The story behind <span className={styles.highlight}>Travel With Shego, </span>
             from music to mission.
           </motion.h1>
 
