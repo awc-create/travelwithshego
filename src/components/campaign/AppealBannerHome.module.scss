@@ -51,8 +51,41 @@
   color: #4b5563;
 }
 
+/* What your gift builds — the intuitive bit */
+.pillars {
+  list-style: none;
+  margin: 0.95rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.pillar {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  padding: 0.4rem 0.7rem;
+  border-radius: 12px;
+  background: #fffbeb;
+  border: 1px solid rgba(234, 179, 8, 0.35);
+}
+
+.pillarAmount {
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: #92400e;
+  white-space: nowrap;
+}
+
+.pillarTitle {
+  font-size: 0.82rem;
+  color: #4b5563;
+  line-height: 1.3;
+}
+
 .ctaRow {
-  margin-top: 0.9rem;
+  margin-top: 1rem;
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem;
@@ -123,6 +156,14 @@
   color: #9ca3af;
 }
 
+.statAll {
+  margin: 0.6rem 0 0;
+  padding-top: 0.6rem;
+  border-top: 1px solid rgba(249, 250, 251, 0.15);
+  font-size: 0.76rem;
+  color: #cbd5e1;
+}
+
 @media (max-width: 768px) {
   .banner {
     padding: 1.35rem 1rem;
@@ -136,5 +177,18 @@
 
   .statBlock {
     width: 100%;
+    max-width: none;
+  }
+
+  .pillars {
+    gap: 0.4rem;
+  }
+
+  .pillar {
+    padding: 0.35rem 0.6rem;
+  }
+
+  .pillarTitle {
+    font-size: 0.78rem;
   }
 }

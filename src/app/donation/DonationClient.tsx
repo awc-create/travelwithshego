@@ -14,16 +14,16 @@ import DonationStories from '@/components/donation/stories/DonationStories';
 import DonationTransparency from '@/components/donation/transparency/DonationTransparency';
 import DonationFAQs from '@/components/donation/faqs/DonationFAQs';
 import DonationContact from '@/components/donation/contact/DonationContact';
-import RamadanBannerDonation from '@/components/donation/RamadanBannerDonation';
+import AppealBannerDonation from '@/components/campaign/AppealBannerDonation';
 
 import { useDonationStats } from '@/hooks/useDonationStats';
 
 type DonationClientProps = {
   paypalUrl: string | null;
-  ramadanPaypalUrl: string | null;
+  appealPaypalUrl: string | null;
 };
 
-export default function DonationClient({ paypalUrl, ramadanPaypalUrl }: DonationClientProps) {
+export default function DonationClient({ paypalUrl, appealPaypalUrl }: DonationClientProps) {
   // 🔥 Live stats
   const { stats, loading } = useDonationStats();
   const raisedPence = stats?.raisedPence ?? 0;
@@ -34,8 +34,8 @@ export default function DonationClient({ paypalUrl, ramadanPaypalUrl }: Donation
       {/* Hero */}
       <Hero raisedPence={raisedPence} goalPence={goalPence} />
 
-      {/* ⭐ Ramadan special block */}
-      <RamadanBannerDonation paypalUrl={ramadanPaypalUrl} />
+      {/* ⭐ Seasonal appeal block — school & orphans' home */}
+      <AppealBannerDonation paypalUrl={appealPaypalUrl} />
 
       {/* Quick stats */}
       <QuickStats stats={stats} loading={loading} />

@@ -55,8 +55,8 @@ export default function FounderImpact() {
               children who arrive hungry.
             </li>
             <li>
-              <strong>Ramadan family support.</strong> Extending care to poorer households during a
-              season centred on generosity and compassion.
+              <strong>Safe homes for orphaned children.</strong> Building rooms, beds and daily care
+              for children who have nowhere else to go.
             </li>
             <li>
               <strong>Economic dignity.</strong> Looking beyond relief alone by supporting work,

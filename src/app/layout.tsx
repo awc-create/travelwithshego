@@ -5,9 +5,9 @@ import '@/styles/founderTheme.scss';
 import '@/styles/donationTheme.scss';
 import 'leaflet/dist/leaflet.css';
 
-import RamadanFloatingButton from '@/components/common/RamadanFloatingButton';
+import AppealFloatingButton from '@/components/campaign/AppealFloatingButton';
 
-const ramadanUrl = 'https://www.paypal.com/ncp/payment/7RSWYTZQDP7NL';
+const appealUrl = 'https://www.paypal.com/ncp/payment/7RSWYTZQDP7NL';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -17,8 +17,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
         <main>{children}</main>
 
-        {/* GLOBAL FLOATING BUTTON */}
-        <RamadanFloatingButton paypalUrl={ramadanUrl} />
+        {/* GLOBAL FLOATING BUTTON — copy adapts to the season (Ramadan, Eid, back-to-school, year-end) */}
+        <AppealFloatingButton paypalUrl={appealUrl} />
 
         <Footer />
       </body>

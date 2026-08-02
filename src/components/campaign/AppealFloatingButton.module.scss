@@ -71,6 +71,12 @@
   }
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .dot {
+    animation: none;
+  }
+}
+
 @media (max-width: 640px) {
   .fabWrapper {
     right: 12px;

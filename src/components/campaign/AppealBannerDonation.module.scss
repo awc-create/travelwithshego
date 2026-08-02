@@ -35,6 +35,53 @@
   color: #4b5563;
 }
 
+/* What your gift builds */
+.pillars {
+  list-style: none;
+  margin: 0 0 14px;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 0.5rem;
+}
+
+.pillar {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  padding: 0.6rem 0.7rem;
+  border-radius: 12px;
+  background: #ffffff;
+  border: 1px solid rgba(234, 179, 8, 0.3);
+}
+
+.pillarAmount {
+  flex: 0 0 auto;
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: #92400e;
+  min-width: 46px;
+}
+
+.pillarCopy {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.pillarTitle {
+  font-size: 0.83rem;
+  font-weight: 700;
+  color: #1f2937;
+  line-height: 1.3;
+}
+
+.pillarNote {
+  font-size: 0.76rem;
+  color: #6b7280;
+  line-height: 1.45;
+}
+
 .cta {
   display: inline-flex;
   align-items: center;
@@ -81,6 +128,10 @@
 
   .body {
     font-size: 0.8rem;
+  }
+
+  .pillars {
+    grid-template-columns: 1fr;
   }
 
   .cta {

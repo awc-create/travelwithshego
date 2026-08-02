@@ -8,7 +8,7 @@ import SectionDivider from '@/components/common/SectionDivider';
 import BuildingGallery from '@/components/home/gallery/BuildingGallery';
 import type { HomeData } from '@/lib/getHomeData';
 import { useDonationStats } from '@/hooks/useDonationStats';
-import RamadanHomeBanner from '@/components/home/RamadanBannerHome';
+import AppealBannerHome from '@/components/campaign/AppealBannerHome';
 import ImpactEvidence from '@/components/home/evidence/ImpactEvidence';
 import FounderBridge from '@/components/home/founder-bridge/FounderBridge';
 
@@ -23,11 +23,11 @@ export default function HomeClient({ data, buildingImages = [] }: HomeClientProp
   const raised = (stats?.raisedPence ?? 3_400 * 100) / 100;
   const goal = (stats?.goalPence ?? 10_000 * 100) / 100;
 
-  const ramadanPaypalUrl = 'https://www.paypal.com/ncp/payment/7RSWYTZQDP7NL';
+  const appealPaypalUrl = 'https://www.paypal.com/ncp/payment/7RSWYTZQDP7NL';
 
   return (
     <>
-      <RamadanHomeBanner paypalUrl={ramadanPaypalUrl} />
+      <AppealBannerHome paypalUrl={appealPaypalUrl} />
 
       <Hero raised={raised} goal={goal} donateHref="/donation" />
 

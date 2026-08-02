@@ -21,7 +21,7 @@ export const dynamic = 'force-dynamic'; // ensures server runtime env is used
 export default function DonationPage() {
   // ⭐ Read env on SERVER — always works on Hetzner/Vercel
   const paypalUrl = 'https://www.paypal.com/ncp/payment/EN8NFTKFUCLR8';
-  const ramadanPaypalUrl = 'https://www.paypal.com/ncp/payment/7RSWYTZQDP7NL';
+  const appealPaypalUrl = 'https://www.paypal.com/ncp/payment/7RSWYTZQDP7NL';
 
-  return <DonationClient paypalUrl={paypalUrl} ramadanPaypalUrl={ramadanPaypalUrl} />;
+  return <DonationClient paypalUrl={paypalUrl} appealPaypalUrl={appealPaypalUrl} />;
 }
